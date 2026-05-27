@@ -56,15 +56,15 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
       {/* Premium High-Contrast Container Box */}
       <div className="w-full max-w-2xl bg-white dark:bg-[#191433]/90 border-2 border-slate-350 dark:border-purple-500/25 rounded-3.5xl p-8 sm:p-12 shadow-2xl shadow-slate-200/80 dark:shadow-none animate-fade-in relative z-10">
         
-        {/* Logo & Headline */}
+        {/* Logo & Headline in High-Contrast Crimson Red */}
         <div className="text-center mb-8">
-          <span className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white rounded-2.5xl mx-auto shadow-md">
+          <span className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-2.5xl mx-auto shadow-md shadow-red-500/15">
             <Sparkles className="w-7 h-7 animate-pulse" />
           </span>
-          <h2 className="mt-4 text-4xl font-display font-black tracking-tight text-slate-900 dark:text-white leading-none">
+          <h2 className="mt-4 text-4xl font-display font-black tracking-tight text-red-650 dark:text-rose-450 leading-none">
             DaAttendance
           </h2>
-          <p className="text-xs font-black text-indigo-900 uppercase tracking-widest mt-2.5 dark:text-purple-200">
+          <p className="text-xs font-black text-red-800 uppercase tracking-widest mt-2.5 dark:text-rose-350">
             Sunday School Attendance Hub
           </p>
         </div>
@@ -72,12 +72,12 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         {mode === "choose" ? (
           <div className="space-y-6">
             
-            {/* Header prompt with ultra-high contrast dark text */}
-            <div className="text-center mb-8 bg-slate-50 dark:bg-purple-950/20 py-4 px-6 rounded-2.5xl border-2 border-slate-200 dark:border-purple-500/10">
-              <h3 className="text-xl font-black text-slate-900 dark:text-purple-100 tracking-tight">
+            {/* Header prompt in Red */}
+            <div className="text-center mb-8 bg-red-50/40 dark:bg-rose-950/15 py-4 px-6 rounded-2.5xl border-2 border-red-100 dark:border-rose-500/20">
+              <h3 className="text-xl font-black text-red-700 dark:text-rose-400 tracking-tight">
                 Choose Access Profile Group To Proceed
               </h3>
-              <p className="text-sm font-bold text-slate-700 mt-2 dark:text-purple-300/80 max-w-md mx-auto">
+              <p className="text-sm font-bold text-red-900 mt-2 dark:text-rose-250 max-w-md mx-auto">
                 Please select your credentials group below to access the Sunday School roll call desk.
               </p>
             </div>
