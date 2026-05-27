@@ -68,55 +68,67 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
 
       <div className="w-full max-w-lg">
         {mode === "choose" ? (
-          <div className="space-y-4">
+          <div className="space-y-6">
             
-            {/* Header prompt */}
-            <div className="text-center mb-6">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-purple-100">
+            {/* Header prompt with high-contrast text */}
+            <div className="text-center mb-8">
+              <h3 className="text-xl font-black text-slate-900 dark:text-purple-100 tracking-tight">
                 Choose Access Profile Group To Proceed
               </h3>
-              <p className="text-xs text-slate-550 mt-1 dark:text-purple-300/50">
-                Please specify your ministry credentials group below
+              <p className="text-sm font-semibold text-slate-650 mt-2 dark:text-purple-300/60 max-w-md mx-auto">
+                Please select your credentials group below to access the Sunday School roll call desk.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               
-              {/* Admin Selector Card */}
+              {/* Admin Selector Card - Redesigned for High Contrast */}
               <button
                 id="btn-select-admin-role"
                 onClick={() => {
                   setError(null);
                   setMode("admin_login");
                 }}
-                className="group flex flex-col items-center justify-center p-6 bg-white dark:bg-[#191433]/80 border-2 border-slate-200 hover:border-[#FF007A] dark:border-purple-500/20 dark:hover:border-[#FF007A] rounded-2.5xl transition-all duration-300 hover:-translate-y-1 text-center shadow-xs"
+                className="group flex flex-col items-center justify-between p-6 bg-white dark:bg-[#191433]/85 border-2 border-slate-350 hover:border-indigo-600 dark:border-purple-500/25 dark:hover:border-[#00E5FF] rounded-3xl transition-all duration-300 hover:-translate-y-1 text-center shadow-md shadow-slate-100/90 dark:shadow-none hover:shadow-xl hover:shadow-indigo-100/50 cursor-pointer min-h-[260px]"
               >
-                <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-purple-950/40 text-indigo-600 dark:text-[#00E5FF] flex items-center justify-center mb-4 transition duration-300 group-hover:scale-110">
-                  <Shield className="w-7 h-7" />
+                <div className="flex flex-col items-center">
+                  <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-150/40 dark:bg-purple-950/45 dark:border-purple-500/30 text-indigo-600 dark:text-[#00E5FF] flex items-center justify-center mb-4 transition duration-300 group-hover:scale-110 shadow-xs">
+                    <Shield className="w-7 h-7" />
+                  </div>
+                  <h4 className="text-lg font-extrabold text-slate-900 group-hover:text-indigo-600 dark:text-white dark:group-hover:text-[#00E5FF] transition">
+                    Admin Entrance
+                  </h4>
+                  <p className="text-xs text-slate-700 dark:text-purple-200/65 mt-2 font-bold leading-relaxed px-2">
+                    Enter credentials to record attendance, manage rosters, and register campus facilities.
+                  </p>
                 </div>
-                <h4 className="text-base font-black text-slate-900 group-hover:text-[#FF007A] dark:text-white transition">
-                  Admin Entrance
-                </h4>
-                <p className="text-xs text-slate-500 dark:text-purple-200/50 mt-1 font-semibold leading-relaxed">
-                  Enter credentials to take attendance, manage rosters & register campuses.
-                </p>
+                
+                <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-indigo-600 group-hover:translate-x-1 transition duration-200 dark:text-[#00E5FF]">
+                  Access Panel &rarr;
+                </span>
               </button>
 
-              {/* Visitor Selector Card */}
+              {/* Visitor Selector Card - Redesigned for High Contrast */}
               <button
                 id="btn-select-visitor-role"
                 onClick={handleVisitorEnter}
-                className="group flex flex-col items-center justify-center p-6 bg-white dark:bg-[#191433]/80 border-2 border-slate-200 hover:border-[#BC00DD] dark:border-purple-500/20 dark:hover:border-[#BC00DD] rounded-2.5xl transition-all duration-300 hover:-translate-y-1 text-center shadow-xs"
+                className="group flex flex-col items-center justify-between p-6 bg-white dark:bg-[#191433]/85 border-2 border-slate-350 hover:border-[#BC00DD] dark:border-purple-500/25 dark:hover:border-[#BC00DD] rounded-3xl transition-all duration-300 hover:-translate-y-1 text-center shadow-md shadow-slate-100/90 dark:shadow-none hover:shadow-xl hover:shadow-pink-100/50 cursor-pointer min-h-[260px]"
               >
-                <div className="w-14 h-14 rounded-2xl bg-pink-50 dark:bg-purple-950/40 text-pink-600 dark:text-[#FF007A] flex items-center justify-center mb-4 transition duration-300 group-hover:scale-110">
-                  <Eye className="w-7 h-7" />
+                <div className="flex flex-col items-center">
+                  <div className="w-14 h-14 rounded-2xl bg-pink-50 border border-pink-150/40 dark:bg-purple-950/45 dark:border-purple-500/30 text-pink-600 dark:text-[#FF007A] flex items-center justify-center mb-4 transition duration-300 group-hover:scale-110 shadow-xs">
+                    <Eye className="w-7 h-7" />
+                  </div>
+                  <h4 className="text-lg font-extrabold text-slate-900 group-hover:text-[#BC00DD] dark:text-white dark:group-hover:text-[#FF007A] transition">
+                    Visitor Entrance
+                  </h4>
+                  <p className="text-xs text-slate-700 dark:text-purple-200/65 mt-2 font-bold leading-relaxed px-2">
+                    Instant view-only access to browse dashboards, inspect active rosters, and review Star Reports.
+                  </p>
                 </div>
-                <h4 className="text-base font-black text-slate-900 group-hover:text-[#BC00DD] dark:text-white transition">
-                  Visitor Entrance
-                </h4>
-                <p className="text-xs text-slate-500 dark:text-purple-200/50 mt-1 font-semibold leading-relaxed">
-                  Instant view access. Open dashboards & look up Star Reports without updates.
-                </p>
+
+                <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-pink-600 group-hover:translate-x-1 transition duration-200 dark:text-[#FF007A]">
+                  Enter Instantly &rarr;
+                </span>
               </button>
 
             </div>
