@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom scrollbars for high-fidelity tables or visual lists */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* High-Fidelity Night Mode (Dark Theme) Styles */
+.dark, .dark body {
+  background: linear-gradient(135deg, #0B0813 0%, #130F26 50%, #1A1230 100%) !important; /* Rich deep space gradient */
+  color: #f8fafc !important; /* Soft white */
+  background-attachment: fixed !important;
+}
+
+/* Base backgrounds mapping */
+.dark #app-root-container,
+.dark #auth-screen-layout {
+  background: transparent !important;
+  color: #f8fafc !important;
+}
+
+/* Header & Card component overrides - Glassmorphism for space dust feel */
+.dark header,
+.dark .bg-white,
+.dark div.bg-white,
+.dark .bg-slate-50,
+.dark select,
+.dark input,
+.dark textarea {
+  background-color: rgba(21, 14, 46, 0.75) !important; /* Translucent space obsidian visor */
+  border-color: rgba(255, 0, 122, 0.18) !important; /* Soft glowing cosmic borders */
+  color: #f8fafc !important;
+  backdrop-filter: blur(14px) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Custom class colors override for clean contrasts */
+.dark .text-slate-800,
+.dark .text-slate-900,
+.dark h1, .dark h2, .dark h3, .dark h4 {
+  color: #ffffff !important;
+}
+
+.dark .text-slate-700,
+.dark .text-slate-600 {
+  color: #e2e8f0 !important; /* Slate-200 */
+}
+
+.dark .text-slate-500 {
+  color: #cbd5e1 !important; /* Slate-300 */
+}
+
+.dark .text-slate-400 {
+  color: #94a3b8 !important; /* Slate-400 */
+}
+
+/* Border overlays */
+.dark .border,
+.dark .border-slate-200,
+.dark .border-slate-200\/80,
+.dark .border-slate-100,
+.dark .border-slate-100\/80,
+.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(255, 0, 122, 0.12) !important;
+}
+
+/* Form element modifications */
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  border-color: #ff007a !important; /* Galaxy Magenta active highlight */
+  box-shadow: 0 0 12px rgba(255, 0, 122, 0.3) !important;
+  outline: none;
+}
+
+/* Select overrides for proper dropdown background */
+.dark select option {
+  background-color: #15092d !important;
+  color: #f8fafc !important;
+}
+
+/* Specific elements background adjustments */
+.dark .bg-slate-100,
+.dark .bg-slate-150 {
+  background-color: rgba(37, 24, 76, 0.8) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(255, 0, 122, 0.15) !important;
+}
+
+/* Hover effects */
+.dark .hover:bg-slate-50:hover,
+.dark .hover:bg-slate-100:hover,
+.dark tbody tr:hover {
+  background-color: rgba(43, 27, 89, 0.6) !important;
+}
+
+/* Active tab button and general submit buttons adjustments */
+.dark .bg-slate-900,
+.dark button[type="submit"],
+.dark [id^="tab-btn-"].bg-slate-900,
+.dark #dash-go-attendance,
+.dark #dash-go-reports {
+  background: linear-gradient(to right, #ff007a, #bc00dd) !important; /* Stellar Pink-to-Purple Nebula */
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 15px rgba(255, 0, 122, 0.35) !important;
+}
+
+.dark .bg-slate-900:hover,
+.dark button[type="submit"]:hover,
+.dark #dash-go-attendance:hover,
+.dark #dash-go-reports:hover {
+  background: linear-gradient(to right, #ff1a53, #d900eb) !important; /* Energetic hypernova hover */
+  box-shadow: 0 0 20px rgba(255, 0, 122, 0.5) !important;
+}
+
+/* Non-active tabs text enhancement in dark theme */
+.dark .text-slate-600:hover {
+  color: #ffffff !important;
+}
+
+/* Tables visual enhancements */
+.dark table {
+  background-color: transparent !important;
+}
+
+.dark thead, .dark thead tr, .dark thead th {
+  background-color: rgba(21, 14, 46, 0.9) !important;
+  color: #e2e8f0 !important;
+  border-bottom: 2px solid rgba(255, 0, 122, 0.2) !important;
+}
+
+/* Custom visual alert blocks map */
+.dark .bg-gradient-to-br,
+.dark .bg-gradient-to-r {
+  /* Let beautiful gradients shine through but ensure borders glow */
+  border-color: rgba(255, 0, 122, 0.18) !important;
+}
+
+/* Specific badge configurations */
+.dark .bg-indigo-50,
+.dark .bg-indigo-100 {
+  background-color: rgba(45, 27, 78, 0.85) !important; /* Soft deep violet */
+  color: #c084fc !important;
+  border: 1px solid rgba(192, 132, 252, 0.3) !important;
+}
+
+.dark .bg-emerald-50,
+.dark .bg-emerald-100 {
+  background-color: rgba(6, 78, 59, 0.6) !important; /* Deep forest green */
+  color: #34d399 !important;
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+}
+
+.dark .bg-red-50,
+.dark .bg-red-100 {
+  background-color: rgba(76, 5, 25, 0.6) !important; /* Deep crimson red */
+  color: #fca5a5 !important;
+  border: 1px solid rgba(252, 165, 165, 0.3) !important;
+}
+
+.dark .bg-sky-50,
+.dark .bg-sky-100 {
+  background-color: rgba(12, 53, 90, 0.6) !important; /* Navy space blue */
+  color: #7dd3fc !important;
+  border: 1px solid rgba(125, 211, 252, 0.3) !important;
+}
+
+.dark .bg-amber-50,
+.dark .bg-amber-100 {
+  background-color: rgba(69, 26, 3, 0.6) !important; /* Warm solar flare orange */
+  color: #fcd34d !important;
+  border: 1px solid rgba(252, 211, 77, 0.3) !important;
+}
+
+/* Fix text contrast in special components */
+.dark span.font-semibold.text-slate-700 {
+  color: #f1f5f9 !important;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 122, 0.3) !important;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 122, 0.5) !important;
+}
+
+/* Twinkle keyframe star animation */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Cosmic Nebula floating slide */
+@keyframes nebula-drifting {
+  0% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(40px, -45px) scale(1.12) rotate(180deg);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(360deg);
+  }
+}
+
+.animate-nebula-slow {
+  animation: nebula-drifting 25s infinite ease-in-out alternate;
+}

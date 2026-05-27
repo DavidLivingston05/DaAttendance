@@ -1,0 +1,6 @@
+{
+  "name": "DaAttendance",
+  "description": "Multi-location church and ministry student attendance tracker with Sunday school groups, campus locations, role-based access, and missing student reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
