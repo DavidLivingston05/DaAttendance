@@ -93,7 +93,7 @@ async function seedDatabase(db: Db) {
 }
 
 // Middleware to inject connection pool into request lifecycle
-app.use(async (req, res, next) => {
+app.use("/api", async (req, res, next) => {
   try {
     const { db } = await connectToDatabase();
     (req as any).db = db;
