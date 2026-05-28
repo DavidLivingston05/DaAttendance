@@ -42,57 +42,63 @@ async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
   return { client, db };
 }
 
-// High-fidelity DB auto-seeding routine
+// Cached DB Seeding Status for Serverless Containers
+let isSeeded = false;
+
+// High-fidelity DB auto-seeding routine optimized for parallel performance
 async function seedDatabase(db: Db) {
+  if (isSeeded) return;
   try {
+    const collections = ["users", "locations", "classes", "members", "attendance", "volunteers", "volunteerAttendance"];
+    
+    // Count documents across all collections in parallel in a single database trip
+    const counts = await Promise.all(
+      collections.map(col => db.collection(col).countDocuments())
+    );
+
+    const seedPromises = [];
+
     // 1. Users / Access Credentials
-    const userCount = await db.collection("users").countDocuments();
-    if (userCount === 0 && dbData.users && dbData.users.length > 0) {
-      await db.collection("users").insertMany(dbData.users);
-      console.log("Seeded users collection successfully");
+    if (counts[0] === 0 && dbData.users && dbData.users.length > 0) {
+      seedPromises.push(db.collection("users").insertMany(dbData.users));
     }
 
     // 2. Campus Locations
-    const locCount = await db.collection("locations").countDocuments();
-    if (locCount === 0 && dbData.locations && dbData.locations.length > 0) {
-      await db.collection("locations").insertMany(dbData.locations);
-      console.log("Seeded locations collection successfully");
+    if (counts[1] === 0 && dbData.locations && dbData.locations.length > 0) {
+      seedPromises.push(db.collection("locations").insertMany(dbData.locations));
     }
 
     // 3. Sunday School Classes
-    const classCount = await db.collection("classes").countDocuments();
-    if (classCount === 0 && dbData.classes && dbData.classes.length > 0) {
-      await db.collection("classes").insertMany(dbData.classes);
-      console.log("Seeded classes collection successfully");
+    if (counts[2] === 0 && dbData.classes && dbData.classes.length > 0) {
+      seedPromises.push(db.collection("classes").insertMany(dbData.classes));
     }
 
     // 4. Students / Members
-    const memberCount = await db.collection("members").countDocuments();
-    if (memberCount === 0 && dbData.members && dbData.members.length > 0) {
-      await db.collection("members").insertMany(dbData.members);
-      console.log("Seeded members collection successfully");
+    if (counts[3] === 0 && dbData.members && dbData.members.length > 0) {
+      seedPromises.push(db.collection("members").insertMany(dbData.members));
     }
 
     // 5. Historical Student Attendance
-    const attCount = await db.collection("attendance").countDocuments();
-    if (attCount === 0 && dbData.attendance && dbData.attendance.length > 0) {
-      await db.collection("attendance").insertMany(dbData.attendance);
-      console.log("Seeded attendance collection successfully");
+    if (counts[4] === 0 && dbData.attendance && dbData.attendance.length > 0) {
+      seedPromises.push(db.collection("attendance").insertMany(dbData.attendance));
     }
 
     // 6. Senior Volunteers / Staff
-    const volCount = await db.collection("volunteers").countDocuments();
-    if (volCount === 0 && dbData.volunteers && dbData.volunteers.length > 0) {
-      await db.collection("volunteers").insertMany(dbData.volunteers);
-      console.log("Seeded volunteers collection successfully");
+    if (counts[5] === 0 && dbData.volunteers && dbData.volunteers.length > 0) {
+      seedPromises.push(db.collection("volunteers").insertMany(dbData.volunteers));
     }
 
     // 7. Volunteer Attendance Logs
-    const volAttCount = await db.collection("volunteerAttendance").countDocuments();
-    if (volAttCount === 0 && dbData.volunteerAttendance && dbData.volunteerAttendance.length > 0) {
-      await db.collection("volunteerAttendance").insertMany(dbData.volunteerAttendance);
-      console.log("Seeded volunteerAttendance collection successfully");
+    if (counts[6] === 0 && dbData.volunteerAttendance && dbData.volunteerAttendance.length > 0) {
+      seedPromises.push(db.collection("volunteerAttendance").insertMany(dbData.volunteerAttendance));
     }
+
+    if (seedPromises.length > 0) {
+      await Promise.all(seedPromises);
+      console.log(`Auto-seeded ${seedPromises.length} collection(s) successfully in parallel`);
+    }
+
+    isSeeded = true;
   } catch (e) {
     console.error("Auto-seeding database warning:", e);
   }

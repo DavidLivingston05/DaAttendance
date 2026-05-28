@@ -111,8 +111,8 @@
 }
 
 /* Hover effects */
-.dark .hover:bg-slate-50:hover,
-.dark .hover:bg-slate-100:hover,
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-100:hover,
 .dark tbody tr:hover {
   background-color: rgba(43, 27, 89, 0.6) !important;
 }
@@ -234,6 +234,36 @@
   }
 }
 
-.animate-nebula-slow {
-  animation: nebula-drifting 25s infinite ease-in-out alternate;
+@media (min-width: 768px) {
+  .animate-nebula-slow {
+    animation: nebula-drifting 25s infinite ease-in-out alternate;
+  }
+}
+
+/* 📱 Responsive Mobile Performance Optimization Styles */
+@media (max-width: 768px) {
+  /* Universally bypass expensive backdrop-filter calculations to guarantee solid 60 FPS scrolling */
+  header,
+  div,
+  section,
+  span,
+  input,
+  select,
+  textarea {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Boost opacity of glassmorphism backgrounds to preserve legibility without backdrop-blur */
+  .dark header,
+  .dark .bg-white,
+  .dark div.bg-white,
+  .dark .bg-slate-50,
+  .dark select,
+  .dark input,
+  .dark textarea {
+    background-color: rgba(21, 14, 46, 0.94) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }

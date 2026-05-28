@@ -11,18 +11,27 @@ import ReportsModule from "./components/ReportsModule";
 
 function CosmicStarfield({ theme }: { theme: "light" | "dark" }) {
   const [stars, setStars] = useState<{ id: number; top: number; left: number; size: number; delay: string; duration: string }[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Generate stellar star coordinates
-    const generatedStars = Array.from({ length: 65 }).map((_, i) => ({
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    
+    const starCount = window.innerWidth < 768 ? 22 : 65;
+    const generatedStars = Array.from({ length: starCount }).map((_, i) => ({
       id: i,
       top: Math.random() * 100,
       left: Math.random() * 100,
-      size: Math.random() * 2 + 0.8, // 0.8px to 2.8px
+      size: Math.random() * (window.innerWidth < 768 ? 1.0 : 2.0) + 0.8,
       delay: `${Math.random() * 5}s`,
       duration: `${Math.random() * 4 + 4}s`
     }));
     setStars(generatedStars);
+
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   if (theme !== "dark") return null;
@@ -44,7 +53,7 @@ function CosmicStarfield({ theme }: { theme: "light" | "dark" }) {
             width: `${star.size}px`,
             height: `${star.size}px`,
             animation: `twinkle ${star.duration} infinite ease-in-out ${star.delay}`,
-            boxShadow: star.size > 1.8 ? '0 0 8px rgba(255, 255, 255, 0.9)' : 'none'
+            boxShadow: star.size > 1.8 && !isMobile ? '0 0 8px rgba(255, 255, 255, 0.9)' : 'none'
           }}
         />
       ))}

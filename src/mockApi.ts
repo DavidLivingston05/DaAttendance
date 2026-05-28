@@ -2,12 +2,13 @@ import dbData from '../db.json';
 
 // Check if the current environment is local (localhost, IP, local network, custom port, or non-production Vercel domain)
 const isLocalhost = 
-  window.location.hostname === 'localhost' || 
+  (window.location.hostname === 'localhost' || 
   window.location.hostname === '127.0.0.1' || 
   window.location.hostname === '[::1]' || 
   window.location.hostname === '::1' || 
   window.location.port !== '' ||
-  !window.location.hostname.endsWith('vercel.app');
+  !window.location.hostname.endsWith('vercel.app')) &&
+  localStorage.getItem('da_attendance_db_migrated') !== 'true';
 
 if (isLocalhost) {
   const LOCAL_STORAGE_KEY = 'da_attendance_db';
@@ -51,7 +52,8 @@ if (isLocalhost) {
     const urlString = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
 
     // Only intercept api routes, let static assets fall back to the dev server
-    if (!urlString.includes('/api/')) {
+    // Bypass interceptor for the migration sync endpoint to let it hit the server backend
+    if (!urlString.includes('/api/') || urlString.includes('/api/migration/sync')) {
       return originalFetch(input, init);
     }
 
