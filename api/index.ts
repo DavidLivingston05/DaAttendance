@@ -255,33 +255,32 @@ app.use("/api", async (req, res, next) => {
 
 // ---------------------- CLOUD API ROUTES ----------------------
 
-// 0. HIGH-PERFORMANCE BATCH DIRECTORY BOOTSTRAP
 app.get("/api/bootstrap", async (req, res) => {
   try {
     const db: Db = (req as any).db;
     
-    // Fetch all collections in parallel on the database server side in a single request lifecycle
+    // Fetch all collections in parallel on the database server side in a single request lifecycle using native projections to exclude _id
     const [locations, classes, users, volunteers, members, attendance, volunteerAttendance] = await Promise.all([
-      db.collection("locations").find({}).toArray(),
-      db.collection("classes").find({}).toArray(),
-      db.collection("users").find({}).toArray(),
-      db.collection("volunteers").find({}).toArray(),
-      db.collection("members").find({}).toArray(),
-      db.collection("attendance").find({}).toArray(),
-      db.collection("volunteerAttendance").find({}).toArray()
+      db.collection("locations").find({}, { projection: { _id: 0 } }).toArray(),
+      db.collection("classes").find({}, { projection: { _id: 0 } }).toArray(),
+      db.collection("users").find({}, { projection: { _id: 0 } }).toArray(),
+      db.collection("volunteers").find({}, { projection: { _id: 0 } }).toArray(),
+      db.collection("members").find({}, { projection: { _id: 0 } }).toArray(),
+      db.collection("attendance").find({}, { projection: { _id: 0 } }).toArray(),
+      db.collection("volunteerAttendance").find({}, { projection: { _id: 0 } }).toArray()
     ]);
 
-    // Format secure teachers lists and other safe users
-    const teachers = users.filter((u: any) => u.role === "teacher").map(({ password, _id, ...safe }: any) => safe);
+    // Format secure teachers lists and other safe users (avoiding _id mapping loop)
+    const teachers = users.filter((u: any) => u.role === "teacher").map(({ password, ...safe }: any) => safe);
 
     res.json({
-      locations: locations.map(({ _id, ...rest }) => rest),
-      classes: classes.map(({ _id, ...rest }) => rest),
+      locations,
+      classes,
       teachers,
-      volunteers: volunteers.map(({ _id, ...rest }) => rest),
-      members: members.map(({ _id, ...rest }) => rest),
-      attendance: attendance.map(({ _id, ...rest }) => rest),
-      volunteerAttendance: volunteerAttendance.map(({ _id, ...rest }) => rest)
+      volunteers,
+      members,
+      attendance,
+      volunteerAttendance
     });
   } catch (e: any) {
     console.error("Bootstrap endpoint failure:", e);
@@ -338,8 +337,8 @@ app.post("/api/auth/register", async (req, res) => {
 // 2. CAMPUS LOCATIONS
 app.get("/api/locations", async (req, res) => {
   const db: Db = (req as any).db;
-  const locations = await db.collection("locations").find({}).toArray();
-  res.json(locations.map(({ _id, ...rest }) => rest));
+  const locations = await db.collection("locations").find({}, { projection: { _id: 0 } }).toArray();
+  res.json(locations);
 });
 
 app.post("/api/locations", async (req, res) => {
@@ -395,8 +394,8 @@ app.delete("/api/locations/:id", async (req, res) => {
 // 3. SUNDAY SCHOOL CLASSES
 app.get("/api/classes", async (req, res) => {
   const db: Db = (req as any).db;
-  const classes = await db.collection("classes").find({}).toArray();
-  res.json(classes.map(({ _id, ...rest }) => rest));
+  const classes = await db.collection("classes").find({}, { projection: { _id: 0 } }).toArray();
+  res.json(classes);
 });
 
 app.post("/api/classes", async (req, res) => {
@@ -453,8 +452,8 @@ app.delete("/api/classes/:id", async (req, res) => {
 // 4. JUNIOR STUDENTS / MEMBERS
 app.get("/api/members", async (req, res) => {
   const db: Db = (req as any).db;
-  const members = await db.collection("members").find({}).toArray();
-  res.json(members.map(({ _id, ...rest }) => rest));
+  const members = await db.collection("members").find({}, { projection: { _id: 0 } }).toArray();
+  res.json(members);
 });
 
 app.post("/api/members", async (req, res) => {
@@ -515,8 +514,8 @@ app.delete("/api/members/:id", async (req, res) => {
 // 5. ATTENDANCE SUBMISSION & HISTORIES
 app.get("/api/attendance", async (req, res) => {
   const db: Db = (req as any).db;
-  const attendance = await db.collection("attendance").find({}).toArray();
-  res.json(attendance.map(({ _id, ...rest }) => rest));
+  const attendance = await db.collection("attendance").find({}, { projection: { _id: 0 } }).toArray();
+  res.json(attendance);
 });
 
 app.post("/api/attendance", async (req, res) => {
@@ -561,8 +560,8 @@ app.delete("/api/attendance", async (req, res) => {
 // 6. STAFF & TEACHERS DIRECTORY
 app.get("/api/teachers", async (req, res) => {
   const db: Db = (req as any).db;
-  const teachers = await db.collection("users").find({ role: "teacher" }).toArray();
-  res.json(teachers.map(({ password, _id, ...safe }) => safe));
+  const teachers = await db.collection("users").find({ role: "teacher" }, { projection: { _id: 0 } }).toArray();
+  res.json(teachers.map(({ password, ...safe }) => safe));
 });
 
 app.put("/api/teachers/:id", async (req, res) => {
@@ -600,8 +599,8 @@ app.delete("/api/teachers/:id", async (req, res) => {
 // 7. PHYSICAL VOLUNTEERS DIRECTORY
 app.get("/api/volunteers", async (req, res) => {
   const db: Db = (req as any).db;
-  const volunteers = await db.collection("volunteers").find({}).toArray();
-  res.json(volunteers.map(({ _id, ...rest }) => rest));
+  const volunteers = await db.collection("volunteers").find({}, { projection: { _id: 0 } }).toArray();
+  res.json(volunteers);
 });
 
 app.post("/api/volunteers", async (req, res) => {
@@ -656,8 +655,8 @@ app.delete("/api/volunteers/:id", async (req, res) => {
 // 8. STAFF & VOLUNTEER ATTENDANCE LOGS
 app.get("/api/volunteer-attendance", async (req, res) => {
   const db: Db = (req as any).db;
-  const attendance = await db.collection("volunteerAttendance").find({}).toArray();
-  res.json(attendance.map(({ _id, ...rest }) => rest));
+  const attendance = await db.collection("volunteerAttendance").find({}, { projection: { _id: 0 } }).toArray();
+  res.json(attendance);
 });
 
 app.post("/api/volunteer-attendance", async (req, res) => {
@@ -707,10 +706,10 @@ app.get("/api/stats", async (req, res) => {
     const teachersCount = await db.collection("users").countDocuments({ role: "teacher" });
     const membersCount = await db.collection("members").countDocuments();
 
-    // Query databases to map attendance rates
-    const attendance = await db.collection("attendance").find({}).toArray();
-    const classes = await db.collection("classes").find({}).toArray();
-    const members = await db.collection("members").find({}).toArray();
+    // Query databases using specific key projections to minimize payload size and avoid throttling
+    const attendance = await db.collection("attendance").find({}, { projection: { classId: 1, checkedInMemberIds: 1, _id: 0 } }).toArray();
+    const classes = await db.collection("classes").find({}, { projection: { id: 1, _id: 0 } }).toArray();
+    const members = await db.collection("members").find({}, { projection: { classIds: 1, status: 1, _id: 0 } }).toArray();
 
     let attendanceRateToday = 0;
     if (attendance.length > 0) {
