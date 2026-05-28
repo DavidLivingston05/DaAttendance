@@ -36,17 +36,6 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser to inter
 
 ---
 
-## 🔑 Access Profiles
-
-Use these credentials to test the access roles of the platform:
-
-| Entrance Profile | Credentials | Description |
-| :--- | :--- | :--- |
-| **Admin Entrance** | Password: `Livingston$18` | Full access. Take rolls, manage databases, edit campuses/members. |
-| **Visitor Entrance** | *None (Password-free)* | View-only access. Browse analytics and review Star Reports. |
-
----
-
 ## 📦 Production & Deployment
 
 To compile the standalone React client bundle for hosting on **Vercel**, **GitHub Pages**, or **Netlify**:
