@@ -1,4 +1,4 @@
-// import './mockApi.ts';
+import './mockApi.ts';
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
