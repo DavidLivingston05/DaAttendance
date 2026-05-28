@@ -92,6 +92,137 @@ async function seedDatabase(db: Db) {
   }
 }
 
+// In-memory mock DB fallback state initialized from dbData for local dev / connection failures
+let localDbState: any = JSON.parse(JSON.stringify(dbData));
+
+const getCollectionData = (colName: string) => {
+  if (!localDbState[colName]) {
+    localDbState[colName] = [];
+  }
+  return localDbState[colName];
+};
+
+const createMockCollection = (colName: string) => {
+  return {
+    find: (query: any = {}) => {
+      let data = getCollectionData(colName);
+      if (query && Object.keys(query).length > 0) {
+        data = data.filter((item: any) => {
+          return Object.keys(query).every(key => {
+            if (query[key] instanceof RegExp) {
+              return query[key].test(item[key]);
+            }
+            if (query[key] && typeof query[key] === 'object' && query[key].role) {
+              return item.role === query[key].role;
+            }
+            return item[key] === query[key];
+          });
+        });
+      }
+      return {
+        toArray: async () => JSON.parse(JSON.stringify(data))
+      };
+    },
+    findOne: async (query: any = {}) => {
+      let data = getCollectionData(colName);
+      if (query && Object.keys(query).length > 0) {
+        const found = data.find((item: any) => {
+          return Object.keys(query).every(key => {
+            if (query[key] instanceof RegExp) {
+              return query[key].test(item[key]);
+            }
+            return item[key] === query[key];
+          });
+        });
+        return found ? JSON.parse(JSON.stringify(found)) : null;
+      }
+      return data[0] ? JSON.parse(JSON.stringify(data[0])) : null;
+    },
+    insertOne: async (doc: any) => {
+      const data = getCollectionData(colName);
+      data.push(doc);
+      return { insertedId: doc._id || doc.id };
+    },
+    insertMany: async (docs: any[]) => {
+      const data = getCollectionData(colName);
+      data.push(...docs);
+      return { insertedCount: docs.length };
+    },
+    updateOne: async (query: any, update: any) => {
+      let data = getCollectionData(colName);
+      const index = data.findIndex((item: any) => {
+        return Object.keys(query).every(key => item[key] === query[key]);
+      });
+      if (index !== -1) {
+        if (update.$set) {
+          data[index] = { ...data[index], ...update.$set };
+        }
+      }
+      return { matchedCount: index !== -1 ? 1 : 0, modifiedCount: index !== -1 ? 1 : 0 };
+    },
+    updateMany: async (query: any, update: any) => {
+      let data = getCollectionData(colName);
+      let modifiedCount = 0;
+      data.forEach((item: any, index: number) => {
+        const match = Object.keys(query).every(key => {
+          if (query[key] && typeof query[key] === 'object' && query[key].role) {
+            return item.role === query[key].role;
+          }
+          return item[key] === query[key];
+        });
+        if (match) {
+          if (update.$set) {
+            data[index] = { ...data[index], ...update.$set };
+          }
+          if (update.$pull) {
+            const pullKey = Object.keys(update.$pull)[0];
+            const pullVal = update.$pull[pullKey];
+            if (Array.isArray(data[index][pullKey])) {
+              data[index][pullKey] = data[index][pullKey].filter((val: any) => val !== pullVal);
+            }
+          }
+          modifiedCount++;
+        }
+      });
+      return { modifiedCount };
+    },
+    deleteOne: async (query: any) => {
+      let data = getCollectionData(colName);
+      const initialLength = data.length;
+      localDbState[colName] = data.filter((item: any) => {
+        return !Object.keys(query).every(key => item[key] === query[key]);
+      });
+      return { deletedCount: initialLength - localDbState[colName].length };
+    },
+    deleteMany: async (query: any) => {
+      let data = getCollectionData(colName);
+      const initialLength = data.length;
+      localDbState[colName] = data.filter((item: any) => {
+        return !Object.keys(query).every(key => item[key] === query[key]);
+      });
+      return { deletedCount: initialLength - localDbState[colName].length };
+    },
+    countDocuments: async (query: any = {}) => {
+      let data = getCollectionData(colName);
+      if (query && Object.keys(query).length > 0) {
+        data = data.filter((item: any) => {
+          return Object.keys(query).every(key => {
+            if (query[key] && typeof query[key] === 'object' && query[key].role) {
+              return item.role === query[key].role;
+            }
+            return item[key] === query[key];
+          });
+        });
+      }
+      return data.length;
+    }
+  };
+};
+
+const mockDb: any = {
+  collection: (name: string) => createMockCollection(name)
+};
+
 // Middleware to inject connection pool into request lifecycle
 app.use("/api", async (req, res, next) => {
   try {
@@ -99,8 +230,9 @@ app.use("/api", async (req, res, next) => {
     (req as any).db = db;
     next();
   } catch (e: any) {
-    console.error("Database connection failure:", e);
-    res.status(500).json({ error: "Cloud database connection failed", details: e.message });
+    console.warn("MongoDB Atlas connection failed, falling back to local memory database:", e.message);
+    (req as any).db = mockDb;
+    next();
   }
 });
 
