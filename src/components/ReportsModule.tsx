@@ -110,35 +110,19 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     setLoading(true);
     setError(null);
     try {
-      const [locRes, classRes, studRes, teachRes, volRes, studAttRes, volAttRes] = await Promise.all([
-        fetch("/api/locations"),
-        fetch("/api/classes"),
-        fetch("/api/members"),
-        fetch("/api/teachers"),
-        fetch("/api/volunteers"),
-        fetch("/api/attendance"),
-        fetch("/api/volunteer-attendance")
-      ]);
-
-      if (!locRes.ok || !classRes.ok || !studRes.ok || !teachRes.ok || !volRes.ok || !studAttRes.ok || !volAttRes.ok) {
+      const res = await fetch("/api/bootstrap");
+      if (!res.ok) {
         throw new Error("Could not download galaxy directories. Please refresh the page.");
       }
 
-      const locs = await locRes.json();
-      const cls = await classRes.json();
-      const studs = await studRes.json();
-      const tchs = await teachRes.json();
-      const vols = await volRes.json();
-      const atts = await studAttRes.json();
-      const volAtts = await volAttRes.json();
-
-      setLocations(locs);
-      setClasses(cls);
-      setStudents(studs);
-      setTeachers(tchs);
-      setVolunteers(vols);
-      setStudentRecords(atts);
-      setPersonnelRecords(volAtts);
+      const data = await res.json();
+      setLocations(data.locations);
+      setClasses(data.classes);
+      setStudents(data.members);
+      setTeachers(data.teachers);
+      setVolunteers(data.volunteers);
+      setStudentRecords(data.attendance);
+      setPersonnelRecords(data.volunteerAttendance);
     } catch (err: any) {
       setError(err.message || "Failed to load reports metadata.");
     } finally {

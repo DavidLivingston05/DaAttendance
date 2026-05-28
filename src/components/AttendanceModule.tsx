@@ -140,30 +140,22 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
     setLoading(true);
     setError(null);
     try {
-      const [locRes, classRes, teachRes, studRes, volRes, studAttRes, volAttRes] = await Promise.all([
-        fetch("/api/locations"),
-        fetch("/api/classes"),
-        fetch("/api/teachers"),
-        fetch("/api/members"),
-        fetch("/api/volunteers"),
-        fetch("/api/attendance"),
-        fetch("/api/volunteer-attendance")
-      ]);
-
-      if (!locRes.ok || !classRes.ok || !teachRes.ok || !studRes.ok || !volRes.ok) {
+      const res = await fetch("/api/bootstrap");
+      if (!res.ok) {
         throw new Error("Could not pull directory values. Please reload.");
       }
 
-      const locs: Location[] = await locRes.json();
-      const clss: ClassSession[] = await classRes.json();
+      const data = await res.json();
+      const locs: Location[] = data.locations;
+      const clss: ClassSession[] = data.classes;
       
       setLocations(locs);
       setClasses(clss);
-      setTeachers(await teachRes.json());
-      setStudents(await studRes.json());
-      setVolunteers(await volRes.json());
-      setStudentRecords(await studAttRes.json());
-      setVolunteerRecords(await volAttRes.json());
+      setTeachers(data.teachers);
+      setStudents(data.members);
+      setVolunteers(data.volunteers);
+      setStudentRecords(data.attendance);
+      setVolunteerRecords(data.volunteerAttendance);
 
       // Set default location choice
       if (locs.length > 0) {

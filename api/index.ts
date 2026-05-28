@@ -249,6 +249,40 @@ app.use("/api", async (req, res, next) => {
 
 // ---------------------- CLOUD API ROUTES ----------------------
 
+// 0. HIGH-PERFORMANCE BATCH DIRECTORY BOOTSTRAP
+app.get("/api/bootstrap", async (req, res) => {
+  try {
+    const db: Db = (req as any).db;
+    
+    // Fetch all collections in parallel on the database server side in a single request lifecycle
+    const [locations, classes, users, volunteers, members, attendance, volunteerAttendance] = await Promise.all([
+      db.collection("locations").find({}).toArray(),
+      db.collection("classes").find({}).toArray(),
+      db.collection("users").find({}).toArray(),
+      db.collection("volunteers").find({}).toArray(),
+      db.collection("members").find({}).toArray(),
+      db.collection("attendance").find({}).toArray(),
+      db.collection("volunteerAttendance").find({}).toArray()
+    ]);
+
+    // Format secure teachers lists and other safe users
+    const teachers = users.filter((u: any) => u.role === "teacher").map(({ password, _id, ...safe }: any) => safe);
+
+    res.json({
+      locations: locations.map(({ _id, ...rest }) => rest),
+      classes: classes.map(({ _id, ...rest }) => rest),
+      teachers,
+      volunteers: volunteers.map(({ _id, ...rest }) => rest),
+      members: members.map(({ _id, ...rest }) => rest),
+      attendance: attendance.map(({ _id, ...rest }) => rest),
+      volunteerAttendance: volunteerAttendance.map(({ _id, ...rest }) => rest)
+    });
+  } catch (e: any) {
+    console.error("Bootstrap endpoint failure:", e);
+    res.status(500).json({ error: "Aggregation bootstrap failed", details: e.message });
+  }
+});
+
 // 1. AUTHENTICATION & PORTAL LOGINS
 app.post("/api/auth/login", async (req, res) => {
   const { email, password } = req.body;

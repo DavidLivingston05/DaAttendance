@@ -81,26 +81,20 @@ export default function AdminRegistry() {
     setLoading(true);
     setError(null);
     try {
-      const [locRes, classRes, teachRes, volRes, studRes] = await Promise.all([
-        fetch("/api/locations"),
-        fetch("/api/classes"),
-        fetch("/api/teachers"),
-        fetch("/api/volunteers"),
-        fetch("/api/members")
-      ]);
-
-      if (!locRes.ok || !classRes.ok || !teachRes.ok || !volRes.ok || !studRes.ok) {
-        throw new Error("Failed to load some registries. Please refresh.");
+      const res = await fetch("/api/bootstrap");
+      if (!res.ok) {
+        throw new Error("Failed to load registries. Please refresh.");
       }
-
-      setLocations(await locRes.json());
-      setClasses(await classRes.json());
-      setTeachers(await teachRes.json());
-      setVolunteers(await volRes.json());
-      setStudents(await studRes.json());
+      
+      const data = await res.json();
+      setLocations(data.locations);
+      setClasses(data.classes);
+      setTeachers(data.teachers);
+      setVolunteers(data.volunteers);
+      setStudents(data.members);
     } catch (err: any) {
       setError(err.message);
-    } {
+    } finally {
       setLoading(false);
     }
   };

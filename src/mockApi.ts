@@ -432,6 +432,22 @@ if (isLocalhost) {
         }
       }
 
+      // --- 7.5. BATCH DIRECTORY BOOTSTRAP ---
+      if (path === '/api/bootstrap' && method === 'GET') {
+        const teachers = db.users
+          .filter((u: any) => u.role === 'teacher')
+          .map(({ password, ...safe }: any) => safe);
+        return makeResponse(200, {
+          locations: db.locations,
+          classes: db.classes,
+          teachers,
+          volunteers: db.volunteers || [],
+          members: db.members,
+          attendance: db.attendance,
+          volunteerAttendance: db.volunteerAttendance || []
+        });
+      }
+
       // --- 8. DASHBOARD ANALYTICS / STATS ---
       if (path === '/api/stats' && method === 'GET') {
         const locationsCount = db.locations.length;
