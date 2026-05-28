@@ -9,7 +9,7 @@ import AdminRegistry from "./components/AdminRegistry";
 import AttendanceModule from "./components/AttendanceModule";
 import ReportsModule from "./components/ReportsModule";
 
-function CosmicStarfield({ theme }: { theme: "light" | "dark" }) {
+const CosmicStarfield = React.memo(function CosmicStarfield({ theme }: { theme: "light" | "dark" }) {
   const [stars, setStars] = useState<{ id: number; top: number; left: number; size: number; delay: string; duration: string }[]>([]);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -59,7 +59,7 @@ function CosmicStarfield({ theme }: { theme: "light" | "dark" }) {
       ))}
     </div>
   );
-}
+});
 
 export default function App() {
   const [token, setToken] = useState<string | null>(localStorage.getItem("roll_token"));

@@ -1,5 +1,12 @@
 import dbData from '../db.json';
 
+// Global client-side memory cache for high-fidelity performance across all environments
+let bootstrapCache: any = null;
+let bootstrapPromise: Promise<any> | null = null;
+let mockFetch: any = null;
+
+const originalFetch = window.fetch;
+
 // Check if the current environment is local (localhost, IP, local network, custom port, or non-production Vercel domain)
 const isLocalhost = 
   (window.location.hostname === 'localhost' || 
@@ -45,10 +52,8 @@ if (isLocalhost) {
     }
   };
 
-  const originalFetch = window.fetch;
-
-  // Override window.fetch to capture and resolve API endpoints locally
-  window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+  // Define mockFetch to capture and resolve API endpoints locally
+  mockFetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const urlString = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
 
     // Only intercept api routes, let static assets fall back to the dev server
@@ -497,3 +502,60 @@ function makeResponse(status: number, data: any): Response {
     },
   });
 }
+
+// Global client-side memory cache interceptor for /api/bootstrap
+window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+  const urlString = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
+  const method = init?.method?.toUpperCase() || 'GET';
+
+  // 1. Only apply client-side bootstrap caching to prevent redundant database fetches
+  if (urlString.includes('/api/bootstrap') && method === 'GET') {
+    if (bootstrapCache) {
+      return new Response(JSON.stringify(bootstrapCache), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    if (bootstrapPromise) {
+      const data = await bootstrapPromise;
+      return new Response(JSON.stringify(data), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    bootstrapPromise = (async () => {
+      try {
+        const res = await originalFetch(input, init);
+        if (res.ok) {
+          const data = await res.json();
+          bootstrapCache = data;
+          return data;
+        }
+      } catch (e) {
+        console.error("Failed to fetch bootstrap cache", e);
+      } finally {
+        bootstrapPromise = null;
+      }
+      return null;
+    })();
+
+    const data = await bootstrapPromise;
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // 2. If a mutation happens (POST, PUT, DELETE), invalidate the bootstrap cache to fetch fresh data next time
+  if (urlString.includes('/api/') && ['POST', 'PUT', 'DELETE'].includes(method)) {
+    bootstrapCache = null;
+  }
+
+  // 3. Fall through to mock fetch or standard network fetch
+  if (isLocalhost && mockFetch) {
+    return mockFetch(input, init);
+  }
+
+  return originalFetch(input, init);
+};
