@@ -110,6 +110,35 @@ export default function App() {
     }
   }, [currentUser, activeTab]);
 
+  // Automatic local storage to MongoDB migration sync trigger
+  useEffect(() => {
+    const LOCAL_STORAGE_KEY = 'da_attendance_db';
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (raw) {
+      try {
+        const localDb = JSON.parse(raw);
+        fetch('/api/migration/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(localDb)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            console.log("Successfully migrated local data to cloud MongoDB:", data);
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
+            localStorage.setItem('da_attendance_db_migrated', 'true');
+            // Force reload to fetch new database stats
+            window.location.reload();
+          }
+        })
+        .catch(err => console.error("Migration sync error:", err));
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+
   const fetchDashboardStats = async () => {
     setStatsLoading(true);
     try {

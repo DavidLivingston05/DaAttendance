@@ -556,4 +556,97 @@ app.get("/api/stats", async (req, res) => {
   }
 });
 
+// 10. FRONTEND LOCAL STORAGE MIGRATION SYNC GATEWAY
+app.post("/api/migration/sync", async (req, res) => {
+  const { locations, classes, members, attendance, volunteers, volunteerAttendance } = req.body;
+  const db: Db = (req as any).db;
+
+  try {
+    let syncedLocations = 0;
+    let syncedClasses = 0;
+    let syncedMembers = 0;
+    let syncedAttendance = 0;
+    let syncedVolunteers = 0;
+    let syncedVolunteerAttendance = 0;
+
+    // 1. Sync Locations
+    if (locations && locations.length > 0) {
+      for (const loc of locations) {
+        const exists = await db.collection("locations").findOne({ id: loc.id });
+        if (!exists) {
+          await db.collection("locations").insertOne(loc);
+          syncedLocations++;
+        }
+      }
+    }
+
+    // 2. Sync Classes
+    if (classes && classes.length > 0) {
+      for (const cls of classes) {
+        const exists = await db.collection("classes").findOne({ id: cls.id });
+        if (!exists) {
+          await db.collection("classes").insertOne(cls);
+          syncedClasses++;
+        }
+      }
+    }
+
+    // 3. Sync Members
+    if (members && members.length > 0) {
+      for (const mem of members) {
+        const exists = await db.collection("members").findOne({ id: mem.id });
+        if (!exists) {
+          await db.collection("members").insertOne(mem);
+          syncedMembers++;
+        }
+      }
+    }
+
+    // 4. Sync Attendance
+    if (attendance && attendance.length > 0) {
+      for (const att of attendance) {
+        const exists = await db.collection("attendance").findOne({ id: att.id });
+        if (!exists) {
+          await db.collection("attendance").insertOne(att);
+          syncedAttendance++;
+        }
+      }
+    }
+
+    // 5. Sync Volunteers
+    if (volunteers && volunteers.length > 0) {
+      for (const vol of volunteers) {
+        const exists = await db.collection("volunteers").findOne({ id: vol.id });
+        if (!exists) {
+          await db.collection("volunteers").insertOne(vol);
+          syncedVolunteers++;
+        }
+      }
+    }
+
+    // 6. Sync Volunteer Attendance
+    if (volunteerAttendance && volunteerAttendance.length > 0) {
+      for (const vatt of volunteerAttendance) {
+        const exists = await db.collection("volunteerAttendance").findOne({ id: vatt.id });
+        if (!exists) {
+          await db.collection("volunteerAttendance").insertOne(vatt);
+          syncedVolunteerAttendance++;
+        }
+      }
+    }
+
+    res.json({
+      success: true,
+      syncedLocations,
+      syncedClasses,
+      syncedMembers,
+      syncedAttendance,
+      syncedVolunteers,
+      syncedVolunteerAttendance
+    });
+  } catch (e: any) {
+    res.status(500).json({ error: "Synchronization failed", details: e.message });
+  }
+});
+
 export default app;
