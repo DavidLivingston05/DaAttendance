@@ -2,7 +2,10 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import { MongoClient, Db } from "mongodb";
-import dbData from "../db.json";
+import fs from "fs";
+
+// Load db.json safely using fs.readFileSync to prevent ES Module assertion failures in Vercel Serverless
+const dbData = JSON.parse(fs.readFileSync(path.join(process.cwd(), "db.json"), "utf8"));
 
 // Load local environment variables when developing locally
 dotenv.config({ path: path.join(process.cwd(), ".env.local") });
