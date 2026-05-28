@@ -226,6 +226,11 @@ const mockDb: any = {
   collection: (name: string) => createMockCollection(name)
 };
 
+// Diagnostic endpoint to check serverless health without DB connections
+app.get("/api/ping", (req, res) => {
+  res.json({ status: "ok", message: "DaAttendance serverless backend is live!" });
+});
+
 // Middleware to inject connection pool into request lifecycle
 app.use("/api", async (req, res, next) => {
   try {
