@@ -12,7 +12,7 @@ app.use(express.json());
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
-  throw new Error("MONGODB_URI is not defined. Please verify your .env.local file or server environment settings.");
+  console.error("WARNING: MONGODB_URI is not defined in environment variables!");
 }
 
 // Cached DB Connection for Serverless Scaling
@@ -20,6 +20,9 @@ let cachedClient: MongoClient | null = null;
 let cachedDb: Db | null = null;
 
 async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
+  if (!MONGODB_URI) {
+    throw new Error("MONGODB_URI is not defined in environment variables. Please add it in your dashboard.");
+  }
   if (cachedClient && cachedDb) {
     return { client: cachedClient, db: cachedDb };
   }
