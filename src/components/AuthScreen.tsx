@@ -61,10 +61,10 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
           <span className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-2.5xl mx-auto shadow-md shadow-red-500/15">
             <Sparkles className="w-7 h-7 animate-pulse" />
           </span>
-          <h2 className="mt-4 text-4xl font-display font-black tracking-tight text-red-650 dark:text-rose-450 leading-none">
+          <h2 className="mt-4 text-4xl font-display font-black tracking-tight text-red-650 dark:text-white leading-none">
             DaAttendance
           </h2>
-          <p className="text-xs font-black text-red-800 uppercase tracking-widest mt-2.5 dark:text-rose-350">
+          <p className="text-xs font-black text-red-800 uppercase tracking-widest mt-2.5 dark:text-white/80">
             Sunday School Attendance Hub
           </p>
         </div>
@@ -74,10 +74,10 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
             
             {/* Header prompt in Red */}
             <div className="text-center mb-8 bg-red-50/40 dark:bg-rose-950/15 py-4 px-6 rounded-2.5xl border-2 border-red-100 dark:border-rose-500/20">
-              <h3 className="text-xl font-black text-red-700 dark:text-rose-400 tracking-tight">
+              <h3 className="text-xl font-black text-red-700 dark:text-white tracking-tight">
                 Choose Access Profile Group To Proceed
               </h3>
-              <p className="text-sm font-bold text-red-900 mt-2 dark:text-rose-250 max-w-md mx-auto">
+              <p className="text-sm font-bold text-red-900 mt-2 dark:text-white/80 max-w-md mx-auto">
                 Please select your credentials group below to access the Sunday School roll call desk.
               </p>
             </div>
