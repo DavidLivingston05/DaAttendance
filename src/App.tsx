@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { 
   Building, BookOpen, Users, BarChart3, Clock, Calendar, 
-  MapPin, UserCheck, LogOut, Lock, Sun, Moon, Sparkles, Award, Layers, Settings
+  MapPin, UserCheck, LogOut, Lock, Sun, Moon, Sparkles, Award, Layers, Settings,
+  Cloud, CloudOff, RefreshCw, CheckCircle2
 } from "lucide-react";
+import { getOfflineQueue, syncOfflineQueue } from "./offlineSync";
 import { User, DashboardStats } from "./types";
 import AuthScreen from "./components/AuthScreen";
 import AdminRegistry from "./components/AdminRegistry";
@@ -102,6 +104,72 @@ export default function App() {
     const nextTheme = theme === "light" ? "dark" : "light";
     setTheme(nextTheme);
     localStorage.setItem("roll_theme", nextTheme);
+  };
+
+  // PWA Offline Synchronization & Network Management States
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncSuccessMessage, setSyncSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // 1. Check enqueued actions count on startup
+    setPendingCount(getOfflineQueue().length);
+
+    // 2. Network connectivity listeners
+    const handleOnline = () => {
+      setIsOnline(true);
+      triggerOnlineSync();
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+    };
+
+    // 3. Listen to local offline actions enqueued or synced
+    const handleQueueUpdate = () => {
+      setPendingCount(getOfflineQueue().length);
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("da_attendance_sync_update", handleQueueUpdate);
+
+    // 4. Background Sync Poller - retries queue synchronization every 12 seconds when network is available
+    const syncInterval = setInterval(() => {
+      if (navigator.onLine && getOfflineQueue().length > 0 && !isSyncing) {
+        triggerOnlineSync();
+      }
+    }, 12000);
+
+    // Immediately trigger synchronization if enqueued actions are waiting online
+    if (navigator.onLine && getOfflineQueue().length > 0) {
+      triggerOnlineSync();
+    }
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("da_attendance_sync_update", handleQueueUpdate);
+      clearInterval(syncInterval);
+    };
+  }, [isSyncing]);
+
+  const triggerOnlineSync = async () => {
+    if (isSyncing) return;
+    setIsSyncing(true);
+    try {
+      const result = await syncOfflineQueue(window.fetch);
+      if (result.success && result.count > 0) {
+        setSyncSuccessMessage(`Synchronized ${result.count} offline attendance records successfully!`);
+        setTimeout(() => setSyncSuccessMessage(null), 4000);
+        // Force refresh all tables and dashboard metrics across active screens
+        fetchDashboardStats();
+      }
+    } catch (e) {
+      console.error("Failed to sync enqueued offline actions", e);
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   // Forcibly sanitize admin display name to "Admin" on startup to clean up cache
@@ -252,10 +320,44 @@ export default function App() {
               <span className="flex items-center justify-center w-9 h-9 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] rounded-xl text-white shadow-sm ring-2 ring-purple-500/10 dark:ring-purple-500/20">
                 <UserCheck className="w-5 h-5" />
               </span>
-              <div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
                 <h1 className="text-xl font-display font-black tracking-tight text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-none">
                   DaAttendance
                 </h1>
+                
+                {/* PWA Offline Synchronization Status Pill */}
+                <div className="flex items-center">
+                  {isSyncing ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-800/30 animate-pulse select-none">
+                      <RefreshCw className="w-2.5 h-2.5 animate-spin" />
+                      <span>Syncing...</span>
+                    </span>
+                  ) : !isOnline ? (
+                    <span 
+                      onClick={triggerOnlineSync}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/30 cursor-pointer shadow-xs hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition-all select-none animate-pulse"
+                      title={pendingCount > 0 ? `${pendingCount} offline rolls waiting to sync` : "Device is offline"}
+                    >
+                      <CloudOff className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400" />
+                      <span>Offline {pendingCount > 0 && `(${pendingCount})`}</span>
+                    </span>
+                  ) : pendingCount > 0 ? (
+                    <span 
+                      onClick={triggerOnlineSync}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pink-50 text-pink-700 dark:bg-pink-950/40 dark:text-pink-300 border border-pink-200/50 dark:border-pink-850/30 cursor-pointer hover:bg-pink-100/50 transition-all shadow-xs"
+                      title="Online but has enqueued edits. Click to synchronize."
+                    >
+                      <RefreshCw className="w-2.5 h-2.5 text-pink-600 dark:text-pink-400 animate-spin" />
+                      <span>Sync Pending ({pendingCount})</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/40 dark:border-emerald-900/20 select-none">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping absolute" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 relative" />
+                      <span>Online</span>
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -456,6 +558,14 @@ export default function App() {
         </div>
 
       </div>
+
+      {/* Floating PWA Offline Sync Success Notification Toast */}
+      {syncSuccessMessage && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 bg-emerald-500 dark:bg-emerald-600 text-white font-semibold text-sm rounded-2xl shadow-xl border border-emerald-400/20 animate-fade-in select-none">
+          <CheckCircle2 className="w-4.5 h-4.5 text-white animate-bounce" />
+          <span>{syncSuccessMessage}</span>
+        </div>
+      )}
 
       {/* Footer System Margin Cleaner */}
       <footer className="bg-white dark:bg-zinc-900 border-t border-slate-200/60 dark:border-zinc-800 py-4 mt-auto text-center text-xs text-slate-400 dark:text-purple-300/40">

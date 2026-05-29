@@ -1,4 +1,5 @@
 import dbData from '../db.json';
+import { enqueueAction } from './offlineSync';
 
 // Global client-side memory cache for high-fidelity performance across all environments
 let bootstrapCache: any = null;
@@ -503,12 +504,140 @@ function makeResponse(status: number, data: any): Response {
   });
 }
 
-// Global client-side memory cache interceptor for /api/bootstrap
+// Global client-side memory cache interceptor for /api/bootstrap and offline support
 window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
   const urlString = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
   const method = init?.method?.toUpperCase() || 'GET';
+  const urlObj = new URL(urlString, window.location.origin);
+  const path = urlObj.pathname;
 
-  // 1. Only apply client-side bootstrap caching to prevent redundant database fetches
+  // Determine if offline or if we should force offline mode (for verification)
+  const isOfflineMode = !navigator.onLine;
+
+  const getRequestBody = () => {
+    try {
+      return init?.body ? JSON.parse(init.body as string) : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // 1. OFFLINE INTERCEPTION STRATEGY
+  if (isOfflineMode && urlString.includes('/api/')) {
+    console.log(`[Offline Sync Interceptor] Intercepting offline request: ${method} ${path}`);
+    
+    // A. Bootstrap data from local cache
+    if (path === '/api/bootstrap' && method === 'GET') {
+      const cached = localStorage.getItem('da_attendance_offline_bootstrap');
+      if (cached) {
+        return new Response(cached, {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      // Fallback empty bootstrap shell
+      return new Response(JSON.stringify({
+        locations: [], classes: [], teachers: [], volunteers: [], members: [], attendance: [], volunteerAttendance: []
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // B. Dashboard metrics from local cache
+    if (path === '/api/stats' && method === 'GET') {
+      const cached = localStorage.getItem('da_attendance_offline_stats');
+      if (cached) {
+        return new Response(cached, {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      return new Response(JSON.stringify({
+        locationsCount: 0, classesCount: 0, teachersCount: 0, membersCount: 0, attendanceRateToday: 0
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // C. Student Attendance Roll Logging
+    if (path === '/api/attendance') {
+      const body = getRequestBody();
+      if (method === 'POST') {
+        const description = `Saved Sunday student roll for class ${body?.classId} on ${body?.date}`;
+        enqueueAction(urlString, method, body, description);
+        
+        return new Response(JSON.stringify({
+          id: `att_offline_${Date.now()}`,
+          classId: body?.classId,
+          date: body?.date,
+          checkedInMemberIds: body?.checkedInMemberIds || [],
+          notes: body?.notes || '',
+          recordedBy: body?.recordedBy,
+          recordedAt: new Date().toISOString(),
+          isOfflineDraft: true
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      if (method === 'DELETE') {
+        const classId = urlObj.searchParams.get('classId') || body?.classId;
+        const date = urlObj.searchParams.get('date') || body?.date;
+        const description = `Deleted student roll for class ${classId} on ${date}`;
+        enqueueAction(urlString, method, { classId, date }, description);
+        
+        return new Response(JSON.stringify({ success: true, message: 'Attendance record deleted offline' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
+
+    // D. Staff & Volunteer Attendance Logging
+    if (path === '/api/volunteer-attendance') {
+      const body = getRequestBody();
+      if (method === 'POST') {
+        const description = `Saved staff/volunteer attendance for location ${body?.locationId} on ${body?.date}`;
+        enqueueAction(urlString, method, body, description);
+        
+        return new Response(JSON.stringify({
+          id: `vol_offline_${Date.now()}`,
+          locationId: body?.locationId,
+          date: body?.date,
+          checkedInPersonnelIds: body?.checkedInPersonnelIds || [],
+          notes: body?.notes || '',
+          recordedAt: new Date().toISOString(),
+          isOfflineDraft: true
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      if (method === 'DELETE') {
+        const locationId = urlObj.searchParams.get('locationId') || body?.locationId;
+        const date = urlObj.searchParams.get('date') || body?.date;
+        const description = `Deleted staff/volunteer roll for location ${locationId} on ${date}`;
+        enqueueAction(urlString, method, { locationId, date }, description);
+        
+        return new Response(JSON.stringify({ success: true, message: 'Personnel attendance record deleted offline' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
+
+    // Default block for other mutations offline
+    if (['POST', 'PUT', 'DELETE'].includes(method)) {
+      return new Response(JSON.stringify({ error: 'Service Unavailable: App is operating in Offline mode' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+  }
+
+  // 2. ONLINE STRATEGY - Cache static bootstrap responses
   if (urlString.includes('/api/bootstrap') && method === 'GET') {
     if (bootstrapCache) {
       return new Response(JSON.stringify(bootstrapCache), {
@@ -530,6 +659,7 @@ window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Res
         if (res.ok) {
           const data = await res.json();
           bootstrapCache = data;
+          localStorage.setItem('da_attendance_offline_bootstrap', JSON.stringify(data));
           return data;
         }
       } catch (e) {
@@ -541,18 +671,110 @@ window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Res
     })();
 
     const data = await bootstrapPromise;
+    if (!data) {
+      const cached = localStorage.getItem('da_attendance_offline_bootstrap');
+      if (cached) {
+        return new Response(cached, {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  // 2. If a mutation happens (POST, PUT, DELETE), invalidate the bootstrap cache to fetch fresh data next time
-  if (urlString.includes('/api/') && ['POST', 'PUT', 'DELETE'].includes(method)) {
-    bootstrapCache = null;
+  // Online stats caching
+  if (urlString.includes('/api/stats') && method === 'GET') {
+    try {
+      const res = await originalFetch(input, init);
+      if (res.ok) {
+        const data = await res.clone().json();
+        localStorage.setItem('da_attendance_offline_stats', JSON.stringify(data));
+      }
+      return res;
+    } catch (e) {
+      const cached = localStorage.getItem('da_attendance_offline_stats');
+      if (cached) {
+        return new Response(cached, {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      throw e;
+    }
   }
 
-  // 3. Fall through to mock fetch or standard network fetch
+  // 3. Mutation Caching & "Lie-Fi" Fallback
+  if (urlString.includes('/api/') && ['POST', 'PUT', 'DELETE'].includes(method)) {
+    bootstrapCache = null;
+
+    try {
+      // Implement a 4-second timeout to transition to offline mode instantly if reception is flaky
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      
+      const res = await originalFetch(input, {
+        ...init,
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      return res;
+    } catch (err) {
+      console.warn('[Lie-Fi Fallback] Server timed out or disconnected. Enqueueing request offline:', err);
+      
+      const body = getRequestBody();
+      let description = `Modified attendance via ${method} on ${path}`;
+      if (path === '/api/attendance' && method === 'POST') {
+        description = `Saved Sunday student roll for class ${body?.classId} on ${body?.date} (flaky network)`;
+      } else if (path === '/api/volunteer-attendance' && method === 'POST') {
+        description = `Saved staff/volunteer attendance for location ${body?.locationId} on ${body?.date} (flaky network)`;
+      }
+
+      enqueueAction(urlString, method, body, description);
+
+      if (path === '/api/attendance' && method === 'POST') {
+        return new Response(JSON.stringify({
+          id: `att_offline_${Date.now()}`,
+          classId: body?.classId,
+          date: body?.date,
+          checkedInMemberIds: body?.checkedInMemberIds || [],
+          notes: body?.notes || '',
+          recordedBy: body?.recordedBy,
+          recordedAt: new Date().toISOString(),
+          isOfflineDraft: true
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+
+      if (path === '/api/volunteer-attendance' && method === 'POST') {
+        return new Response(JSON.stringify({
+          id: `vol_offline_${Date.now()}`,
+          locationId: body?.locationId,
+          date: body?.date,
+          checkedInPersonnelIds: body?.checkedInPersonnelIds || [],
+          notes: body?.notes || '',
+          recordedAt: new Date().toISOString(),
+          isOfflineDraft: true
+        }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+
+      return new Response(JSON.stringify({ success: true, message: 'Action enqueued safely' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+  }
+
+  // 4. Fall through to local storage mock database or live backend
   if (isLocalhost && mockFetch) {
     return mockFetch(input, init);
   }
