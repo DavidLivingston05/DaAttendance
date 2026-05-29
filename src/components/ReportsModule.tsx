@@ -99,6 +99,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
   } | null>(null);
   
   const [showCertificate, setShowCertificate] = useState(false);
+  const [celebrations, setCelebrations] = useState<{ id: number; left: number; emoji: string; delay: number }[]>([]);
   const certificateRef = useRef<HTMLDivElement>(null);
 
   // Load all necessary databases for computing stats
@@ -307,19 +308,28 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       }
     }
 
-    // Determine Rank based on criteria matching galaxy looks
-    let rankTitle = "✦ Space Scout";
-    let rankBadge = "text-slate-400 border-slate-300 dark:border-purple-500/30 bg-slate-550/10";
+    // Determine Rank based on criteria matching kid space academy theme
+    let rankTitle = "👾 Cosmic Hide-and-Seek Expert";
+    let rankBadge = "text-amber-500 bg-amber-500/10 border-amber-500/30";
+    let rankDesc = "You are excellent at hiding behind the stars! We miss your big smile in Sunday class. Come out and join our next space picnic! 🧺";
+    
     if (totalConducted > 0) {
       if (attendanceRate === 100) {
-        rankTitle = "✦ Perfect Galaxy Champion";
-        rankBadge = "text-[#FF007A] bg-[#FF007A]/10 border-[#FF007A]/50 shadow-[0_0_15px_rgba(255,0,122,0.3)] animate-pulse";
+        rankTitle = "🚀 Holy Rocket Champion";
+        rankBadge = "text-emerald-500 bg-emerald-500/10 border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.35)] animate-pulse";
+        rankDesc = "You are traveling at the speed of light straight to heaven! You have perfect attendance, and even the angels are asking you for autographs! 😇";
       } else if (attendanceRate >= 90) {
-        rankTitle = "✦ Supernova Star";
+        rankTitle = "🛸 Sunday Spaceship Co-Pilot";
         rankBadge = "text-[#00E5FF] bg-[#00E5FF]/10 border-[#00E5FF]/40 shadow-[0_0_12px_rgba(0,229,255,0.25)]";
+        rankDesc = "You missed a launch or two, but your cockpit is glowing! You know your Bible stories better than the aliens! 👽";
       } else if (attendanceRate >= 75) {
-        rankTitle = "✦ Comet Explorer";
+        rankTitle = "🧑‍🚀 Starry Bible Cadet";
         rankBadge = "text-purple-500 bg-purple-500/10 border-purple-500/30";
+        rankDesc = "You're hopping along the stars! Bring your friends next Sunday to help fuel up your rocket engines! 🌟";
+      } else if (attendanceRate >= 50) {
+        rankTitle = "🪐 Sleepy Nebula Explorer";
+        rankBadge = "text-pink-500 bg-pink-500/10 border-pink-500/30";
+        rankDesc = "Sometimes Sunday morning blankets are too cozy, but you are still a bright star in the sky! Wake up your alarm clock next Sunday! ⏰";
       }
     }
 
@@ -332,6 +342,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       activeStreak,
       rankTitle,
       rankBadge,
+      rankDesc,
       history
     };
   }, [selectedPerson, studentRecords, volunteerRecords, students, classes]);
@@ -382,6 +393,20 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     window.print();
   };
 
+  const triggerCelebration = () => {
+    const emojis = ["🚀", "✨", "⭐", "🎉", "😇", "🦖", "🛸", "🦄", "🌈", "🍕", "🎈", "👾"];
+    const newCelebrations = Array.from({ length: 35 }).map((_, i) => ({
+      id: Date.now() + i,
+      left: 5 + Math.random() * 90,
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+      delay: Math.random() * 1.2
+    }));
+    setCelebrations(newCelebrations);
+    setTimeout(() => {
+      setCelebrations([]);
+    }, 4500);
+  };
+
   return (
     <div className="space-y-6 font-sans relative">
       
@@ -393,7 +418,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
           </span>
           <div>
             <h2 className="text-xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-tight">
-              Star Reports
+              🚀 Cosmic Cadet Academy Reports
             </h2>
           </div>
         </div>
@@ -666,6 +691,32 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     ))}
                   </div>
                 )}
+
+                {/* Playful Cosmic Rank Panel & Launch Celebration */}
+                <div className="mt-5 pt-4 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex flex-col gap-1.5 max-w-xl">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-400">Current Cosmic Academy Rank:</span>
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[10px] sm:text-xs font-black uppercase tracking-wider border ${personMetrics.rankBadge}`}>
+                        {personMetrics.rankTitle}
+                      </span>
+                    </div>
+                    {selectedPerson.type === "student" && (
+                      <p className="text-xs text-purple-200/90 font-medium italic">
+                        "{personMetrics.rankDesc}"
+                      </p>
+                    )}
+                  </div>
+                  
+                  {/* Cosmic celebration trigger */}
+                  <button
+                    onClick={triggerCelebration}
+                    className="w-full md:w-auto px-4.5 py-2.5 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] hover:from-[#FF1A53] hover:to-[#A300C4] text-white text-xs font-black rounded-xl shadow-lg hover:shadow-[#FF007A]/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer shrink-0"
+                  >
+                    <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+                    <span>Launch Cosmic Celebration! 🚀</span>
+                  </button>
+                </div>
               </div>
 
               {/* Bento Row: Cosmic Numbers and Streaks */}
@@ -674,7 +725,9 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 {/* Attendance Gauge */}
                 <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Attendance Rate</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                      {selectedPerson.type === "student" ? "🚀 Rocket Fuel Power" : "Attendance Rate"}
+                    </span>
                     <TrendingUp className="w-4 h-4 text-[#00E5FF]" />
                   </div>
                   <div className="py-2 flex items-baseline gap-1.5">
@@ -683,7 +736,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     }`}>
                       {personMetrics.attendanceRate}%
                     </span>
-                    <span className="text-[10px] text-slate-400 font-bold">score</span>
+                    <span className="text-[10px] text-slate-400 font-bold">fuel</span>
                   </div>
                   <div className="w-full bg-slate-100 dark:bg-purple-950/40 h-2 rounded-full overflow-hidden mt-1.5 border border-transparent dark:border-purple-500/10">
                     <div 
@@ -698,37 +751,47 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 {/* Total Present Days */}
                 <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Present Days</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                      {selectedPerson.type === "student" ? "🪐 Sunday Space Missions" : "Present Assemblies"}
+                    </span>
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
                   </div>
                   <div className="py-2 flex items-baseline gap-1.5">
                     <span className="text-4xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] font-mono">
                       {personMetrics.daysPresent}
                     </span>
-                    <span className="text-xs font-bold text-slate-400">{personMetrics.daysPresent === 1 ? 'day' : 'days'}</span>
+                    <span className="text-xs font-bold text-slate-400">{personMetrics.daysPresent === 1 ? 'mission' : 'missions'}</span>
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40">Total active attendance markings</span>
+                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40">
+                    {selectedPerson.type === "student" ? "Space launches completed successfully!" : "Total active roster assemblies"}
+                  </span>
                 </div>
 
                 {/* Total Absent Days */}
                 <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Absent Days</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                      {selectedPerson.type === "student" ? "🛏️ Cozy Blanket Wins" : "Absent Days"}
+                    </span>
                     <XCircle className="w-4 h-4 text-pink-500" />
                   </div>
                   <div className="py-2 flex items-baseline gap-1.5">
                     <span className="text-4xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] font-mono">
                       {personMetrics.daysAbsent}
                     </span>
-                    <span className="text-xs font-bold text-slate-400">{personMetrics.daysAbsent === 1 ? 'day' : 'days'}</span>
+                    <span className="text-xs font-bold text-slate-400">{personMetrics.daysAbsent === 1 ? 'win' : 'wins'}</span>
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40">Total unexcused missed days</span>
+                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40">
+                    {selectedPerson.type === "student" ? "Cozy blanket snoozes en-route to space!" : "Total unexcused missed assemblies"}
+                  </span>
                 </div>
 
                 {/* Flame Active Streak */}
-                <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl flex flex-col justify-between shadow-xs">
+                <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-550/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Active Streak</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                      {selectedPerson.type === "student" ? "🔥 Supernova Fire Streak" : "Continuous Streak"}
+                    </span>
                     <Flame className={`w-4.5 h-4.5 ${personMetrics.activeStreak > 0 ? "text-[#FF007A] animate-bounce" : "text-slate-300"}`} />
                   </div>
                   <div className="py-2 flex items-baseline gap-1.5">
@@ -737,8 +800,10 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     </span>
                     <span className="text-xs font-bold text-slate-400">weeks</span>
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40">
-                    {personMetrics.activeStreak > 0 ? `Current continuous run of ✦` : `Longest streak was ${personMetrics.currentStreak} weeks`}
+                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40 font-semibold text-rose-500">
+                    {personMetrics.activeStreak > 0 
+                      ? `Double-fired Nova speed active! ⚡` 
+                      : `Longest streak was ${personMetrics.currentStreak} weeks!`}
                   </span>
                 </div>
 
@@ -842,40 +907,43 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 </div>
 
                 <div className="uppercase tracking-[0.2em] text-[#FF007A] font-black text-xs sm:text-sm">
-                  Honorarium Certificate of Attendance
+                  🏆 Stellar Sunday Superstar Award 🌟
                 </div>
                 
                 <h1 className="text-3xl sm:text-5xl font-display font-black text-slate-800 dark:text-white tracking-tight italic">
-                  DaAttendance Academy
+                  DaAttendance Cosmic Academy 🚀
                 </h1>
                 
                 <div className="w-40 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto my-3" />
                 
                 <p className="text-xs sm:text-sm text-slate-500 dark:text-purple-200/70 max-w-xl mx-auto italic font-medium leading-relaxed">
-                  This supreme stellar decoration is officially conferred upon whom has demonstrated celestial commitment, persistence, and continuous perfect faith gathering attendance during the school calendar semester loop.
+                  {selectedPerson.type === "student"
+                    ? "This ultra-shiny galactic decoration is officially conferred upon this absolute Sunday School Legend who brought massive smiles, asked awesome questions, and completed stellar launches to Church every single week! 🪐"
+                    : "This supreme stellar decoration is officially conferred upon this outstanding leader who has demonstrated celestial commitment, persistence, and continuous perfect faith gathering guidance. ✨"
+                  }
                 </p>
 
                 <div className="py-2">
-                  <span className="text-slate-400 dark:text-purple-300 font-bold uppercase text-[11px] tracking-wider block">Conferred Outstandingly to:</span>
+                  <span className="text-slate-400 dark:text-purple-300 font-bold uppercase text-[11px] tracking-wider block">Presented Outstandingly to:</span>
                   <div className="text-2xl sm:text-4xl font-black font-display text-slate-900 dark:text-[#00E5FF] tracking-tight mt-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
                     {selectedPerson.name}
                   </div>
                   <div className="inline-flex items-center gap-1 sm:text-xs text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 bg-slate-50 dark:bg-purple-950/20 px-3 py-1 rounded-full border border-slate-200 dark:border-purple-500/10 mt-3">
-                    Role: <strong className="text-slate-600 dark:text-purple-100">{selectedPerson.role}</strong>
+                    Cadet Rank: <strong className="text-slate-800 dark:text-purple-100">{personMetrics.rankTitle}</strong>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 max-w-md mx-auto py-3 bg-white/45 dark:bg-purple-950/20 border border-slate-200/45 dark:border-purple-500/10 rounded-xl">
                   <div>
-                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">SCORE RATE</span>
+                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">ROCKET FUEL</span>
                     <span className="text-lg sm:text-xl font-bold font-mono text-[#00E5FF] leading-none">{personMetrics.attendanceRate}%</span>
                   </div>
                   <div className="border-x border-slate-200/55 dark:border-purple-500/10">
-                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">DAYS ATTENDED</span>
+                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">SPACE MISSIONS</span>
                     <span className="text-lg sm:text-xl font-bold font-mono text-emerald-500 leading-none">{personMetrics.daysPresent}</span>
                   </div>
                   <div>
-                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">RUN STREAK</span>
+                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">SUPERNOVA STREAK</span>
                     <span className="text-lg sm:text-xl font-bold font-mono text-[#FF007A] leading-none">✦ {personMetrics.currentStreak} wks</span>
                   </div>
                 </div>
@@ -883,17 +951,17 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 <div className="flex justify-between items-center max-w-sm mx-auto pt-6 border-t border-dashed border-slate-200/60 dark:border-purple-550/15">
                   <div className="text-left">
                     <div className="w-24 h-1 px-1 bg-slate-200 dark:bg-purple-900/60" />
-                    <span className="text-[9px] uppercase text-slate-400 font-bold block mt-1">Superintendent Signature</span>
+                    <span className="text-[9px] uppercase text-slate-450 font-bold block mt-1">Chief Space Coordinator</span>
                   </div>
                   <div className="relative">
                     {/* Retro Stamp Emblem */}
-                    <div className="w-14 h-14 rounded-full border-4 border-[#FF007A]/50 flex items-center justify-center text-[#FF007A]/50 rotate-[-12deg] font-black font-display text-[9px] leading-tight select-none pointer-events-none uppercase tracking-wider">
-                      Stellar Stamp
+                    <div className="w-14 h-14 rounded-full border-4 border-[#00E5FF]/45 flex items-center justify-center text-[#00E5FF]/50 rotate-[-12deg] font-black font-display text-[8px] leading-tight select-none pointer-events-none uppercase tracking-wider">
+                      Perfect Faith 🌠
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="w-24 h-1 px-1 bg-slate-200 dark:bg-purple-900/60 align-right" />
-                    <span className="text-[9px] uppercase text-slate-400 font-bold block mt-1">Confer Date Signed</span>
+                    <span className="text-[9px] uppercase text-slate-450 font-bold block mt-1">Arch-Angel of Roll Call</span>
                   </div>
                 </div>
 
@@ -925,6 +993,21 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
           </div>
         </div>
       )}
+
+      {/* Floating Space Emojis Celebration Layer */}
+      {celebrations.map((c) => (
+        <span
+          key={c.id}
+          className="fixed bottom-0 pointer-events-none text-5xl select-none z-50 animate-float-up"
+          style={{
+            left: `${c.left}vw`,
+            animationDelay: `${c.delay}s`,
+            animationDuration: '3.5s',
+          }}
+        >
+          {c.emoji}
+        </span>
+      ))}
 
     </div>
   );
