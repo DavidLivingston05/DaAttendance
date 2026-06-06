@@ -565,7 +565,7 @@ export default function App() {
               </div>
 
               {/* Native App Installation Center */}
-              <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm relative z-10 space-y-6">
+              <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm relative z-10">
                 <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                   <div className="flex items-center gap-4.5">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF007A] to-[#BC00DD] flex items-center justify-center text-white shrink-0 shadow-lg">
@@ -596,42 +596,6 @@ export default function App() {
                         <span>App Standalone Active</span>
                       </span>
                     )}
-                  </div>
-                </div>
-
-                {/* Device-specific instructions */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                  <div className="bg-slate-50 dark:bg-[#0B0813]/40 p-4 rounded-2xl border border-slate-200/50 dark:border-purple-500/10 space-y-2">
-                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                      💻 Laptop & Desktop (Windows/Mac)
-                    </h4>
-                    <p className="text-[11px] text-slate-650 dark:text-purple-200/60 leading-normal">
-                      1. Open this website in <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>.<br />
-                      2. Look at the right side of the address bar and click the <strong>Install Icon (🖥️ / ⨁)</strong>.<br />
-                      3. Confirm the install to launch DaAttendance in a standalone native desktop window!
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-50 dark:bg-[#0B0813]/45 p-4 rounded-2xl border border-slate-200/50 dark:border-purple-500/10 space-y-2">
-                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                      📱 Android Phones & Tablets
-                    </h4>
-                    <p className="text-[11px] text-slate-650 dark:text-purple-200/60 leading-normal">
-                      1. In <strong>Chrome</strong>, tap the <strong>"Install App Now"</strong> button above.<br />
-                      2. If not showing, tap the menu button <strong>(⋮)</strong> next to the address bar.<br />
-                      3. Select <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong> from the list.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-50 dark:bg-[#0B0813]/45 p-4 rounded-2xl border border-slate-200/50 dark:border-purple-500/10 space-y-2">
-                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                      🍏 iPhone & iPad (iOS Safari)
-                    </h4>
-                    <p className="text-[11px] text-slate-650 dark:text-purple-200/60 leading-normal">
-                      1. Open this website in the default <strong>Safari browser</strong>.<br />
-                      2. Tap the <strong>Share button (📤)</strong> at the bottom of Safari.<br />
-                      3. Scroll down and tap <strong>"Add to Home Screen" (➕)</strong>, then tap Add.
-                    </p>
                   </div>
                 </div>
               </div>
