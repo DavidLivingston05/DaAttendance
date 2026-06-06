@@ -9,8 +9,8 @@
 
 /* Premium Light Mode (High Contrast & High Visibility) Styles */
 html:not(.dark), html:not(.dark) body {
-  background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%) !important;
-  color: #0F172A !important;
+  background: linear-gradient(135deg, #F8FAFC 0%, #EFF2F5 100%) !important;
+  color: #1E293B !important;
   background-attachment: fixed !important;
 }
 

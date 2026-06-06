@@ -564,7 +564,7 @@ export default function App() {
 
               </div>
 
-              {/* Native App Installation & Logo Resource Center */}
+              {/* Native App Installation Center */}
               <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm relative z-10 space-y-6">
                 <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                   <div className="flex items-center gap-4.5">
@@ -573,7 +573,7 @@ export default function App() {
                     </div>
                     <div>
                       <h3 className="text-lg font-display font-black text-slate-900 dark:text-white">
-                        Official DaAttendance Native App & Logo Center
+                        Install DaAttendance Application
                       </h3>
                       <p className="text-xs text-slate-500 dark:text-purple-200/70 max-w-xl font-medium leading-relaxed mt-0.5">
                         Run DaAttendance as a native app on your Mobile, Tablet, or Desktop for fullscreen standalone mode, faster loading, offline operations, and a dedicated home screen app icon!

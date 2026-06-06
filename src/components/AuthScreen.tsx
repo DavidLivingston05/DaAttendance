@@ -56,13 +56,13 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
       {/* Premium High-Contrast Container Box */}
       <div className="w-full max-w-2xl bg-white dark:bg-[#191433]/90 border-2 border-slate-350 dark:border-purple-500/25 rounded-3.5xl p-8 sm:p-12 shadow-2xl shadow-slate-200/80 dark:shadow-none animate-fade-in relative z-10">
         
-        {/* Logo & Headline in High-Contrast Crimson Red */}
+        {/* Logo & Headline in High-Contrast Brand Theme */}
         <div className="text-center mb-8">
           <img src="/logo.png" alt="DaAttendance Logo" className="w-16 h-16 rounded-2xl mx-auto shadow-md shadow-purple-500/15 object-cover" />
-          <h2 className="mt-4 text-4xl font-display font-black tracking-tight text-red-650 dark:text-white leading-none">
+          <h2 className="mt-4 text-4xl font-display font-black tracking-tight bg-gradient-to-r from-[#FF007A] to-[#BC00DD] bg-clip-text text-transparent leading-none">
             DaAttendance
           </h2>
-          <p className="text-xs font-black text-red-800 uppercase tracking-widest mt-2.5 dark:text-white/80">
+          <p className="text-xs font-black text-slate-500 dark:text-purple-200/60 uppercase tracking-widest mt-2.5">
             Sunday School Attendance Hub
           </p>
         </div>
@@ -70,12 +70,12 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         {mode === "choose" ? (
           <div className="space-y-6">
             
-            {/* Header prompt in Red */}
-            <div className="text-center mb-8 bg-red-50/40 dark:bg-rose-950/15 py-4 px-6 rounded-2.5xl border-2 border-red-100 dark:border-rose-500/20">
-              <h3 className="text-xl font-black text-red-700 dark:text-white tracking-tight">
+            {/* Header prompt in Brand Theme */}
+            <div className="text-center mb-8 bg-purple-50/40 dark:bg-purple-950/15 py-4 px-6 rounded-2.5xl border-2 border-purple-150/60 dark:border-purple-500/20">
+              <h3 className="text-xl font-black text-slate-800 dark:text-white tracking-tight">
                 Choose Access Profile Group To Proceed
               </h3>
-              <p className="text-sm font-bold text-red-900 mt-2 dark:text-white/80 max-w-md mx-auto">
+              <p className="text-sm font-bold text-slate-600 mt-2 dark:text-purple-250/70 max-w-md mx-auto">
                 Please select your credentials group below to access the Sunday School roll call desk.
               </p>
             </div>
@@ -158,7 +158,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
             </div>
 
             {error && (
-              <div className="mb-4 bg-red-500/10 border border-red-500/25 p-3 rounded-xl text-xs text-red-650 dark:text-rose-400 font-bold">
+              <div className="mb-4 bg-red-50 dark:bg-rose-950/15 border-2 border-red-200 dark:border-rose-500/20 p-3.5 rounded-xl text-xs text-red-700 dark:text-rose-450 font-bold shadow-xs">
                 🔒 Security Alert: {error}
               </div>
             )}
