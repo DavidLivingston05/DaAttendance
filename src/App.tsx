@@ -634,43 +634,7 @@ export default function App() {
                     </p>
                   </div>
                 </div>
-
-                {/* Logo Downloads option */}
-                <div className="pt-4 border-t border-slate-100 dark:border-purple-500/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-center sm:text-left">
-                    <h4 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider text-[11px]">
-                      🎨 Need the High-Res Logo files separately?
-                    </h4>
-                    <p className="text-[10px] text-slate-500 dark:text-purple-200/50 mt-0.5 font-semibold">
-                      Download HD logos for presentations, wallpapers, or other documents.
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <a 
-                      href="/logo.png" 
-                      download="DaAttendance_Logo_Mobile.png"
-                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[9px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
-                    >
-                      📱 Mobile Size
-                    </a>
-                    <a 
-                      href="/logo.png" 
-                      download="DaAttendance_Logo_Tablet.png"
-                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[9px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
-                    >
-                      📟 Tablet Size
-                    </a>
-                    <a 
-                      href="/logo.png" 
-                      download="DaAttendance_Logo_Desktop.png"
-                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[9px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
-                    >
-                      💻 HD Desktop
-                    </a>
-                  </div>
-                </div>
               </div>
-
             </div>
           )}
 
