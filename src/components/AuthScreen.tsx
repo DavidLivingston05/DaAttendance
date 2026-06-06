@@ -58,9 +58,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         
         {/* Logo & Headline in High-Contrast Crimson Red */}
         <div className="text-center mb-8">
-          <span className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-2.5xl mx-auto shadow-md shadow-red-500/15">
-            <Sparkles className="w-7 h-7 animate-pulse" />
-          </span>
+          <img src="/logo.png" alt="DaAttendance Logo" className="w-16 h-16 rounded-2xl mx-auto shadow-md shadow-purple-500/15 object-cover" />
           <h2 className="mt-4 text-4xl font-display font-black tracking-tight text-red-650 dark:text-white leading-none">
             DaAttendance
           </h2>

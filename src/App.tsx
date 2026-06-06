@@ -317,9 +317,7 @@ export default function App() {
             
             {/* Logo / Title */}
             <div className="flex items-center gap-2.5">
-              <span className="flex items-center justify-center w-9 h-9 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] rounded-xl text-white shadow-sm ring-2 ring-purple-500/10 dark:ring-purple-500/20">
-                <UserCheck className="w-5 h-5" />
-              </span>
+              <img src="/logo.png" alt="Logo" className="w-9 h-9 rounded-xl object-cover shadow-xs ring-2 ring-purple-500/10 dark:ring-purple-500/20" />
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
                 <h1 className="text-xl font-display font-black tracking-tight text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-none">
                   DaAttendance
@@ -534,6 +532,43 @@ export default function App() {
 
               </div>
 
+              {/* Logo Resource Download Block */}
+              <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm relative z-10 flex flex-col md:flex-row items-center gap-6">
+                <div className="w-24 h-24 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-purple-500/20 p-2 shrink-0 flex items-center justify-center shadow-inner">
+                  <img src="/logo.png" alt="DaAttendance Logo" className="w-20 h-20 rounded-xl object-contain" />
+                </div>
+                <div className="flex-1 text-center md:text-left space-y-2">
+                  <h3 className="text-lg font-display font-black text-slate-900 dark:text-white">
+                    Official DaAttendance Logo
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-purple-200/70 max-w-xl font-medium leading-relaxed">
+                    Download the official logo of the DaAttendance Sunday School Attendance Hub. Available in high resolution for all your devices (mobile screens, presentation slides, tabs, or computer desktops).
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 pt-1">
+                    <a 
+                      href="/logo.png" 
+                      download="DaAttendance_Logo_Mobile.png"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[10px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
+                    >
+                      📱 Mobile Layout
+                    </a>
+                    <a 
+                      href="/logo.png" 
+                      download="DaAttendance_Logo_Tablet.png"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[10px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
+                    >
+                      📟 Tablet Layout
+                    </a>
+                    <a 
+                      href="/logo.png" 
+                      download="DaAttendance_Logo_Desktop.png"
+                      className="px-3 py-1.5 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white text-[10px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 shadow-md"
+                    >
+                      💻 Laptop/PC (HD)
+                    </a>
+                  </div>
+                </div>
+              </div>
 
             </div>
           )}
