@@ -143,6 +143,118 @@ html:not(.dark) .bg-pink-50 {
   border-color: #fbcfe8 !important;
 }
 
+/* Button Visibility Overrides for Light Mode (White Mode) */
+html:not(.dark) button.bg-slate-50,
+html:not(.dark) button.bg-slate-100,
+html:not(.dark) button.bg-slate-100\/80,
+html:not(.dark) button.bg-slate-200,
+html:not(.dark) button.bg-slate-300,
+html:not(.dark) button.bg-red-50,
+html:not(.dark) .bg-slate-50[role="button"],
+html:not(.dark) [id^="tab-btn-"]:not(.bg-gradient-to-r),
+html:not(.dark) .flex.gap-2 button:not(.bg-gradient-to-r) {
+  background-color: #f1f5f9 !important; /* Solid Slate-100 background */
+  border-color: #94a3b8 !important; /* Solid, clearly visible border */
+  color: #1e293b !important; /* High-contrast text */
+  border-width: 1px !important;
+  font-weight: 600 !important;
+}
+
+html:not(.dark) button.bg-slate-50:hover,
+html:not(.dark) button.bg-slate-100:hover,
+html:not(.dark) button.bg-slate-200:hover,
+html:not(.dark) button.bg-slate-300:hover,
+html:not(.dark) button.bg-red-50:hover,
+html:not(.dark) .bg-slate-50[role="button"]:hover,
+html:not(.dark) [id^="tab-btn-"]:not(.bg-gradient-to-r):hover,
+html:not(.dark) .flex.gap-2 button:not(.bg-gradient-to-r):hover {
+  background-color: #e2e8f0 !important; /* Darker Slate-200 background on hover */
+  border-color: #64748b !important;
+  color: #0f172a !important;
+}
+
+/* Specific Select All / Clear helper buttons contrast */
+html:not(.dark) button.px-2\.5.py-1.bg-slate-50,
+html:not(.dark) button.px-3.py-1\.5.bg-slate-50 {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+html:not(.dark) button.px-2\.5.py-1.bg-slate-50:hover,
+html:not(.dark) button.px-3.py-1\.5.bg-slate-50:hover {
+  background-color: #cbd5e1 !important;
+  border-color: #64748b !important;
+}
+
+/* Inactive navigation chevrons and buttons inside datepicker */
+html:not(.dark) button.p-1.hover\:bg-slate-100 {
+  color: #0f172a !important;
+  border: 1px solid #94a3b8 !important;
+  background-color: #ffffff !important;
+}
+html:not(.dark) button.p-1.hover\:bg-slate-100:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #64748b !important;
+}
+html:not(.dark) button.p-1.hover\:bg-slate-100:disabled {
+  opacity: 0.3 !important;
+  border-color: #e2e8f0 !important;
+  background-color: transparent !important;
+}
+
+/* Calendar non-selected Sundays with no record */
+html:not(.dark) button.bg-slate-50.aspect-square {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #1e293b !important;
+}
+html:not(.dark) button.bg-slate-50.aspect-square:hover {
+  background-color: #cbd5e1 !important;
+  border-color: #475569 !important;
+  color: #0f172a !important;
+}
+
+/* Conducted Sundays badge and button colors in Light Mode */
+html:not(.dark) .bg-violet-50,
+html:not(.dark) button.bg-violet-50 {
+  background-color: #f3e8ff !important; /* Light purple */
+  border-color: #c084fc !important; /* Medium purple border */
+  color: #5b21b6 !important; /* Dark purple text */
+  font-weight: 600 !important;
+}
+html:not(.dark) .bg-violet-50:hover,
+html:not(.dark) button.bg-violet-50:hover {
+  background-color: #e9d5ff !important;
+  border-color: #a855f7 !important;
+}
+
+html:not(.dark) .text-violet-850 {
+  color: #5b21b6 !important;
+}
+
+/* Toggle-like or state choice buttons (e.g. Volunteer / Director role buttons in Registry) */
+html:not(.dark) button.bg-cyan-500\/10 {
+  background-color: #ecfeff !important; /* light cyan */
+  color: #0891b2 !important; /* dark cyan */
+  border-color: #22d3ee !important; /* cyan border */
+}
+html:not(.dark) button.bg-pink-500\/10 {
+  background-color: #fdf2f8 !important; /* light pink */
+  color: #db2777 !important; /* dark pink */
+  border-color: #f472b6 !important; /* pink border */
+}
+
+/* Red Delete/Cancel buttons overrides */
+html:not(.dark) button.bg-red-50 {
+  background-color: #fee2e2 !important;
+  border-color: #fca5a5 !important;
+  color: #991b1b !important;
+}
+html:not(.dark) button.bg-red-50:hover {
+  background-color: #fecaca !important;
+  border-color: #f87171 !important;
+}
+
 
 /* Custom scrollbars for high-fidelity tables or visual lists */
 ::-webkit-scrollbar {
