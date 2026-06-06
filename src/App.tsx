@@ -564,41 +564,7 @@ export default function App() {
 
               </div>
 
-              {/* Native App Installation Center */}
-              <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm relative z-10">
-                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                  <div className="flex items-center gap-4.5">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF007A] to-[#BC00DD] flex items-center justify-center text-white shrink-0 shadow-lg">
-                      <img src="/logo.png" alt="DaAttendance Logo" className="w-14 h-14 rounded-xl object-cover" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-display font-black text-slate-900 dark:text-white">
-                        Install DaAttendance Application
-                      </h3>
-                      <p className="text-xs text-slate-500 dark:text-purple-200/70 max-w-xl font-medium leading-relaxed mt-0.5">
-                        Run DaAttendance as a native app on your Mobile, Tablet, or Desktop for fullscreen standalone mode, faster loading, offline operations, and a dedicated home screen app icon!
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row gap-3">
-                    {showInstallBtn && deferredPrompt ? (
-                      <button
-                        onClick={handleInstallClick}
-                        className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] hover:from-[#FF1A53] hover:to-[#A300C4] text-white text-xs font-black rounded-xl shadow-lg hover:shadow-[#FF007A]/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
-                      >
-                        <Download className="w-4 h-4" />
-                        <span>Install App Now</span>
-                      </button>
-                    ) : (
-                      <span className="w-full sm:w-auto px-4 py-3 bg-slate-50 dark:bg-purple-950/20 border border-slate-200 dark:border-purple-500/10 text-slate-500 dark:text-purple-300 text-xs font-bold rounded-xl text-center select-none flex items-center justify-center gap-1.5">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                        <span>App Standalone Active</span>
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
+
             </div>
           )}
 
