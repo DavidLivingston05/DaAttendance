@@ -418,7 +418,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
           </span>
           <div>
             <h2 className="text-xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-tight">
-              🚀 Cosmic Cadet Academy Reports
+              Academy Reports
             </h2>
           </div>
         </div>
@@ -496,7 +496,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
 
             {/* Quick Helper Sub-Filter: Class Selection (only shown for student/teacher relevant choices) */}
             <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-purple-500/10">
-              <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 tracking-wider">Filter Cohort Group:</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 tracking-wider">Filter Group:</span>
               <button
                 onClick={() => setClassFilter("all")}
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center ${
