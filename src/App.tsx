@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { 
   Building, BookOpen, Users, BarChart3, Clock, Calendar, 
   MapPin, UserCheck, LogOut, Lock, Sun, Moon, Sparkles, Award, Layers, Settings,
-  Cloud, CloudOff, RefreshCw, CheckCircle2
+  Cloud, CloudOff, RefreshCw, CheckCircle2, Download
 } from "lucide-react";
 import { getOfflineQueue, syncOfflineQueue } from "./offlineSync";
 import { User, DashboardStats } from "./types";
@@ -91,6 +91,38 @@ export default function App() {
   const [theme, setTheme] = useState<"light" | "dark">(
     (localStorage.getItem("roll_theme") as "light" | "dark") || "light"
   );
+
+  // PWA Install Prompt State
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    // Check if app is already running in standalone mode
+    if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
+      setShowInstallBtn(false);
+    }
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to install: ${outcome}`);
+    setDeferredPrompt(null);
+    setShowInstallBtn(false);
+  };
 
   useEffect(() => {
     if (theme === "dark") {
@@ -532,39 +564,108 @@ export default function App() {
 
               </div>
 
-              {/* Logo Resource Download Block */}
-              <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm relative z-10 flex flex-col md:flex-row items-center gap-6">
-                <div className="w-24 h-24 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-purple-500/20 p-2 shrink-0 flex items-center justify-center shadow-inner">
-                  <img src="/logo.png" alt="DaAttendance Logo" className="w-20 h-20 rounded-xl object-contain" />
+              {/* Native App Installation & Logo Resource Center */}
+              <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm relative z-10 space-y-6">
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                  <div className="flex items-center gap-4.5">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF007A] to-[#BC00DD] flex items-center justify-center text-white shrink-0 shadow-lg">
+                      <img src="/logo.png" alt="DaAttendance Logo" className="w-14 h-14 rounded-xl object-cover" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-display font-black text-slate-900 dark:text-white">
+                        Official DaAttendance Native App & Logo Center
+                      </h3>
+                      <p className="text-xs text-slate-500 dark:text-purple-200/70 max-w-xl font-medium leading-relaxed mt-0.5">
+                        Run DaAttendance as a native app on your Mobile, Tablet, or Desktop for fullscreen standalone mode, faster loading, offline operations, and a dedicated home screen app icon!
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row gap-3">
+                    {showInstallBtn && deferredPrompt ? (
+                      <button
+                        onClick={handleInstallClick}
+                        className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] hover:from-[#FF1A53] hover:to-[#A300C4] text-white text-xs font-black rounded-xl shadow-lg hover:shadow-[#FF007A]/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Install App Now</span>
+                      </button>
+                    ) : (
+                      <span className="w-full sm:w-auto px-4 py-3 bg-slate-50 dark:bg-purple-950/20 border border-slate-200 dark:border-purple-500/10 text-slate-500 dark:text-purple-300 text-xs font-bold rounded-xl text-center select-none flex items-center justify-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                        <span>App Standalone Active</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="flex-1 text-center md:text-left space-y-2">
-                  <h3 className="text-lg font-display font-black text-slate-900 dark:text-white">
-                    Official DaAttendance Logo
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-purple-200/70 max-w-xl font-medium leading-relaxed">
-                    Download the official logo of the DaAttendance Sunday School Attendance Hub. Available in high resolution for all your devices (mobile screens, presentation slides, tabs, or computer desktops).
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 pt-1">
+
+                {/* Device-specific instructions */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                  <div className="bg-slate-50 dark:bg-[#0B0813]/40 p-4 rounded-2xl border border-slate-200/50 dark:border-purple-500/10 space-y-2">
+                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
+                      💻 Laptop & Desktop (Windows/Mac)
+                    </h4>
+                    <p className="text-[11px] text-slate-650 dark:text-purple-200/60 leading-normal">
+                      1. Open this website in <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>.<br />
+                      2. Look at the right side of the address bar and click the <strong>Install Icon (🖥️ / ⨁)</strong>.<br />
+                      3. Confirm the install to launch DaAttendance in a standalone native desktop window!
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-50 dark:bg-[#0B0813]/45 p-4 rounded-2xl border border-slate-200/50 dark:border-purple-500/10 space-y-2">
+                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
+                      📱 Android Phones & Tablets
+                    </h4>
+                    <p className="text-[11px] text-slate-650 dark:text-purple-200/60 leading-normal">
+                      1. In <strong>Chrome</strong>, tap the <strong>"Install App Now"</strong> button above.<br />
+                      2. If not showing, tap the menu button <strong>(⋮)</strong> next to the address bar.<br />
+                      3. Select <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong> from the list.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-50 dark:bg-[#0B0813]/45 p-4 rounded-2xl border border-slate-200/50 dark:border-purple-500/10 space-y-2">
+                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
+                      🍏 iPhone & iPad (iOS Safari)
+                    </h4>
+                    <p className="text-[11px] text-slate-650 dark:text-purple-200/60 leading-normal">
+                      1. Open this website in the default <strong>Safari browser</strong>.<br />
+                      2. Tap the <strong>Share button (📤)</strong> at the bottom of Safari.<br />
+                      3. Scroll down and tap <strong>"Add to Home Screen" (➕)</strong>, then tap Add.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Logo Downloads option */}
+                <div className="pt-4 border-t border-slate-100 dark:border-purple-500/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-center sm:text-left">
+                    <h4 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider text-[11px]">
+                      🎨 Need the High-Res Logo files separately?
+                    </h4>
+                    <p className="text-[10px] text-slate-500 dark:text-purple-200/50 mt-0.5 font-semibold">
+                      Download HD logos for presentations, wallpapers, or other documents.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
                     <a 
                       href="/logo.png" 
                       download="DaAttendance_Logo_Mobile.png"
-                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[10px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[9px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
                     >
-                      📱 Mobile Layout
+                      📱 Mobile Size
                     </a>
                     <a 
                       href="/logo.png" 
                       download="DaAttendance_Logo_Tablet.png"
-                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[10px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[9px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
                     >
-                      📟 Tablet Layout
+                      📟 Tablet Size
                     </a>
                     <a 
                       href="/logo.png" 
                       download="DaAttendance_Logo_Desktop.png"
-                      className="px-3 py-1.5 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white text-[10px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 shadow-md"
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-[9px] font-black rounded-lg transition uppercase tracking-wider flex items-center gap-1 border border-slate-200 dark:border-zinc-700"
                     >
-                      💻 Laptop/PC (HD)
+                      💻 HD Desktop
                     </a>
                   </div>
                 </div>
