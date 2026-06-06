@@ -1,4 +1,4 @@
-const CACHE_NAME = 'da-attendance-cache-v1';
+const CACHE_NAME = 'da-attendance-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -36,7 +36,7 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch Event - network-first for API requests, cache-first for static assets
+// Fetch Event - Network-First for API/navigation, Cache-First for static hashed assets
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
@@ -46,17 +46,36 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Application shell and static assets caching strategy: Cache-First, falling back to network
+  // Network-First strategy for the main page document and navigation requests
+  if (event.request.mode === 'navigate' || url.pathname === '/' || url.pathname === '/index.html') {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // Fall back to cached shell
+          return caches.match('/') || caches.match('/index.html');
+        })
+    );
+    return;
+  }
+
+  // Cache-First strategy for static hashed/media assets
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Return cached shell asset
         return cachedResponse;
       }
 
       return fetch(event.request)
         .then((networkResponse) => {
-          // If we receive a valid response, cache it dynamically for static resources
           if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
             const responseToCache = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => {
@@ -66,10 +85,8 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         })
         .catch(() => {
-          // Offline fallback for navigation requests
-          if (event.request.mode === 'navigate') {
-            return caches.match('/');
-          }
+          // Fall back to main shell
+          return caches.match('/');
         });
     })
   );
