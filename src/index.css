@@ -250,8 +250,19 @@ html:not(.dark) button.bg-red-50:hover {
 
 /* High-Fidelity Night Mode (Dark Theme) Styles */
 .dark, .dark body {
-  background: linear-gradient(135deg, #0B0813 0%, #130F26 50%, #1A1230 100%) !important; /* Rich deep space gradient */
-  color: #f8fafc !important; /* Soft white */
+  --bg-global: #0a0a0f;
+  --bg-surface: rgba(16, 14, 30, 0.8);
+  --text-main: #e2e8f0;
+  --text-muted: #64748b;
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-light: rgba(99, 102, 241, 0.15);
+  --border-color: rgba(99, 102, 241, 0.15);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-premium: 0 4px 30px rgba(0, 0, 0, 0.4);
+
+  background: linear-gradient(135deg, #0a0a0f 0%, #0f0d1a 50%, #141120 100%) !important;
+  color: #e2e8f0 !important;
   background-attachment: fixed !important;
 }
 
@@ -270,11 +281,11 @@ html:not(.dark) button.bg-red-50:hover {
 .dark select,
 .dark input,
 .dark textarea {
-  background-color: rgba(21, 14, 46, 0.75) !important; /* Translucent space obsidian visor */
-  border-color: rgba(255, 0, 122, 0.18) !important; /* Soft glowing cosmic borders */
-  color: #f8fafc !important;
+  background-color: rgba(16, 14, 30, 0.8) !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+  color: #e2e8f0 !important;
   backdrop-filter: blur(14px) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.04) !important;
 }
 
 /* Custom class colors override for clean contrasts */
@@ -286,15 +297,15 @@ html:not(.dark) button.bg-red-50:hover {
 
 .dark .text-slate-700,
 .dark .text-slate-600 {
-  color: #e2e8f0 !important; /* Slate-200 */
+  color: #cbd5e1 !important;
 }
 
 .dark .text-slate-500 {
-  color: #cbd5e1 !important; /* Slate-300 */
+  color: #94a3b8 !important;
 }
 
 .dark .text-slate-400 {
-  color: #94a3b8 !important; /* Slate-400 */
+  color: #64748b !important;
 }
 
 /* Border overlays */
@@ -304,7 +315,7 @@ html:not(.dark) button.bg-red-50:hover {
 .dark .border-slate-100,
 .dark .border-slate-100\/80,
 .dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
-  border-color: rgba(255, 0, 122, 0.12) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
 }
 
 /* Form element modifications */
@@ -330,16 +341,16 @@ html:not(.dark) button.bg-red-50:hover {
 /* Specific elements background adjustments */
 .dark .bg-slate-100,
 .dark .bg-slate-150 {
-  background-color: rgba(37, 24, 76, 0.8) !important;
-  color: #e2e8f0 !important;
-  border-color: rgba(255, 0, 122, 0.15) !important;
+  background-color: rgba(25, 20, 45, 0.8) !important;
+  color: #cbd5e1 !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
 }
 
 /* Hover effects */
 .dark .hover\:bg-slate-50:hover,
 .dark .hover\:bg-slate-100:hover,
 .dark tbody tr:hover {
-  background-color: rgba(43, 27, 89, 0.6) !important;
+  background-color: rgba(30, 25, 55, 0.6) !important;
 }
 
 /* Active tab button and general submit buttons adjustments */
@@ -375,14 +386,14 @@ html:not(.dark) button.bg-red-50:hover {
 .dark thead, .dark thead tr, .dark thead th {
   background-color: rgba(21, 14, 46, 0.9) !important;
   color: #e2e8f0 !important;
-  border-bottom: 2px solid rgba(255, 0, 122, 0.2) !important;
+  border-bottom: 2px solid rgba(99, 102, 241, 0.2) !important;
 }
 
 /* Custom visual alert blocks map */
 .dark .bg-gradient-to-br,
 .dark .bg-gradient-to-r {
   /* Let beautiful gradients shine through but ensure borders glow */
-  border-color: rgba(255, 0, 122, 0.18) !important;
+  border-color: rgba(99, 102, 241, 0.18) !important;
 }
 
 /* Specific badge configurations */
@@ -427,11 +438,11 @@ html:not(.dark) button.bg-red-50:hover {
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 0, 122, 0.3) !important;
+  background: rgba(99, 102, 241, 0.3) !important;
   border-radius: 4px;
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 0, 122, 0.5) !important;
+  background: rgba(99, 102, 241, 0.5) !important;
 }
 
 /* Twinkle keyframe star animation */
@@ -486,10 +497,10 @@ html:not(.dark) button.bg-red-50:hover {
   gap: 4px;
 }
 .dark .metric-card {
-  background-color: rgba(21, 14, 46, 0.75);
-  border-color: rgba(255, 0, 122, 0.18);
+  background-color: rgba(16, 14, 30, 0.75);
+  border-color: rgba(99, 102, 241, 0.18);
   backdrop-filter: blur(14px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.04);
 }
 .dark .metric-card:hover {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
@@ -534,8 +545,8 @@ html:not(.dark) button.bg-red-50:hover {
   background-color: rgba(15, 23, 42, 0.03);
 }
 .dark .filter-group-wrapper {
-  background-color: rgba(21, 14, 46, 0.5);
-  border: 1px solid rgba(255, 0, 122, 0.1);
+  background-color: rgba(16, 14, 30, 0.5);
+  border: 1px solid rgba(99, 102, 241, 0.1);
 }
 .dark .filter-btn {
   color: #94a3b8;
@@ -565,10 +576,10 @@ html:not(.dark) button.bg-red-50:hover {
               0 10px 15px -3px rgba(15, 23, 42, 0.08);
 }
 .dark .attendance-card {
-  background-color: rgba(21, 14, 46, 0.75);
-  border-color: rgba(255, 0, 122, 0.18);
+  background-color: rgba(16, 14, 30, 0.75);
+  border-color: rgba(99, 102, 241, 0.18);
   backdrop-filter: blur(14px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.04);
 }
 .dark .attendance-card:hover {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
@@ -646,7 +657,7 @@ html:not(.dark) button.bg-red-50:hover {
   border-top: 3px solid #a855f7;
 }
 .dark .metric-accent {
-  border-top: 3px solid #818cf8;
+  border-top: 3px solid #6366f1;
 }
 .dark .metric-accent-green {
   border-top: 3px solid #34d399;
@@ -655,7 +666,7 @@ html:not(.dark) button.bg-red-50:hover {
   border-top: 3px solid #fb7185;
 }
 .dark .metric-accent-purple {
-  border-top: 3px solid #c084fc;
+  border-top: 3px solid #a78bfa;
 }
 
 /* Cosmic Nebula floating slide */
@@ -699,7 +710,7 @@ html:not(.dark) button.bg-red-50:hover {
   .dark select,
   .dark input,
   .dark textarea {
-    background-color: rgba(21, 14, 46, 0.94) !important;
+    background-color: rgba(16, 14, 30, 0.94) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
