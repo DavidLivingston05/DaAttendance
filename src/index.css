@@ -9,102 +9,108 @@
 
 /* ─── Premium Design System ─── */
 :root {
-  --bg-main: #f8fafc;
-  --bg-card: #ffffff;
-  --border-subtle: #e2e8f0;
+  --bg-global: #f8fafc;
+  --bg-surface: #ffffff;
   --text-main: #0f172a;
   --text-muted: #64748b;
-  --accent-primary: #6366f1;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #e0e7ff;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-premium: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --radius: 12px;
+
+  /* Legacy aliases */
+  --bg-main: var(--bg-global);
+  --bg-card: var(--bg-surface);
+  --border-subtle: var(--border-color);
+  --accent-primary: var(--primary);
 }
 
-/* Premium Light Mode (High Contrast & High Visibility) Styles */
+/* Premium Light Mode */
 html:not(.dark), html:not(.dark) body {
-  background: linear-gradient(135deg, #F8FAFC 0%, #EFF2F5 100%) !important;
-  color: #1E293B !important;
-  background-attachment: fixed !important;
+  background-color: var(--bg-global) !important;
+  color: var(--text-main) !important;
 }
 
-/* Light mode card contrast and shadow definition */
+/* Premium surface cards */
 html:not(.dark) .bg-white,
 html:not(.dark) div.bg-white {
-  background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+  background-color: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow-premium) !important;
 }
 
-/* Inputs, Selectors & Textareas visibility in Light Mode */
+/* Form inputs */
 html:not(.dark) select,
 html:not(.dark) input,
 html:not(.dark) textarea {
-  background-color: #ffffff !important;
-  border-color: #94a3b8 !important;
-  color: #0F172A !important;
+  background-color: var(--bg-surface) !important;
+  border: 1px solid #cbd5e1 !important;
+  color: var(--text-main) !important;
   font-weight: 500 !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  transition: all 0.2s ease;
 }
 
 html:not(.dark) select:focus,
 html:not(.dark) input:focus,
 html:not(.dark) textarea:focus {
-  border-color: #ff007a !important;
-  box-shadow: 0 0 0 3px rgba(255, 0, 122, 0.15) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px var(--primary-light) !important;
   outline: none;
 }
 
 html:not(.dark) input::placeholder,
 html:not(.dark) textarea::placeholder {
-  color: #64748b !important;
+  color: var(--text-muted) !important;
 }
 
-/* Text Visibility Override System for Light Mode */
+/* Text contrast */
 html:not(.dark) .text-slate-350,
-html:not(.dark) .text-slate-300 {
-  color: #57606a !important;
-}
-
+html:not(.dark) .text-slate-300,
 html:not(.dark) .text-slate-400 {
   color: #475569 !important;
 }
-
 html:not(.dark) .text-slate-450,
 html:not(.dark) .text-slate-500 {
   color: #334155 !important;
 }
-
-html:not(.dark) .text-slate-600 {
-  color: #1e293b !important;
-}
-
+html:not(.dark) .text-slate-600,
 html:not(.dark) .text-slate-700 {
-  color: #0f172a !important;
+  color: var(--text-main) !important;
 }
-
-html:not(.dark) .text-slate-800 {
-  color: #0f172a !important;
-}
-
+html:not(.dark) .text-slate-800,
 html:not(.dark) .text-slate-900 {
   color: #020617 !important;
 }
 
-/* Table styling for Light Mode */
+/* Tables */
 html:not(.dark) thead,
 html:not(.dark) thead tr,
 html:not(.dark) thead th {
-  background-color: #f8fafc !important;
-  color: #0F172A !important;
-  border-bottom: 2px solid #cbd5e1 !important;
-}
-
-html:not(.dark) tbody tr:hover {
   background-color: #f1f5f9 !important;
+  color: var(--text-muted) !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 600 !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--border-color) !important;
 }
-
+html:not(.dark) tbody tr:hover {
+  background-color: #f8fafc !important;
+}
 html:not(.dark) td {
-  color: #334155 !important;
-  border-bottom-color: #e2e8f0 !important;
+  padding: 16px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-main) !important;
+  font-size: 14px !important;
 }
 
-/* Borders definition in Light Mode */
+/* Borders */
 html:not(.dark) .border,
 html:not(.dark) .border-slate-200,
 html:not(.dark) .border-slate-200\/80,
@@ -113,123 +119,96 @@ html:not(.dark) .border-slate-250,
 html:not(.dark) .border-slate-200\/60,
 html:not(.dark) .border-slate-100,
 html:not(.dark) .border-slate-100\/80 {
-  border-color: #cbd5e1 !important;
+  border-color: var(--border-color) !important;
 }
 
-/* Badge Contrast Enhancements for Light Mode */
+/* Badge tints */
 html:not(.dark) .bg-indigo-50 {
-  background-color: #f5f3ff !important;
-  color: #5b21b6 !important;
-  border-color: #ddd6fe !important;
+  background-color: var(--primary-light) !important;
+  color: #4338ca !important;
+  border-color: #c7d2fe !important;
 }
-
 html:not(.dark) .bg-emerald-50 {
   background-color: #ecfdf5 !important;
-  color: #065f46 !important;
+  color: #059669 !important;
   border-color: #a7f3d0 !important;
 }
-
 html:not(.dark) .bg-red-50 {
   background-color: #fef2f2 !important;
-  color: #991b1b !important;
+  color: #dc2626 !important;
   border-color: #fecaca !important;
 }
-
 html:not(.dark) .bg-sky-50 {
   background-color: #f0f9ff !important;
-  color: #075985 !important;
+  color: #0284c7 !important;
   border-color: #bae6fd !important;
 }
-
 html:not(.dark) .bg-amber-50 {
   background-color: #fffbeb !important;
-  color: #92400e !important;
+  color: #d97706 !important;
   border-color: #fde68a !important;
 }
-
 html:not(.dark) .bg-pink-50 {
   background-color: #fdf2f8 !important;
-  color: #9d174d !important;
+  color: #db2777 !important;
   border-color: #fbcfe8 !important;
 }
 
-/* Button Visibility Overrides for Light Mode (White Mode) */
+/* Buttons - clean, minimal slate */
 html:not(.dark) button.bg-slate-50,
 html:not(.dark) button.bg-slate-100,
 html:not(.dark) button.bg-slate-100\/80,
 html:not(.dark) button.bg-slate-200,
 html:not(.dark) button.bg-slate-300,
 html:not(.dark) button.bg-red-50,
-html:not(.dark) .bg-slate-50[role="button"],
-html:not(.dark) [id^="tab-btn-"]:not(.bg-gradient-to-r),
-html:not(.dark) .flex.gap-2 button:not(.bg-gradient-to-r) {
-  background-color: #f1f5f9 !important; /* Solid Slate-100 background */
-  border-color: #94a3b8 !important; /* Solid, clearly visible border */
-  color: #1e293b !important; /* High-contrast text */
-  border-width: 1px !important;
+html:not(.dark) .bg-slate-50[role="button"] {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  color: var(--text-main) !important;
   font-weight: 600 !important;
 }
-
 html:not(.dark) button.bg-slate-50:hover,
 html:not(.dark) button.bg-slate-100:hover,
 html:not(.dark) button.bg-slate-200:hover,
 html:not(.dark) button.bg-slate-300:hover,
 html:not(.dark) button.bg-red-50:hover,
-html:not(.dark) .bg-slate-50[role="button"]:hover,
-html:not(.dark) [id^="tab-btn-"]:not(.bg-gradient-to-r):hover,
-html:not(.dark) .flex.gap-2 button:not(.bg-gradient-to-r):hover {
-  background-color: #e2e8f0 !important; /* Darker Slate-200 background on hover */
-  border-color: #64748b !important;
-  color: #0f172a !important;
+html:not(.dark) .bg-slate-50[role="button"]:hover {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
 }
 
-/* Specific Select All / Clear helper buttons contrast */
-html:not(.dark) button.px-2\.5.py-1.bg-slate-50,
-html:not(.dark) button.px-3.py-1\.5.bg-slate-50 {
-  background-color: #f1f5f9 !important;
-  border-color: #94a3b8 !important;
-  color: #0f172a !important;
-}
-html:not(.dark) button.px-2\.5.py-1.bg-slate-50:hover,
-html:not(.dark) button.px-3.py-1\.5.bg-slate-50:hover {
-  background-color: #cbd5e1 !important;
-  border-color: #64748b !important;
-}
-
-/* Inactive navigation chevrons and buttons inside datepicker */
+/* Calendar / datepicker buttons */
 html:not(.dark) button.p-1.hover\:bg-slate-100 {
-  color: #0f172a !important;
-  border: 1px solid #94a3b8 !important;
-  background-color: #ffffff !important;
+  color: var(--text-main) !important;
+  border: 1px solid #e2e8f0 !important;
+  background-color: var(--bg-surface) !important;
 }
 html:not(.dark) button.p-1.hover\:bg-slate-100:hover {
   background-color: #f1f5f9 !important;
-  border-color: #64748b !important;
 }
 html:not(.dark) button.p-1.hover\:bg-slate-100:disabled {
   opacity: 0.3 !important;
-  border-color: #e2e8f0 !important;
-  background-color: transparent !important;
+  border-color: var(--border-color) !important;
 }
 
-/* Calendar non-selected Sundays with no record */
-html:not(.dark) button.bg-slate-50.aspect-square {
-  background-color: #f1f5f9 !important;
-  border-color: #94a3b8 !important;
-  color: #1e293b !important;
+/* Toggle/state buttons */
+html:not(.dark) button.bg-cyan-500\/10 {
+  background-color: #ecfeff !important;
+  color: #0891b2 !important;
+  border-color: #22d3ee !important;
 }
-html:not(.dark) button.bg-slate-50.aspect-square:hover {
-  background-color: #cbd5e1 !important;
-  border-color: #475569 !important;
-  color: #0f172a !important;
+html:not(.dark) button.bg-pink-500\/10 {
+  background-color: #fdf2f8 !important;
+  color: #db2777 !important;
+  border-color: #f472b6 !important;
 }
 
-/* Conducted Sundays badge and button colors in Light Mode */
+/* Violet */
 html:not(.dark) .bg-violet-50,
 html:not(.dark) button.bg-violet-50 {
-  background-color: #f3e8ff !important; /* Light purple */
-  border-color: #c084fc !important; /* Medium purple border */
-  color: #5b21b6 !important; /* Dark purple text */
+  background-color: #f3e8ff !important;
+  border-color: #c084fc !important;
+  color: #5b21b6 !important;
   font-weight: 600 !important;
 }
 html:not(.dark) .bg-violet-50:hover,
@@ -237,28 +216,15 @@ html:not(.dark) button.bg-violet-50:hover {
   background-color: #e9d5ff !important;
   border-color: #a855f7 !important;
 }
-
 html:not(.dark) .text-violet-850 {
   color: #5b21b6 !important;
 }
 
-/* Toggle-like or state choice buttons (e.g. Volunteer / Director role buttons in Registry) */
-html:not(.dark) button.bg-cyan-500\/10 {
-  background-color: #ecfeff !important; /* light cyan */
-  color: #0891b2 !important; /* dark cyan */
-  border-color: #22d3ee !important; /* cyan border */
-}
-html:not(.dark) button.bg-pink-500\/10 {
-  background-color: #fdf2f8 !important; /* light pink */
-  color: #db2777 !important; /* dark pink */
-  border-color: #f472b6 !important; /* pink border */
-}
-
-/* Red Delete/Cancel buttons overrides */
+/* Red delete buttons */
 html:not(.dark) button.bg-red-50 {
   background-color: #fee2e2 !important;
   border-color: #fca5a5 !important;
-  color: #991b1b !important;
+  color: #dc2626 !important;
 }
 html:not(.dark) button.bg-red-50:hover {
   background-color: #fecaca !important;
@@ -350,8 +316,8 @@ html:not(.dark) button.bg-red-50:hover {
 .dark input:focus,
 .dark select:focus,
 .dark textarea:focus {
-  border-color: #ff007a !important; /* Galaxy Magenta active highlight */
-  box-shadow: 0 0 12px rgba(255, 0, 122, 0.3) !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3) !important;
   outline: none;
 }
 
@@ -382,18 +348,18 @@ html:not(.dark) button.bg-red-50:hover {
 .dark [id^="tab-btn-"].bg-slate-900,
 .dark #dash-go-attendance,
 .dark #dash-go-reports {
-  background: linear-gradient(to right, #ff007a, #bc00dd) !important; /* Stellar Pink-to-Purple Nebula */
+  background: linear-gradient(to right, #6366f1, #4f46e5) !important;
   color: #ffffff !important;
   border-color: transparent !important;
-  box-shadow: 0 0 15px rgba(255, 0, 122, 0.35) !important;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.35) !important;
 }
 
 .dark .bg-slate-900:hover,
 .dark button[type="submit"]:hover,
 .dark #dash-go-attendance:hover,
 .dark #dash-go-reports:hover {
-  background: linear-gradient(to right, #ff1a53, #d900eb) !important; /* Energetic hypernova hover */
-  box-shadow: 0 0 20px rgba(255, 0, 122, 0.5) !important;
+  background: linear-gradient(to right, #4f46e5, #4338ca) !important;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.5) !important;
 }
 
 /* Non-active tabs text enhancement in dark theme */

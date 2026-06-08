@@ -523,7 +523,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       {/* Title block */}
       <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 rounded-2xl border border-slate-200/60 dark:border-purple-500/20 shadow-xs relative z-10 print:hidden">
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-10 h-10 bg-[#FF007A]/10 text-[#FF007A] rounded-xl">
+          <span className="flex items-center justify-center w-10 h-10 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-xl">
             <Award className="w-6 h-6" />
           </span>
           <div>
@@ -544,7 +544,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center p-20 bg-white dark:bg-[#191433]/40 border border-slate-200/60 dark:border-purple-500/10 rounded-2xl">
-          <Loader2 className="w-10 h-10 text-[#FF007A] animate-spin mb-4" />
+          <Loader2 className="w-10 h-10 text-indigo-600 dark:text-indigo-400 animate-spin mb-4" />
           <p className="text-sm font-semibold text-slate-500 dark:text-purple-200/70">Scanning celestial databases...</p>
         </div>
       ) : error ? (
@@ -638,7 +638,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   placeholder="Query student, teacher, director by name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 hover:border-slate-350 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-[#FF007A] focus:ring-1 focus:ring-[#FF007A] rounded-xl text-xs font-semibold text-slate-800 dark:text-white transition"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 hover:border-slate-350 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl text-xs font-semibold text-slate-800 dark:text-white transition"
                 />
               </div>
 
@@ -647,7 +647,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value as any)}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200/80 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-[#FF007A] rounded-xl text-xs font-semibold text-slate-850 dark:text-purple-200/80 transition"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200/80 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-indigo-500 rounded-xl text-xs font-semibold text-slate-850 dark:text-purple-200/80 transition"
                 >
                   <option value="all">🛡️ All Ranks (Everyone)</option>
                   <option value="student">👧 Students (Members)</option>
@@ -661,7 +661,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 <select
                   value={locationFilter}
                   onChange={(e) => setLocationFilter(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200/80 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-[#FF007A] rounded-xl text-xs font-semibold text-slate-850 dark:text-purple-200/80 transition"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200/80 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-indigo-500 rounded-xl text-xs font-semibold text-slate-850 dark:text-purple-200/80 transition"
                 >
                   <option value="all">📍 All Campuses</option>
                   {locations.map(l => (
@@ -720,7 +720,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
               <p className="text-sm font-semibold text-slate-500 dark:text-purple-200/70">No people found matching index criteria</p>
               <button 
                 onClick={() => { setSearchQuery(""); setRoleFilter("all"); setLocationFilter("all"); setClassFilter("all"); }}
-                className="mt-3 text-xs text-[#FF007A] hover:underline font-bold"
+                className="mt-3 text-xs text-indigo-600 hover:underline font-bold"
               >
                 Clear all filters and search again
               </button>
@@ -830,7 +830,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   {/* Left segment info */}
                   <div className="flex items-center gap-4.5">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF007A] to-[#BC00DD] flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white/10 shrink-0">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white/10 shrink-0">
                       {selectedPerson.name.charAt(0)}
                     </div>
                     <div>
@@ -845,7 +845,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                       
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-slate-300">
                         <span className="flex items-center gap-1 font-semibold">
-                          <MapPin className="w-3.5 h-3.5 text-pink-500 dark:text-[#00E5FF]" />
+                          <MapPin className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
                           {selectedPerson.locationName}
                         </span>
                       </div>
@@ -969,7 +969,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
               <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs space-y-4">
                 <div className="flex justify-between items-center">
                   <h3 className="text-base font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-[#FF007A]" />
+                    <Activity className="w-5 h-5 text-indigo-500" />
                     <span>Attendance Performance Logs</span>
                   </h3>
                   <span className="text-[11px] font-mono text-slate-450 dark:text-purple-200/50">
@@ -997,7 +997,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                           className={`p-4 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-4 transition duration-150 ${
                             h.present
                               ? "bg-emerald-500/4 border-emerald-500/15 dark:bg-[#0E2F2E]/30 dark:border-[#00E5FF]/20 shadow-[0_0_8px_rgba(0,229,255,0.02)]"
-                              : "bg-pink-500/4 border-pink-500/15 dark:bg-[#340F22]/20 dark:border-[#FF007A]/20"
+                              : "bg-pink-500/4 border-pink-500/15 dark:bg-[#340F22]/20 dark:border-indigo-500/20"
                           }`}
                         >
                           <div className="flex items-center gap-3">
@@ -1022,7 +1022,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                           <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full border shrink-0 md:self-center self-start ${
                             h.present
                               ? "bg-emerald-50/50 text-emerald-700 dark:bg-teal-950/20 dark:text-[#00E5FF] dark:border-[#00E5FF]/30"
-                              : "bg-pink-50/50 text-pink-700 dark:bg-pink-950/20 dark:text-[#FF007A] dark:border-pink-500/30"
+                              : "bg-pink-50/50 text-pink-700 dark:bg-pink-950/20 dark:text-indigo-400 dark:border-indigo-500/30"
                           }`}>
                             {h.present ? "Present ✔" : "Absent ✕"}
                           </span>
@@ -1062,7 +1062,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   </div>
                 </div>
 
-                <div className="uppercase tracking-[0.2em] text-[#FF007A] font-black text-xs sm:text-sm">
+                <div className="uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 font-black text-xs sm:text-sm">
                   🏆 Stellar Sunday Superstar Award 🌟
                 </div>
                 
@@ -1100,7 +1100,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   </div>
                   <div>
                     <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">SUPERNOVA STREAK</span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-[#FF007A] leading-none">✦ {personMetrics.currentStreak} wks</span>
+                    <span className="text-lg sm:text-xl font-bold font-mono text-indigo-600 dark:text-indigo-400 leading-none">✦ {personMetrics.currentStreak} wks</span>
                   </div>
                 </div>
 
@@ -1138,7 +1138,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 <button
                   type="button"
                   onClick={handlePrintCertificate}
-                  className="px-5 py-2 bg-gradient-to-r from-pink-500 to-indigo-500 text-white text-xs font-black rounded-xl hover:opacity-90 transition flex items-center gap-1.5 shadow-md shadow-pink-500/15"
+                  className="px-5 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-black rounded-xl hover:opacity-90 transition flex items-center gap-1.5 shadow-md shadow-indigo-500/15"
                 >
                   <Printer className="w-4 h-4" />
                   <span>Print Certificate Now</span>
