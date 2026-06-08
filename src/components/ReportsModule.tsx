@@ -102,6 +102,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
   const [showCertificate, setShowCertificate] = useState(false);
   const [celebrations, setCelebrations] = useState<{ id: number; left: number; emoji: string; delay: number }[]>([]);
   const certificateRef = useRef<HTMLDivElement>(null);
+  const filterGroupRef = useRef<HTMLDivElement>(null);
 
   // Load all necessary databases for computing stats
   useEffect(() => {
@@ -474,6 +475,30 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     });
   }, [unifiedRoster, searchQuery, roleFilter, locationFilter, classFilter, atRiskFilter, atRiskStudentIds, students, classes]);
 
+  // Auto-scroll to filter group when user scrolls past roster cards
+  useEffect(() => {
+    const trigger = document.getElementById("end-of-section-trigger");
+    const filterGroup = filterGroupRef.current;
+
+    if (!trigger || !filterGroup) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              filterGroup.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 300);
+          }
+        });
+      },
+      { root: null, threshold: 1.0 }
+    );
+
+    observer.observe(trigger);
+    return () => observer.disconnect();
+  }, []);
+
   const handlePrintCertificate = () => {
     window.print();
   };
@@ -648,7 +673,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
             </div>
 
             {/* Quick Helper Sub-Filter: Class Selection (only shown for student/teacher relevant choices) */}
-            <div className="pt-2 border-t border-slate-100 dark:border-purple-500/10 space-y-2">
+            <div id="filter-group-section" ref={filterGroupRef} className="pt-2 border-t border-slate-100 dark:border-purple-500/10 space-y-2">
               <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 tracking-wider block">Filter Group:</span>
               <div className="filter-group-wrapper">
                 <button
@@ -788,6 +813,8 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
               })}
             </div>
           )}
+          {/* Scroll-spy trigger: auto-snaps filter bar into view when scrolled past */}
+          <div id="end-of-section-trigger" className="h-1" />
         </div>
       ) : (
         // COMPREHENSIVE INDIVIDUAL DETAIL VIEW
