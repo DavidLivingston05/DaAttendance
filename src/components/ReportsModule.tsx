@@ -310,28 +310,28 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       }
     }
 
-    // Determine Rank based on criteria matching kid space academy theme
-    let rankTitle = "👾 Cosmic Hide-and-Seek Expert";
-    let rankBadge = "text-amber-500 bg-amber-500/10 border-amber-500/30";
-    let rankDesc = "You are excellent at hiding behind the stars! We miss your big smile in Sunday class. Come out and join our next space picnic! 🧺";
+    // Determine honor status
+    let rankTitle = "STATUS: ATTENDANCE REVIEW PENDING";
+    let rankBadge = "text-amber-600 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30";
+    let rankDesc = `Official records indicate no recent attendance markings. We deeply value ${selectedPerson.name}'s presence in our Sunday classes and look forward to welcoming them back next week.`;
     
     if (totalConducted > 0) {
       if (attendanceRate === 100) {
-        rankTitle = "🚀 Holy Rocket Champion";
-        rankBadge = "text-emerald-500 bg-emerald-500/10 border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.35)] animate-pulse";
-        rankDesc = "You are traveling at the speed of light straight to heaven! You have perfect attendance, and even the angels are asking you for autographs! 😇";
+        rankTitle = "HONOR: PERFECT ATTENDANCE";
+        rankBadge = "text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30";
+        rankDesc = `${selectedPerson.name} has achieved perfect attendance, demonstrating remarkable dedication and commitment to our Sunday fellowship. We are truly blessed by their faithful presence.`;
       } else if (attendanceRate >= 90) {
-        rankTitle = "🛸 Sunday Spaceship Co-Pilot";
-        rankBadge = "text-[#00E5FF] bg-[#00E5FF]/10 border-[#00E5FF]/40 shadow-[0_0_12px_rgba(0,229,255,0.25)]";
-        rankDesc = "You missed a launch or two, but your cockpit is glowing! You know your Bible stories better than the aliens! 👽";
+        rankTitle = "HONOR: FAITHFUL ATTENDANCE";
+        rankBadge = "text-sky-600 bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/30";
+        rankDesc = `${selectedPerson.name} has shown faithful attendance with only a few missed sessions. Their consistent presence is a blessing to our community.`;
       } else if (attendanceRate >= 75) {
-        rankTitle = "🧑‍🚀 Starry Bible Cadet";
-        rankBadge = "text-purple-500 bg-purple-500/10 border-purple-500/30";
-        rankDesc = "You're hopping along the stars! Bring your friends next Sunday to help fuel up your rocket engines! 🌟";
-      } else if (attendanceRate >= 50) {
-        rankTitle = "🪐 Sleepy Nebula Explorer";
-        rankBadge = "text-pink-500 bg-pink-500/10 border-pink-500/30";
-        rankDesc = "Sometimes Sunday morning blankets are too cozy, but you are still a bright star in the sky! Wake up your alarm clock next Sunday! ⏰";
+        rankTitle = "HONOR: REGULAR ATTENDANCE";
+        rankBadge = "text-indigo-600 bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/30";
+        rankDesc = `${selectedPerson.name} attends most sessions and is an important part of our Sunday fellowship. We look forward to seeing them grow in attendance.`;
+      } else {
+        rankTitle = "STATUS: ENCOURAGED ATTENDANCE";
+        rankBadge = "text-amber-600 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30";
+        rankDesc = `We deeply value ${selectedPerson.name}'s presence in our Sunday classes and look forward to welcoming them back next week.`;
       }
     }
 
@@ -879,11 +879,11 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   </div>
                 )}
 
-                {/* Playful Cosmic Rank Panel & Launch Celebration */}
+                {/* Honor Status Panel */}
                 <div className="mt-5 pt-4 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="flex flex-col gap-1.5 max-w-xl">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-400">Current Cosmic Academy Rank:</span>
+                      <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-400">CURRENT HONOR STATUS:</span>
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[10px] sm:text-xs font-black uppercase tracking-wider border ${personMetrics.rankBadge}`}>
                         {personMetrics.rankTitle}
                       </span>
@@ -895,102 +895,71 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     )}
                   </div>
                   
-                  {/* Cosmic celebration trigger */}
                   <button
                     onClick={triggerCelebration}
-                    className="w-full md:w-auto px-4.5 py-2.5 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] hover:from-[#FF1A53] hover:to-[#A300C4] text-white text-xs font-black rounded-xl shadow-lg hover:shadow-[#FF007A]/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer shrink-0"
+                    className="w-full md:w-auto px-4.5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-black rounded-xl shadow-lg hover:shadow-indigo-500/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer shrink-0"
                   >
-                    <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
-                    <span>Launch Cosmic Celebration! 🚀</span>
+                    <BadgeCheck className="w-4 h-4" />
+                    <span>Issue Commendation</span>
                   </button>
                 </div>
               </div>
 
-              {/* Bento Row: Cosmic Numbers and Streaks */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Bento Row: Attendance Metrics */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 
-                {/* Attendance Gauge */}
+                {/* Card 1: Attendance Rate */}
                 <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                      {selectedPerson.type === "student" ? "🚀 Rocket Fuel Power" : "Attendance Rate"}
-                    </span>
-                    <TrendingUp className="w-4 h-4 text-[#00E5FF]" />
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">ATTENDANCE RATE</span>
+                    <TrendingUp className="w-4 h-4 text-indigo-500" />
                   </div>
-                  <div className="py-2 flex items-baseline gap-1.5">
+                  <div className="py-2">
                     <span className={`text-4xl font-display font-black tracking-tight ${
-                      personMetrics.attendanceRate >= 90 ? "text-[#00E5FF]" : "text-[#FF007A]"
+                      personMetrics.attendanceRate >= 90 ? "text-emerald-600 dark:text-emerald-400" : personMetrics.attendanceRate >= 75 ? "text-indigo-600 dark:text-indigo-400" : "text-amber-600 dark:text-amber-400"
                     }`}>
                       {personMetrics.attendanceRate}%
                     </span>
-                    <span className="text-[10px] text-slate-400 font-bold">fuel</span>
                   </div>
-                  <div className="w-full bg-slate-100 dark:bg-purple-950/40 h-2 rounded-full overflow-hidden mt-1.5 border border-transparent dark:border-purple-500/10">
+                  <div className="w-full bg-slate-100 dark:bg-purple-950/40 h-2 rounded-full overflow-hidden border border-transparent dark:border-purple-500/10">
                     <div 
                       className={`h-full rounded-full ${
-                        personMetrics.attendanceRate >= 90 ? "bg-gradient-to-r from-[#00E5FF] to-teal-400" : "bg-gradient-to-r from-[#FF007A] to-[#BC00DD]"
+                        personMetrics.attendanceRate >= 90 ? "bg-emerald-500" : personMetrics.attendanceRate >= 75 ? "bg-indigo-500" : "bg-amber-500"
                       }`}
                       style={{ width: `${personMetrics.attendanceRate}%` }}
                     />
                   </div>
                 </div>
 
-                {/* Total Present Days */}
+                {/* Card 2: Services Attended */}
                 <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                      {selectedPerson.type === "student" ? "🪐 Sunday Space Missions" : "Present Assemblies"}
-                    </span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">SERVICES ATTENDED</span>
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
                   </div>
-                  <div className="py-2 flex items-baseline gap-1.5">
+                  <div className="py-2">
                     <span className="text-4xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] font-mono">
                       {personMetrics.daysPresent}
                     </span>
-                    <span className="text-xs font-bold text-slate-400">{personMetrics.daysPresent === 1 ? 'mission' : 'missions'}</span>
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40">
-                    {selectedPerson.type === "student" ? "Space launches completed successfully!" : "Total active roster assemblies"}
+                  <span className="text-[11px] text-slate-500 dark:text-purple-200/50 font-medium">
+                    {personMetrics.daysPresent === 1 ? '1 Service Attended' : `${personMetrics.daysPresent} Services Attended`}
                   </span>
                 </div>
 
-                {/* Total Absent Days */}
-                <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl flex flex-col justify-between shadow-xs">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                      {selectedPerson.type === "student" ? "🛏️ Cozy Blanket Wins" : "Absent Days"}
-                    </span>
-                    <XCircle className="w-4 h-4 text-pink-500" />
-                  </div>
-                  <div className="py-2 flex items-baseline gap-1.5">
-                    <span className="text-4xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] font-mono">
-                      {personMetrics.daysAbsent}
-                    </span>
-                    <span className="text-xs font-bold text-slate-400">{personMetrics.daysAbsent === 1 ? 'win' : 'wins'}</span>
-                  </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40">
-                    {selectedPerson.type === "student" ? "Cozy blanket snoozes en-route to space!" : "Total unexcused missed assemblies"}
-                  </span>
-                </div>
-
-                {/* Flame Active Streak */}
+                {/* Card 3: Consecutive Weeks Attended */}
                 <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-550/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                      {selectedPerson.type === "student" ? "🔥 Supernova Fire Streak" : "Continuous Streak"}
-                    </span>
-                    <Flame className={`w-4.5 h-4.5 ${personMetrics.activeStreak > 0 ? "text-[#FF007A] animate-bounce" : "text-slate-300"}`} />
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">CONSECUTIVE WEEKS ATTENDED</span>
+                    <BadgeCheck className="w-4 h-4 text-indigo-500" />
                   </div>
-                  <div className="py-2 flex items-baseline gap-1.5">
+                  <div className="py-2">
                     <span className="text-4xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] font-mono">
                       {personMetrics.activeStreak}
                     </span>
-                    <span className="text-xs font-bold text-slate-400">weeks</span>
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/40 font-semibold text-rose-500">
-                    {personMetrics.activeStreak > 0 
-                      ? `Double-fired Nova speed active! ⚡` 
-                      : `Longest streak was ${personMetrics.currentStreak} weeks!`}
+                  <span className="text-[11px] text-slate-500 dark:text-purple-200/50 font-medium">
+                    {personMetrics.activeStreak === 1 ? '1 Week' : `${personMetrics.activeStreak} Weeks`}
                   </span>
                 </div>
 
@@ -1116,7 +1085,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     {selectedPerson.name}
                   </div>
                   <div className="inline-flex items-center gap-1 sm:text-xs text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 bg-slate-50 dark:bg-purple-950/20 px-3 py-1 rounded-full border border-slate-200 dark:border-purple-500/10 mt-3">
-                    Cadet Rank: <strong className="text-slate-800 dark:text-purple-100">{personMetrics.rankTitle}</strong>
+                    Honor Status: <strong className="text-slate-800 dark:text-purple-100">{personMetrics.rankTitle}</strong>
                   </div>
                 </div>
 
