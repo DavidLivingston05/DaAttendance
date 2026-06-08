@@ -7,6 +7,16 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+/* ─── Premium Design System ─── */
+:root {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --border-subtle: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --accent-primary: #6366f1;
+}
+
 /* Premium Light Mode (High Contrast & High Visibility) Styles */
 html:not(.dark), html:not(.dark) body {
   background: linear-gradient(135deg, #F8FAFC 0%, #EFF2F5 100%) !important;
@@ -468,6 +478,218 @@ html:not(.dark) button.bg-red-50:hover {
     opacity: 1;
     transform: scale(1.15);
   }
+}
+
+/* ─── Premium Metric Card ─── */
+.metric-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03),
+              0 4px 12px -2px rgba(15, 23, 42, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05),
+              0 10px 15px -3px rgba(15, 23, 42, 0.08);
+}
+.metric-card .metric-title {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.metric-card .metric-value {
+  color: var(--text-main);
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+}
+.metric-card .metric-subtext {
+  background-color: #f1f5f9;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.dark .metric-card {
+  background-color: rgba(21, 14, 46, 0.75);
+  border-color: rgba(255, 0, 122, 0.18);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+.dark .metric-card:hover {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+.dark .metric-card .metric-value {
+  color: #ffffff;
+}
+.dark .metric-card .metric-subtext {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+}
+
+/* ─── Premium Filter Pills ─── */
+.filter-group-wrapper {
+  background-color: #f1f5f9;
+  padding: 6px;
+  border-radius: 10px;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+.filter-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.filter-btn.active {
+  background-color: var(--bg-card);
+  color: var(--accent-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+.filter-btn:hover:not(.active) {
+  color: var(--text-main);
+  background-color: rgba(15, 23, 42, 0.03);
+}
+.dark .filter-group-wrapper {
+  background-color: rgba(21, 14, 46, 0.5);
+  border: 1px solid rgba(255, 0, 122, 0.1);
+}
+.dark .filter-btn {
+  color: #94a3b8;
+}
+.dark .filter-btn.active {
+  background-color: rgba(21, 14, 46, 0.85);
+  color: #6366f1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+.dark .filter-btn:hover:not(.active) {
+  color: #f8fafc;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Premium Attendance Card ─── */
+.attendance-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.attendance-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05),
+              0 10px 15px -3px rgba(15, 23, 42, 0.08);
+}
+.dark .attendance-card {
+  background-color: rgba(21, 14, 46, 0.75);
+  border-color: rgba(255, 0, 122, 0.18);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+.dark .attendance-card:hover {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Premium Badges ─── */
+.badge-student {
+  background-color: #ecfdf5;
+  color: #059669;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.badge-teacher {
+  background-color: #eff6ff;
+  color: #2563eb;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.badge-director {
+  background-color: #fdf2f8;
+  color: #db2777;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.badge-volunteer {
+  background-color: #f0f9ff;
+  color: #0284c7;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.dark .badge-student {
+  background-color: rgba(6, 78, 59, 0.6);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+.dark .badge-teacher {
+  background-color: rgba(30, 58, 138, 0.6);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+}
+.dark .badge-director {
+  background-color: rgba(76, 5, 25, 0.6);
+  color: #fca5a5;
+  border: 1px solid rgba(252, 165, 165, 0.3);
+}
+.dark .badge-volunteer {
+  background-color: rgba(12, 53, 90, 0.6);
+  color: #7dd3fc;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+}
+
+/* ─── Accent Top Border for Metric Cards ─── */
+.metric-accent {
+  border-top: 3px solid var(--accent-primary);
+}
+.metric-accent-green {
+  border-top: 3px solid #10b981;
+}
+.metric-accent-rose {
+  border-top: 3px solid #f43f5e;
+}
+.metric-accent-purple {
+  border-top: 3px solid #a855f7;
+}
+.dark .metric-accent {
+  border-top: 3px solid #818cf8;
+}
+.dark .metric-accent-green {
+  border-top: 3px solid #34d399;
+}
+.dark .metric-accent-rose {
+  border-top: 3px solid #fb7185;
+}
+.dark .metric-accent-purple {
+  border-top: 3px solid #c084fc;
 }
 
 /* Cosmic Nebula floating slide */

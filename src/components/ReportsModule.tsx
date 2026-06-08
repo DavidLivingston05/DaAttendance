@@ -537,68 +537,64 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
           {dashboardMetrics && (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Card 1: Today's Attendance Rate */}
-              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Today's Attendance</span>
-                  <TrendingUp className="w-4 h-4 text-[#00E5FF]" />
+              <div className="metric-card metric-accent">
+                <div className="flex justify-between items-center">
+                  <span className="metric-title">Today's Attendance</span>
+                  <TrendingUp className="w-4 h-4" style={{color: 'var(--accent-primary)'}} />
                 </div>
-                <div className="py-2 flex items-baseline gap-1.5">
-                  <span className={`text-4xl font-display font-black tracking-tight ${dashboardMetrics.todayRate >= 90 ? "text-[#00E5FF]" : dashboardMetrics.todayRate >= 50 ? "text-amber-400" : "text-[#FF007A]"}`}>
+                <div className="metric-value">
+                  <span className={`${dashboardMetrics.todayRate >= 90 ? "text-emerald-600 dark:text-emerald-400" : dashboardMetrics.todayRate >= 50 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400"}`}>
                     {dashboardMetrics.todayRate}%
                   </span>
                 </div>
-                <div className="flex items-center gap-1 text-[10px] mt-1">
-                  <span className={`font-bold ${dashboardMetrics.rateChange >= 0 ? "text-emerald-400" : "text-[#FF007A]"}`}>
-                    {dashboardMetrics.rateChange >= 0 ? "+" : ""}{dashboardMetrics.rateChange}%
+                <div className="mt-2">
+                  <span className="metric-subtext">
+                    <span className={`font-semibold ${dashboardMetrics.rateChange >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                      {dashboardMetrics.rateChange >= 0 ? "+" : ""}{dashboardMetrics.rateChange}%
+                    </span>
+                    from last session
                   </span>
-                  <span className="text-slate-500">from last session</span>
                 </div>
               </div>
 
               {/* Card 2: Total Present */}
-              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Present</span>
-                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+              <div className="metric-card metric-accent-green">
+                <div className="flex justify-between items-center">
+                  <span className="metric-title">Total Present</span>
+                  <CheckCircle className="w-4 h-4 text-emerald-500" />
                 </div>
-                <div className="py-2 flex items-baseline gap-1.5">
-                  <span className="text-4xl font-display font-black text-white font-mono">
-                    {dashboardMetrics.totalPresent}
-                  </span>
+                <div className="metric-value text-emerald-700 dark:text-emerald-300">
+                  {dashboardMetrics.totalPresent}
                 </div>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 mt-2 w-fit">
                   Checked in
                 </span>
               </div>
 
               {/* Card 3: Total Absent */}
-              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Absent</span>
-                  <XCircle className="w-4 h-4 text-[#FF007A]" />
+              <div className="metric-card metric-accent-rose">
+                <div className="flex justify-between items-center">
+                  <span className="metric-title">Total Absent</span>
+                  <XCircle className="w-4 h-4 text-rose-500" />
                 </div>
-                <div className="py-2 flex items-baseline gap-1.5">
-                  <span className="text-4xl font-display font-black text-white font-mono">
-                    {dashboardMetrics.totalAbsent}
-                  </span>
+                <div className="metric-value text-rose-700 dark:text-rose-300">
+                  {dashboardMetrics.totalAbsent}
                 </div>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FF007A]/10 text-[#FF007A] border border-[#FF007A]/20">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 mt-2 w-fit">
                   Missed sessions
                 </span>
               </div>
 
               {/* Card 4: Active Classes */}
-              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Active Classes</span>
-                  <BookOpen className="w-4 h-4 text-purple-400" />
+              <div className="metric-card metric-accent-purple">
+                <div className="flex justify-between items-center">
+                  <span className="metric-title">Active Classes</span>
+                  <BookOpen className="w-4 h-4 text-purple-500" />
                 </div>
-                <div className="py-2 flex items-baseline gap-1.5">
-                  <span className="text-4xl font-display font-black text-white font-mono">
-                    {dashboardMetrics.activeClasses}
-                  </span>
+                <div className="metric-value text-purple-700 dark:text-purple-300">
+                  {dashboardMetrics.activeClasses}
                 </div>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 mt-2 w-fit">
                   Ministry groups
                 </span>
               </div>
@@ -652,51 +648,41 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
             </div>
 
             {/* Quick Helper Sub-Filter: Class Selection (only shown for student/teacher relevant choices) */}
-            <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-purple-500/10">
-              <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 tracking-wider">Filter Group:</span>
-              <button
-                onClick={() => setClassFilter("all")}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center ${
-                  classFilter === "all"
-                    ? "bg-[#FF007A]/12 border border-[#FF007A]/40 text-[#FF007A]"
-                    : "bg-slate-50 dark:bg-[#0B0813] border border-slate-200/60 dark:border-purple-500/15 text-slate-600 dark:text-purple-250 hover:bg-slate-100"
-                }`}
-              >
-                All Ministry Groups
-              </button>
-              {classes
-                .filter(c => locationFilter === "all" || c.locationId === locationFilter)
-                .map(c => (
-                  <button
-                    key={c.id}
-                    onClick={() => setClassFilter(c.id)}
-                    className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center ${
-                      classFilter === c.id
-                        ? "bg-[#00E5FF]/12 border border-[#00E5FF]/40 text-[#00E5FF]"
-                        : "bg-slate-50 dark:bg-[#0B0813] border border-slate-200/60 dark:border-purple-500/15 text-slate-600 dark:text-purple-250 hover:bg-slate-100"
-                    }`}
-                  >
-                    {c.name}
-                  </button>
-                ))
-              }
-              <div className="flex-1 min-w-[1px]" />
-              <button
-                onClick={() => setAtRiskFilter(!atRiskFilter)}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center gap-1.5 ${
-                  atRiskFilter
-                    ? "bg-amber-500/15 border border-amber-500/40 text-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.15)]"
-                    : "bg-slate-50 dark:bg-[#0B0813] border border-slate-200/60 dark:border-purple-500/15 text-slate-600 dark:text-purple-250 hover:bg-slate-100"
-                }`}
-              >
-                <ShieldAlert className="w-3.5 h-3.5" />
-                <span>At-Risk (3+ Consecutive Absences)</span>
-                {atRiskStudentIds.size > 0 && (
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[8px] font-black ${atRiskFilter ? "bg-amber-500/20 text-amber-300" : "bg-slate-300 dark:bg-purple-500/20 text-slate-500 dark:text-purple-300"}`}>
-                    {atRiskStudentIds.size}
-                  </span>
-                )}
-              </button>
+            <div className="pt-2 border-t border-slate-100 dark:border-purple-500/10 space-y-2">
+              <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 tracking-wider block">Filter Group:</span>
+              <div className="filter-group-wrapper">
+                <button
+                  onClick={() => setClassFilter("all")}
+                  className={`filter-btn ${classFilter === "all" ? "active" : ""}`}
+                >
+                  All Ministry Groups
+                </button>
+                {classes
+                  .filter(c => locationFilter === "all" || c.locationId === locationFilter)
+                  .map(c => (
+                    <button
+                      key={c.id}
+                      onClick={() => setClassFilter(c.id)}
+                      className={`filter-btn ${classFilter === c.id ? "active" : ""}`}
+                    >
+                      {c.name}
+                    </button>
+                  ))
+                }
+                <div className="w-px bg-slate-300 dark:bg-purple-500/20 mx-1 self-stretch" />
+                <button
+                  onClick={() => setAtRiskFilter(!atRiskFilter)}
+                  className={`filter-btn ${atRiskFilter ? "active" : ""}`}
+                >
+                  <ShieldAlert className="w-3.5 h-3.5 inline-block -mt-0.5 mr-1" />
+                  <span>At-Risk (3+ Consecutive Absences)</span>
+                  {atRiskStudentIds.size > 0 && (
+                    <span className={`ml-1.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold ${atRiskFilter ? "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300" : "bg-slate-200 dark:bg-purple-500/15 text-slate-500 dark:text-purple-300"}`}>
+                      {atRiskStudentIds.size}
+                    </span>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -735,24 +721,24 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 
                 const rate = totalCount > 0 ? Math.round((presentCount / totalCount) * 100) : 100;
                 
-                let chipColor = "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
+                let badgeClass = "badge-student";
                 if (person.role === "Teacher") {
-                  chipColor = "bg-violet-650/10 text-violet-600 dark:text-[#00E5FF] dark:bg-[#00E5FF]/10 dark:border-[#00E5FF]/20";
+                  badgeClass = "badge-teacher";
                 } else if (person.role === "Director") {
-                  chipColor = "bg-pink-500/10 text-pink-650 dark:text-[#FF007A] dark:bg-pink-500/10 dark:border-[#FF007A]/20";
+                  badgeClass = "badge-director";
                 } else if (person.role === "Volunteer") {
-                  chipColor = "bg-sky-500/10 text-sky-600 border-sky-500/20";
+                  badgeClass = "badge-volunteer";
                 }
 
                 return (
                   <div
                     key={person.id}
-                    className="bg-white dark:bg-[#191433]/85 p-5 border border-slate-200/80 dark:border-purple-500/15 rounded-2xl hover:border-[#FF007A]/45 hover:-translate-y-0.5 transition-all duration-200 hover:shadow-[0_4px_16px_rgba(255,0,122,0.06)] dark:hover:shadow-[0_0_15px_rgba(255,0,122,0.15)] flex flex-col justify-between"
+                    className="attendance-card flex flex-col justify-between"
                   >
                     <div>
                       {/* Card Top Label & Role Badge */}
                       <div className="flex justify-between items-start gap-2">
-                        <span className={`inline-block text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded border ${chipColor}`}>
+                        <span className={badgeClass}>
                           {person.role}
                         </span>
                         <div className="flex items-center gap-1 font-mono text-[10px] text-slate-500 dark:text-purple-200/40">
@@ -782,16 +768,16 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     <div className="mt-5 pt-3 border-t border-slate-100 dark:border-purple-500/10 flex items-center justify-between">
                       <div className="flex flex-col">
                         <span className="text-[9px] text-slate-400 dark:text-purple-200/40 uppercase tracking-widest font-semibold">Attendance</span>
-                        <span className={`text-[13px] font-bold font-mono tracking-tight ${
-                          rate >= 90 ? "text-[#00E5FF] dark:drop-shadow-[0_0_4px_rgba(0,229,255,0.3)]" : "text-pink-500"
+                        <span className={`card-attendance-percentage text-[13px] font-bold font-mono tracking-tight ${
+                          rate >= 90 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                         }`}>
-                          {rate}% <span className="text-[9px] text-slate-400 font-normal">({presentCount}/{totalCount})</span>
+                          {rate}% <span className="text-[10px] text-slate-400 dark:text-slate-500 font-normal">({presentCount}/{totalCount})</span>
                         </span>
                       </div>
                       
                       <button
                         onClick={() => setSelectedPerson(person)}
-                        className="px-3 py-1.5 bg-slate-50 dark:bg-[#0B0813] hover:bg-pink-500/10 hover:text-[#FF007A] hover:border-pink-550/20 dark:hover:bg-[#130F26] text-slate-600 dark:text-purple-200 border border-slate-200/65 dark:border-purple-500/15 rounded-xl text-[10px] font-extrabold tracking-wide transition flex items-center gap-1"
+                        className="px-3 py-1.5 bg-slate-100 dark:bg-[#0B0813] hover:bg-indigo-100 dark:hover:bg-indigo-950/30 hover:text-indigo-600 dark:hover:text-indigo-400 text-slate-600 dark:text-slate-300 rounded-lg text-[10px] font-semibold transition flex items-center gap-1"
                       >
                         <Eye className="w-3.5 h-3.5" />
                         <span>Profile Report</span>
