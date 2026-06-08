@@ -85,6 +85,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
   const [roleFilter, setRoleFilter] = useState<"all" | "student" | "teacher" | "volunteer">("all");
   const [locationFilter, setLocationFilter] = useState("all");
   const [classFilter, setClassFilter] = useState("all");
+  const [atRiskFilter, setAtRiskFilter] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState<{
     id: string;
     name: string;
@@ -347,6 +348,82 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     };
   }, [selectedPerson, studentRecords, volunteerRecords, students, classes]);
 
+  // Compute dashboard-level metrics for the top cards
+  const dashboardMetrics = useMemo(() => {
+    const activeClasses = classes.length;
+
+    const totalPresent = studentRecords.reduce(
+      (sum, rec) => sum + (rec.checkedInMemberIds?.length || 0),
+      0
+    );
+
+    let totalPossible = 0;
+    studentRecords.forEach(rec => {
+      const studentsInClass = students.filter(s => s.classIds?.includes(rec.classId));
+      totalPossible += studentsInClass.length;
+    });
+    const totalAbsent = totalPossible - totalPresent;
+
+    const dates = [...new Set(studentRecords.map(r => r.date))].sort();
+    const latestDate = dates[dates.length - 1];
+    const previousDate = dates.length > 1 ? dates[dates.length - 2] : null;
+
+    const todayRecords = studentRecords.filter(r => r.date === latestDate);
+    const todayPresent = todayRecords.reduce(
+      (sum, rec) => sum + (rec.checkedInMemberIds?.length || 0),
+      0
+    );
+    let todayPossible = 0;
+    todayRecords.forEach(rec => {
+      const studentsInClass = students.filter(s => s.classIds?.includes(rec.classId));
+      todayPossible += studentsInClass.length;
+    });
+    const todayRate = todayPossible > 0 ? Math.round((todayPresent / todayPossible) * 100) : 0;
+
+    const prevRecords = previousDate ? studentRecords.filter(r => r.date === previousDate) : [];
+    const prevPresent = prevRecords.reduce(
+      (sum, rec) => sum + (rec.checkedInMemberIds?.length || 0),
+      0
+    );
+    let prevPossible = 0;
+    prevRecords.forEach(rec => {
+      const studentsInClass = students.filter(s => s.classIds?.includes(rec.classId));
+      prevPossible += studentsInClass.length;
+    });
+    const prevRate = prevPossible > 0 ? Math.round((prevPresent / prevPossible) * 100) : 0;
+    const rateChange = todayRate - prevRate;
+
+    return { todayRate, totalPresent, totalAbsent, activeClasses, rateChange };
+  }, [studentRecords, students, classes]);
+
+  // Compute at-risk student IDs (3+ consecutive absences)
+  const atRiskStudentIds = useMemo(() => {
+    const atRiskIds = new Set<string>();
+
+    students.forEach(student => {
+      const studentClassIds = student.classIds || [];
+      const records = studentRecords
+        .filter(r => studentClassIds.includes(r.classId))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      let consecutiveAbsences = 0;
+      for (const rec of records) {
+        const isPresent = rec.checkedInMemberIds?.includes(student.id);
+        if (isPresent) {
+          consecutiveAbsences = 0;
+        } else {
+          consecutiveAbsences++;
+          if (consecutiveAbsences >= 3) {
+            atRiskIds.add(student.id);
+            break;
+          }
+        }
+      }
+    });
+
+    return atRiskIds;
+  }, [students, studentRecords]);
+
   // Filter roster based on searches & filters
   const filteredRoster = useMemo(() => {
     return unifiedRoster.filter(p => {
@@ -385,9 +462,17 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
         }
       }
 
-      return nameMatch && roleMatch && locationMatch && classMatch;
+      // At-risk filter
+      let atRiskMatch = true;
+      if (atRiskFilter) {
+        if (p.type !== "student" || !atRiskStudentIds.has(p.id)) {
+          atRiskMatch = false;
+        }
+      }
+
+      return nameMatch && roleMatch && locationMatch && classMatch && atRiskMatch;
     });
-  }, [unifiedRoster, searchQuery, roleFilter, locationFilter, classFilter, students, classes]);
+  }, [unifiedRoster, searchQuery, roleFilter, locationFilter, classFilter, atRiskFilter, atRiskStudentIds, students, classes]);
 
   const handlePrintCertificate = () => {
     window.print();
@@ -448,6 +533,78 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       ) : !selectedPerson ? (
         <div className="space-y-6">
           
+          {/* Smart Dashboard Metrics */}
+          {dashboardMetrics && (
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {/* Card 1: Today's Attendance Rate */}
+              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Today's Attendance</span>
+                  <TrendingUp className="w-4 h-4 text-[#00E5FF]" />
+                </div>
+                <div className="py-2 flex items-baseline gap-1.5">
+                  <span className={`text-4xl font-display font-black tracking-tight ${dashboardMetrics.todayRate >= 90 ? "text-[#00E5FF]" : dashboardMetrics.todayRate >= 50 ? "text-amber-400" : "text-[#FF007A]"}`}>
+                    {dashboardMetrics.todayRate}%
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 text-[10px] mt-1">
+                  <span className={`font-bold ${dashboardMetrics.rateChange >= 0 ? "text-emerald-400" : "text-[#FF007A]"}`}>
+                    {dashboardMetrics.rateChange >= 0 ? "+" : ""}{dashboardMetrics.rateChange}%
+                  </span>
+                  <span className="text-slate-500">from last session</span>
+                </div>
+              </div>
+
+              {/* Card 2: Total Present */}
+              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Present</span>
+                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+                </div>
+                <div className="py-2 flex items-baseline gap-1.5">
+                  <span className="text-4xl font-display font-black text-white font-mono">
+                    {dashboardMetrics.totalPresent}
+                  </span>
+                </div>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  Checked in
+                </span>
+              </div>
+
+              {/* Card 3: Total Absent */}
+              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Absent</span>
+                  <XCircle className="w-4 h-4 text-[#FF007A]" />
+                </div>
+                <div className="py-2 flex items-baseline gap-1.5">
+                  <span className="text-4xl font-display font-black text-white font-mono">
+                    {dashboardMetrics.totalAbsent}
+                  </span>
+                </div>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FF007A]/10 text-[#FF007A] border border-[#FF007A]/20">
+                  Missed sessions
+                </span>
+              </div>
+
+              {/* Card 4: Active Classes */}
+              <div className="bg-slate-800/50 backdrop-blur-md p-5 border border-slate-600/20 rounded-2xl shadow-xs">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Active Classes</span>
+                  <BookOpen className="w-4 h-4 text-purple-400" />
+                </div>
+                <div className="py-2 flex items-baseline gap-1.5">
+                  <span className="text-4xl font-display font-black text-white font-mono">
+                    {dashboardMetrics.activeClasses}
+                  </span>
+                </div>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  Ministry groups
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Filters Bar */}
           <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-5 border border-slate-200/60 dark:border-purple-500/20 rounded-2xl shadow-xs space-y-4 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -523,6 +680,23 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   </button>
                 ))
               }
+              <div className="flex-1 min-w-[1px]" />
+              <button
+                onClick={() => setAtRiskFilter(!atRiskFilter)}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center gap-1.5 ${
+                  atRiskFilter
+                    ? "bg-amber-500/15 border border-amber-500/40 text-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.15)]"
+                    : "bg-slate-50 dark:bg-[#0B0813] border border-slate-200/60 dark:border-purple-500/15 text-slate-600 dark:text-purple-250 hover:bg-slate-100"
+                }`}
+              >
+                <ShieldAlert className="w-3.5 h-3.5" />
+                <span>At-Risk (3+ Consecutive Absences)</span>
+                {atRiskStudentIds.size > 0 && (
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[8px] font-black ${atRiskFilter ? "bg-amber-500/20 text-amber-300" : "bg-slate-300 dark:bg-purple-500/20 text-slate-500 dark:text-purple-300"}`}>
+                    {atRiskStudentIds.size}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
 
