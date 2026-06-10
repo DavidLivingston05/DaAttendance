@@ -440,7 +440,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
       </div>
 
       {loading ? (
-        <div className="bg-white dark:bg-[#191433]/80 p-16 text-center border border-slate-200 dark:border-purple-500/20 rounded-2xl text-slate-400 dark:text-purple-200/60 text-sm font-semibold relative z-10 backdrop-blur-md">
+        <div className="bg-white dark:bg-[#191433]/80 p-16 text-center border border-slate-200 dark:border-purple-500/20 rounded-2xl text-slate-500 dark:text-purple-200/60 text-sm font-semibold relative z-10 backdrop-blur-md">
           Synchronizing directories & attendance history...
         </div>
       ) : (
@@ -449,7 +449,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
           {/* Left panel: dynamic filters */}
           <div className="lg:col-span-4 bg-white dark:bg-[#191433]/85 p-5 border border-slate-200/60 dark:border-purple-500/20 rounded-2xl h-fit space-y-4 shadow-sm backdrop-blur-md">
             
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-purple-200/70">Attendance settings</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-purple-200/70">Attendance settings</h3>
 
             {/* Location Select */}
             <div>
@@ -489,7 +489,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
             {/* Professional Grid-Based 2026 Sunday School Calendar & Date Picker */}
             <div className="bg-slate-50 dark:bg-[#130F26]/60 p-4 border border-slate-200/60 dark:border-purple-500/20 rounded-2xl space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-slate-400 dark:text-purple-200/70 uppercase tracking-wider block font-display">
+                <span className="text-[10px] font-bold text-slate-600 dark:text-purple-200/70 uppercase tracking-wider block font-display">
                   School Calendar (2026)
                 </span>
                 
@@ -559,7 +559,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                 )}
 
                 {/* Weekdays Labels */}
-                <div className="grid grid-cols-7 gap-1 text-center mb-1 text-[9px] font-bold text-slate-400 uppercase tracking-wider">
+                <div className="grid grid-cols-7 gap-1 text-center mb-1 text-[9px] font-bold text-slate-500 uppercase tracking-wider">
                   <span>Su</span>
                   <span>Mo</span>
                   <span>Tu</span>
@@ -669,7 +669,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                   })()}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-slate-100 dark:border-purple-500/10 pt-2 text-[9px] text-[#FF007A] dark:text-purple-200/50 font-medium">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-slate-100 dark:border-purple-500/10 pt-2 text-[9px] text-slate-500 dark:text-purple-200/50 font-medium">
                   <div className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-violet-500 dark:bg-[#00E5FF]" />
                     <span>Conducted</span>
@@ -679,7 +679,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                     <span>Off / No Record</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#FF007A] to-[#BC00DD]" />
+                    <span className="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600" />
                     <span>Active Selection</span>
                   </div>
                 </div>
@@ -689,14 +689,14 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
             {/* Teacher Assignment display (Visible for Student Flow) */}
             {activeFlow === "student" && selectedClassObj && (
               <div className="bg-slate-50 dark:bg-slate-950/40 p-4 border border-slate-100 dark:border-slate-800 rounded-xl space-y-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block font-display">Teacher In-Charge</span>
+                <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest block font-display">Teacher In-Charge</span>
                 {assignedTeachers.length === 0 ? (
                   <div className="flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center text-xs font-bold leading-none">
+                    <span className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-500 flex items-center justify-center text-xs font-bold leading-none">
                       <UserIcon className="w-4 h-4" />
                     </span>
                     <div>
-                      <h5 className="text-xs font-bold text-slate-450 dark:text-slate-400">
+                      <h5 className="text-xs font-bold text-slate-700 dark:text-slate-400">
                         (Unassigned)
                       </h5>
                     </div>
@@ -705,14 +705,14 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                   <div className="space-y-3">
                     {assignedTeachers.map(teacher => (
                       <div key={teacher.id} className="flex items-center gap-2">
-                        <span className="w-8 h-8 rounded-full bg-pink-500/10 dark:bg-pink-500/20 border border-pink-500/20 dark:border-pink-500/40 text-[#FF007A] dark:text-pink-400 flex items-center justify-center text-xs font-bold leading-none">
+                        <span className="w-8 h-8 rounded-full bg-indigo-500/10 dark:bg-indigo-500/20 border border-indigo-500/20 dark:border-indigo-500/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xs font-bold leading-none">
                           <UserIcon className="w-4 h-4" />
                         </span>
                         <div>
                           <h5 className="text-xs font-bold text-slate-900 dark:text-slate-200">
                             {teacher.name}
                           </h5>
-                          <p className="text-[9px] text-slate-400 font-medium font-mono">Class In-charge</p>
+                          <p className="text-[9px] text-slate-500 font-medium font-mono">Class In-charge</p>
                         </div>
                       </div>
                     ))}
@@ -733,7 +733,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                   <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-purple-500/10 mb-4">
                     <div>
                       <h3 className="text-sm font-bold text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">Sunday School Student Roll</h3>
-                      <p className="text-xs text-slate-400 dark:text-purple-200/50 italic">Select present students for {selectedClassObj ? selectedClassObj.name : "..."}</p>
+                      <p className="text-xs text-slate-500 dark:text-purple-200/50 italic">Select present students for {selectedClassObj ? selectedClassObj.name : "..."}</p>
                     </div>
                     {classRoster.length > 0 && (
                       <div className="flex gap-2">
@@ -756,11 +756,11 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                   </div>
 
                   {!selectedClassId ? (
-                    <div className="text-center py-12 text-xs font-semibold text-slate-400 italic">
+                    <div className="text-center py-12 text-xs font-semibold text-slate-500 italic">
                       Please select a location and class from the settings panel.
                     </div>
                   ) : classRoster.length === 0 ? (
-                    <div className="text-center py-12 text-xs font-semibold text-slate-400 italic">
+                    <div className="text-center py-12 text-xs font-semibold text-slate-500 italic">
                       No active junior records found linked to this class. Register students on "Registry Setup" tab.
                     </div>
                   ) : (
@@ -795,7 +795,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                                   <p className={`text-xs font-bold truncate ${isChecked ? "text-pink-950 dark:text-[#00E5FF]" : "text-slate-700 dark:text-purple-200"}`}>
                                     {stud.name}
                                   </p>
-                                  <p className="text-[10px] text-slate-400 dark:text-purple-200/50">Class student</p>
+                                  <p className="text-[10px] text-slate-500 dark:text-purple-200/50">Class student</p>
                                 </div>
 
                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all ${
@@ -819,7 +819,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                               </div>
 
                               <div className="flex items-center justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-purple-500/10">
-                                <span className="text-[9px] text-slate-400 dark:text-purple-200/40 uppercase tracking-widest">Attendance Status</span>
+                                <span className="text-[9px] text-slate-500 dark:text-purple-200/40 uppercase tracking-widest">Attendance Status</span>
                                 {absentDates.length > 0 ? (
                                   <button
                                     type="button"
@@ -848,7 +848,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                                 onClick={(e) => e.stopPropagation()} 
                                 className="mt-2.5 p-2 bg-slate-50 dark:bg-[#0B0813] border border-slate-150 dark:border-purple-500/10 rounded-lg text-[9px] text-slate-500 space-y-1 select-text"
                               >
-                                <div className="font-bold text-slate-400 dark:text-purple-200/50 uppercase tracking-widest text-[8px]">Dates Absent:</div>
+                                <div className="font-bold text-slate-500 dark:text-purple-200/50 uppercase tracking-widest text-[8px]">Dates Absent:</div>
                                 <div className="flex flex-wrap gap-1 mt-1">
                                   {absentDates.map(d => {
                                     const dateObj = new Date(d);
@@ -920,7 +920,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                   <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-purple-500/10 mb-4">
                     <div>
                       <h3 className="text-sm font-bold text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">Teachers, Volunteers & Directors Attendance</h3>
-                      <p className="text-xs text-slate-400 dark:text-purple-200/50 italic">Select present leaders, staff, and active personnel on the selected date</p>
+                      <p className="text-xs text-slate-500 dark:text-purple-200/50 italic">Select present leaders, staff, and active personnel on the selected date</p>
                     </div>
                     {activePersonnel.length > 0 && (
                       <div className="flex gap-2">
@@ -943,11 +943,11 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                   </div>
 
                   {!selectedLocationId ? (
-                    <div className="text-center py-12 text-xs font-semibold text-slate-400 italic">
+                    <div className="text-center py-12 text-xs font-semibold text-slate-500 italic">
                       Please select a location on the left sidebar context.
                     </div>
                   ) : activePersonnel.length === 0 ? (
-                    <div className="text-center py-12 text-xs font-semibold text-slate-400 italic">
+                    <div className="text-center py-12 text-xs font-semibold text-slate-500 italic">
                       No registered teachers, volunteers, or directors found linked to this campus. Configure them under "Registry Setup".
                     </div>
                   ) : (
@@ -1019,7 +1019,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                               </div>
 
                               <div className="flex items-center justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-purple-500/10">
-                                <span className="text-[9px] text-slate-400 dark:text-purple-200/40 uppercase tracking-widest">Attendance Status</span>
+                                <span className="text-[9px] text-slate-500 dark:text-purple-200/40 uppercase tracking-widest">Attendance Status</span>
                                 {absentDates.length > 0 ? (
                                   <button
                                     type="button"
@@ -1048,7 +1048,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                                 onClick={(e) => e.stopPropagation()} 
                                 className="mt-2.5 p-2 bg-slate-50 dark:bg-[#0B0813] border border-slate-150 dark:border-purple-500/10 rounded-lg text-[9px] text-slate-500 space-y-1 select-text"
                               >
-                                <div className="font-bold text-slate-400 dark:text-purple-200/50 uppercase tracking-widest text-[8px]">Dates Absent:</div>
+                                <div className="font-bold text-slate-500 dark:text-purple-200/50 uppercase tracking-widest text-[8px]">Dates Absent:</div>
                                 <div className="flex flex-wrap gap-1 mt-1">
                                   {absentDates.map(d => {
                                     const dateObj = new Date(d);
