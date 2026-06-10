@@ -39,26 +39,27 @@ const CosmicStarfield = React.memo(function CosmicStarfield({ theme }: { theme: 
   if (theme !== "dark") return null;
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Drifting space gas nebulae elements */}
-      <div className="absolute top-[-20%] left-[-15%] w-[80%] h-[75%] rounded-full bg-indigo-600/10 dark:bg-[#BC00DD]/12 blur-[140px] pointer-events-none animate-nebula-slow" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-500/10 dark:bg-indigo-500/15 blur-[150px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '6s' }} />
-      <div className="absolute top-[35%] left-[25%] w-[350px] h-[350px] rounded-full bg-purple-600/8 dark:bg-purple-900/15 blur-[120px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '12s' }} />
-      
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="absolute rounded-full bg-white opacity-90"
-          style={{
-            top: `${star.top}%`,
-            left: `${star.left}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            animation: `twinkle ${star.duration} infinite ease-in-out ${star.delay}`,
-            boxShadow: star.size > 1.8 && !isMobile ? '0 0 8px rgba(255, 255, 255, 0.9)' : 'none'
-          }}
-        />
-      ))}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Drifting space gas nebulae elements */}
+        <div className="absolute top-[-20%] left-[-15%] w-[80%] h-[75%] rounded-full bg-[#FF007A]/8 blur-[140px] pointer-events-none animate-nebula-slow" />
+        <div className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#BC00DD]/12 blur-[150px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '5s' }} />
+        <div className="absolute top-[30%] right-[20%] w-[400px] h-[400px] rounded-full bg-pink-600/10 blur-[160px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '10s' }} />
+        <div className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full bg-purple-900/15 blur-[120px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '15s' }} />
+        
+        {stars.map((star) => (
+          <div
+            key={star.id}
+            className={`absolute rounded-full ${star.id % 5 === 0 ? 'bg-pink-300' : 'bg-white'} opacity-90`}
+            style={{
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              animation: `twinkle ${star.duration} infinite ease-in-out ${star.delay}`,
+              boxShadow: star.size > 1.8 && !isMobile ? (star.id % 5 === 0 ? '0 0 8px rgba(236, 72, 153, 0.8)' : '0 0 8px rgba(255, 255, 255, 0.9)') : 'none'
+            }}
+          />
+        ))}
     </div>
   );
 });
@@ -441,7 +442,7 @@ export default function App() {
         
         {/* Radial Nebula Glow Behind active roster and dashboard */}
         {theme === "dark" && (
-          <div className="absolute right-10 top-1/3 pointer-events-none w-[350px] h-[350px] bg-purple-600/10 blur-[130px] rounded-full z-0" />
+          <div className="absolute right-10 top-1/3 pointer-events-none w-[400px] h-[400px] bg-[#FF007A]/10 blur-[150px] rounded-full z-0" />
         )}
         
         {/* Navigation Tabs bar */}
@@ -456,7 +457,7 @@ export default function App() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2.5 px-5 py-2.5 text-sm font-bold rounded-xl transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-[0_4px_12px_rgba(99,102,241,0.3)] dark:shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-[0_4px_12px_rgba(99,102,241,0.3)] dark:bg-gradient-to-r dark:from-pink-500 dark:to-purple-600 dark:shadow-[0_0_15px_rgba(236,72,153,0.4)]"
                     : "text-slate-600 dark:text-purple-200/70 hover:bg-slate-100 dark:hover:bg-[#191433]/50 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
@@ -493,7 +494,7 @@ export default function App() {
                     <button
                       id="btn-take-attendance-now"
                       onClick={() => setActiveTab("attendance")}
-                      className="w-full sm:w-auto px-6 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] active:scale-[0.98]"
+                      className="w-full sm:w-auto px-6 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] dark:shadow-[0_0_25px_rgba(236,72,153,0.4)] active:scale-[0.98]"
                     >
                       <UserCheck className="w-6 h-6 animate-pulse" />
                       <span>Take Today's Attendance</span>
@@ -502,7 +503,7 @@ export default function App() {
                     <button
                       id="btn-view-star-reports-now"
                       onClick={() => setActiveTab("reports")}
-                      className="w-full sm:w-auto px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] active:scale-[0.98]"
+                      className="w-full sm:w-auto px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] dark:shadow-[0_0_25px_rgba(236,72,153,0.4)] active:scale-[0.98]"
                     >
                       <Award className="w-6 h-6 animate-pulse" />
                       <span>Browse Star Reports</span>

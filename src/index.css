@@ -288,7 +288,7 @@ html:not(.dark) button.bg-red-50:hover {
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-premium: 0 4px 30px rgba(0, 0, 0, 0.4);
 
-  background: linear-gradient(135deg, #0a0a0f 0%, #0f0d1a 50%, #141120 100%) !important;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a0a16 50%, #141120 100%) !important;
   color: #e2e8f0 !important;
   background-attachment: fixed !important;
 }
@@ -342,7 +342,7 @@ html:not(.dark) button.bg-red-50:hover {
 .dark .border-slate-100,
 .dark .border-slate-100\/80,
 .dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
-  border-color: rgba(99, 102, 241, 0.12) !important;
+  border-color: rgba(236, 72, 153, 0.15) !important;
 }
 
 /* Form element modifications */
