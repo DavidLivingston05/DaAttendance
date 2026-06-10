@@ -77,25 +77,41 @@ html:not(.dark) textarea::placeholder {
   color: var(--text-muted) !important;
 }
 
-/* Text contrast */
+/* Text contrast on light surfaces */
 html:not(.dark) .text-slate-350,
 html:not(.dark) .text-slate-300 {
-  color: #475569 !important;
+  color: #475569;
 }
 html:not(.dark) .text-slate-400 {
-  color: #64748b !important;
+  color: #64748b;
 }
 html:not(.dark) .text-slate-450,
 html:not(.dark) .text-slate-500 {
-  color: #334155 !important;
+  color: #334155;
 }
 html:not(.dark) .text-slate-600,
 html:not(.dark) .text-slate-700 {
-  color: var(--text-main) !important;
+  color: var(--text-main);
 }
 html:not(.dark) .text-slate-800,
 html:not(.dark) .text-slate-900 {
-  color: #020617 !important;
+  color: #020617;
+}
+
+/* Light text on dark surfaces in light mode (prevents invisible text) */
+html:not(.dark) .bg-slate-900 .text-slate-300 {
+  color: #cbd5e1;
+}
+html:not(.dark) .bg-slate-900 .text-slate-400 {
+  color: #94a3b8;
+}
+html:not(.dark) .bg-slate-900 .text-slate-450,
+html:not(.dark) .bg-slate-900 .text-slate-500 {
+  color: #64748b;
+}
+html:not(.dark) .bg-slate-900 .text-slate-600,
+html:not(.dark) .bg-slate-900 .text-slate-700 {
+  color: #cbd5e1;
 }
 
 /* Tables */
