@@ -471,7 +471,7 @@ export default function AdminRegistry() {
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "location"
               ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           }`}
         >
           1. Location Setup
@@ -481,7 +481,7 @@ export default function AdminRegistry() {
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "class"
               ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           }`}
         >
           2. Classes / Groups
@@ -491,7 +491,7 @@ export default function AdminRegistry() {
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "volunteer"
               ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           }`}
         >
           3. Volunteers & Directors
@@ -501,7 +501,7 @@ export default function AdminRegistry() {
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "teacher"
               ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           }`}
         >
           4. Teachers
@@ -511,7 +511,7 @@ export default function AdminRegistry() {
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "student"
               ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           }`}
         >
           5. Students

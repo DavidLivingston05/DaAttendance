@@ -72,6 +72,12 @@ html:not(.dark) textarea:focus {
   outline: none;
 }
 
+/* Ensure select dropdown options have visible text in light mode */
+html:not(.dark) select option {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
 html:not(.dark) input::placeholder,
 html:not(.dark) textarea::placeholder {
   color: var(--text-muted) !important;
