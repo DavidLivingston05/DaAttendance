@@ -58,8 +58,8 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         
         {/* Logo & Headline in High-Contrast Brand Theme */}
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="DaAttendance Logo" className="w-16 h-16 rounded-2xl mx-auto shadow-md shadow-purple-500/15 object-cover" />
-          <h2 className="mt-4 text-4xl font-display font-black tracking-tight bg-gradient-to-r from-[#FF007A] to-[#BC00DD] bg-clip-text text-transparent leading-none">
+          <img src="/logo.svg" alt="DaAttendance" className="w-16 h-16 rounded-2xl mx-auto shadow-md shadow-indigo-500/15" />
+          <h2 className="mt-4 text-4xl font-display font-black tracking-tight bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent leading-none">
             DaAttendance
           </h2>
           <p className="text-xs font-black text-slate-500 dark:text-purple-200/60 uppercase tracking-widest mt-2.5">

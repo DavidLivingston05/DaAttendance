@@ -349,7 +349,7 @@ export default function App() {
             
             {/* Logo / Title */}
             <div className="flex items-center gap-2.5">
-              <img src="/logo.png" alt="Logo" className="w-9 h-9 rounded-xl object-cover shadow-xs ring-2 ring-purple-500/10 dark:ring-purple-500/20" />
+              <img src="/logo.svg" alt="DaAttendance" className="w-9 h-9 rounded-xl shadow-xs" />
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
                 <h1 className="text-xl font-display font-black tracking-tight text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-none">
                   DaAttendance
