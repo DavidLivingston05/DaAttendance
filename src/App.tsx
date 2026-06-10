@@ -42,7 +42,7 @@ const CosmicStarfield = React.memo(function CosmicStarfield({ theme }: { theme: 
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
       {/* Drifting space gas nebulae elements */}
       <div className="absolute top-[-20%] left-[-15%] w-[80%] h-[75%] rounded-full bg-indigo-600/10 dark:bg-[#BC00DD]/12 blur-[140px] pointer-events-none animate-nebula-slow" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#FF007A]/12 dark:bg-[#FF007A]/15 blur-[150px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '6s' }} />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-500/10 dark:bg-indigo-500/15 blur-[150px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '6s' }} />
       <div className="absolute top-[35%] left-[25%] w-[350px] h-[350px] rounded-full bg-purple-600/8 dark:bg-purple-900/15 blur-[120px] pointer-events-none animate-nebula-slow" style={{ animationDelay: '12s' }} />
       
       {stars.map((star) => (
@@ -296,7 +296,7 @@ export default function App() {
           <button
             id="btn-auth-theme-toggle"
             onClick={toggleTheme}
-            className="flex items-center justify-center p-2.5 border border-slate-200 bg-white dark:bg-zinc-900 rounded-xl shadow-xs transition-all text-slate-600 hover:text-[#FF3366] dark:text-zinc-300 dark:hover:text-amber-500 hover:border-[#FF3366] dark:border-zinc-800"
+            className="flex items-center justify-center p-2.5 border border-slate-200 bg-white dark:bg-zinc-900 rounded-xl shadow-xs transition-all text-slate-600 hover:text-indigo-500 dark:text-zinc-300 dark:hover:text-indigo-400 hover:border-indigo-300 dark:border-zinc-800"
             title={theme === "light" ? "Switch to Night Mode" : "Switch to Light Mode"}
           >
             {theme === "light" ? (
@@ -411,7 +411,7 @@ export default function App() {
               <button
                 id="btn-theme-toggle"
                 onClick={toggleTheme}
-                className="flex items-center justify-center p-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-[#FF007A] hover:bg-pink-50/20 rounded-xl transition-all dark:bg-[#191433] dark:text-zinc-300"
+                className="flex items-center justify-center p-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-indigo-500 hover:bg-indigo-50/20 rounded-xl transition-all dark:bg-[#191433] dark:text-zinc-300"
                 title={theme === "light" ? "Switch to Night Mode" : "Switch to Light Mode"}
               >
                 {theme === "light" ? (
@@ -424,7 +424,7 @@ export default function App() {
               <button
                 id="btn-logout-trigger"
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-red-700 hover:bg-red-50/20 dark:bg-[#191433] dark:text-zinc-300 dark:hover:text-[#FF3366] rounded-xl text-xs font-semibold transition"
+                className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-red-600 hover:bg-red-50/20 dark:bg-[#191433] dark:text-zinc-300 dark:hover:text-red-400 rounded-xl text-xs font-semibold transition"
                 title="Log out of staff panel"
               >
                 <LogOut className="w-4 h-4" />
@@ -437,7 +437,7 @@ export default function App() {
       </header>
 
       {/* Main Container Wrapper */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6 relative">
+      <div className="flex-1 max-w-full w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 py-8 flex flex-col gap-8 relative">
         
         {/* Radial Nebula Glow Behind active roster and dashboard */}
         {theme === "dark" && (
@@ -454,10 +454,10 @@ export default function App() {
                 key={tab.id}
                 id={`tab-btn-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-xl transition ${
+                className={`flex items-center gap-2.5 px-5 py-2.5 text-sm font-bold rounded-xl transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-[0_4px_12px_rgba(255,0,122,0.2)] dark:shadow-[0_0_15px_rgba(255,0,122,0.4)]"
-                    : "text-slate-600 dark:text-purple-200/70 hover:bg-slate-50 dark:hover:bg-[#191433]/50 hover:text-slate-900 dark:hover:text-white"
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-[0_4px_12px_rgba(99,102,241,0.3)] dark:shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                    : "text-slate-600 dark:text-purple-200/70 hover:bg-slate-100 dark:hover:bg-[#191433]/50 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
                 <IconComponent className="w-4.5 h-4.5" />
@@ -478,7 +478,7 @@ export default function App() {
                   <Sparkles className="w-64 h-64 text-purple-400" />
                 </div>
                 <div className="relative z-10 max-w-2xl">
-                  <span className="text-pink-500 dark:text-[#00E5FF] font-bold text-xs uppercase tracking-widest block mb-2">
+                  <span className="text-indigo-500 dark:text-indigo-400 font-bold text-xs uppercase tracking-widest block mb-2">
                     Welcome Back {currentUser.role === 'admin' ? 'Admin' : currentUser.role === 'visitor' ? 'Visitor' : 'Teacher'}
                   </span>
                   <h2 className="text-3xl font-display font-black text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] animate-fade-in">
@@ -493,7 +493,7 @@ export default function App() {
                     <button
                       id="btn-take-attendance-now"
                       onClick={() => setActiveTab("attendance")}
-                      className="w-full sm:w-auto px-6 py-4 bg-[#FF3366] hover:bg-[#FF1A53] text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(255,51,102,0.4)] active:scale-[0.98]"
+                      className="w-full sm:w-auto px-6 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] active:scale-[0.98]"
                     >
                       <UserCheck className="w-6 h-6 animate-pulse" />
                       <span>Take Today's Attendance</span>
@@ -502,7 +502,7 @@ export default function App() {
                     <button
                       id="btn-view-star-reports-now"
                       onClick={() => setActiveTab("reports")}
-                      className="w-full sm:w-auto px-6 py-4 bg-gradient-to-r from-[#FF007A] to-[#BC00DD] hover:from-[#FF1A53] hover:to-[#A300C4] text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,122,0.3)] active:scale-[0.98]"
+                      className="w-full sm:w-auto px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] active:scale-[0.98]"
                     >
                       <Award className="w-6 h-6 animate-pulse" />
                       <span>Browse Star Reports</span>
@@ -512,54 +512,54 @@ export default function App() {
               </div>
 
               {/* Bento statistics grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 relative z-10">
                 
                 {/* Branch Locations counts */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
-                  <div className="flex justify-between items-center mb-2.5">
-                    <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Campuses</span>
+                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Campuses</span>
                     <Building className="w-5 h-5 text-indigo-500 dark:text-purple-400" />
                   </div>
-                  <div className="text-2xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.locationsCount || 0}
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/50">Total physical facilities</span>
+                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Total physical facilities</span>
                 </div>
 
                 {/* Class Programs counts */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
-                  <div className="flex justify-between items-center mb-2.5">
-                    <span className="text-[10px] uppercase font-bold text-slate-550 dark:text-purple-200/70 tracking-wider">Ministry Groups</span>
+                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Ministry Groups</span>
                     <BookOpen className="w-5 h-5 text-sky-500 dark:text-sky-400" />
                   </div>
-                  <div className="text-2xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.classesCount || 0}
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/50">Active class cohorts</span>
+                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Active class cohorts</span>
                 </div>
 
-                {/* Registered Coaces counts */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
-                  <div className="flex justify-between items-center mb-2.5">
-                    <span className="text-[10px] uppercase font-bold text-slate-550 dark:text-purple-200/70 tracking-wider">Teachers & Leaders</span>
+                {/* Registered Teachers counts */}
+                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Teachers & Leaders</span>
                     <Users className="w-5 h-5 text-amber-500 dark:text-amber-400" />
                   </div>
-                  <div className="text-2xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.teachersCount || 1}
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/50">Enregistered leaders</span>
+                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Enregistered leaders</span>
                 </div>
 
                 {/* Active Members count */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
-                  <div className="flex justify-between items-center mb-2.5">
-                    <span className="text-[10px] uppercase font-bold text-slate-550 dark:text-purple-200/70 tracking-wider">Enrolled Students</span>
+                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Enrolled Students</span>
                     <Users className="w-5 h-5 text-purple-500 dark:text-purple-300" />
                   </div>
-                  <div className="text-2xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.membersCount || 0}
                   </div>
-                  <span className="text-[10px] text-slate-450 dark:text-purple-200/50">Total enrolled students</span>
+                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Total enrolled students</span>
                 </div>
 
               </div>
@@ -598,8 +598,8 @@ export default function App() {
       )}
 
       {/* Footer System Margin Cleaner */}
-      <footer className="bg-white dark:bg-zinc-900 border-t border-slate-200/60 dark:border-zinc-800 py-4 mt-auto text-center text-xs text-slate-400 dark:text-purple-300/40">
-        <div className="max-w-7xl mx-auto px-4 text-center">
+      <footer className="bg-white dark:bg-zinc-900 border-t border-slate-200/60 dark:border-zinc-800 py-5 mt-auto">
+        <div className="max-w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12 text-center text-xs text-slate-400 dark:text-purple-300/40">
           DaAttendance &copy; 2026
         </div>
       </footer>
