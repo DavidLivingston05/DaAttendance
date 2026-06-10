@@ -484,7 +484,7 @@ export default function App() {
                   <h2 className="text-3xl font-display font-black text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] animate-fade-in">
                     {currentUser.name}
                   </h2>
-                  <p className="text-slate-300 dark:text-purple-200/70 text-base mt-2 font-semibold">
+                  <p className="text-slate-600 dark:text-purple-200/70 text-base mt-2 font-semibold">
                     Welcome Back to Children's Ministry (SUNDAY SCHOOL) - DaAttendance
                   </p>
                 </div>
@@ -523,7 +523,7 @@ export default function App() {
                   <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.locationsCount || 0}
                   </div>
-                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Total physical facilities</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Total physical facilities</span>
                 </div>
 
                 {/* Class Programs counts */}
@@ -535,7 +535,7 @@ export default function App() {
                   <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.classesCount || 0}
                   </div>
-                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Active class cohorts</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Active class cohorts</span>
                 </div>
 
                 {/* Registered Teachers counts */}
@@ -547,7 +547,7 @@ export default function App() {
                   <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.teachersCount || 1}
                   </div>
-                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Enregistered leaders</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Enregistered leaders</span>
                 </div>
 
                 {/* Active Members count */}
@@ -559,7 +559,7 @@ export default function App() {
                   <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
                     {statsLoading ? "..." : stats?.membersCount || 0}
                   </div>
-                  <span className="text-[11px] text-slate-450 dark:text-purple-200/50 mt-1 block">Total enrolled students</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Total enrolled students</span>
                 </div>
 
               </div>

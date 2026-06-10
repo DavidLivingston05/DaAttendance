@@ -79,9 +79,11 @@ html:not(.dark) textarea::placeholder {
 
 /* Text contrast */
 html:not(.dark) .text-slate-350,
-html:not(.dark) .text-slate-300,
-html:not(.dark) .text-slate-400 {
+html:not(.dark) .text-slate-300 {
   color: #475569 !important;
+}
+html:not(.dark) .text-slate-400 {
+  color: #64748b !important;
 }
 html:not(.dark) .text-slate-450,
 html:not(.dark) .text-slate-500 {
