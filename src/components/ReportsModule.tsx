@@ -822,15 +822,12 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
           {selectedPerson && personMetrics && (
             <>
               {/* Profile Card Header */}
-              <div className="bg-slate-900 dark:bg-gradient-to-r dark:from-[#191433]/90 dark:to-[#22103d]/90 text-white p-6 sm:p-8 rounded-3xl relative overflow-hidden border border-slate-800 dark:border-purple-500/30 shadow-md">
-                <div className="absolute right-0 top-0 opacity-10 translate-x-[20px] translate-y-[-20px] pointer-events-none">
-                  <Sparkles className="w-64 h-64 text-indigo-400" />
-                </div>
+              <div className="bg-gradient-to-r from-pink-600 to-pink-800 dark:from-pink-700/90 dark:to-purple-800/90 text-white p-6 sm:p-8 rounded-3xl relative overflow-hidden border border-pink-400/30 dark:border-pink-500/30 shadow-lg">
                 
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   {/* Left segment info */}
                   <div className="flex items-center gap-4.5">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white/10 shrink-0">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white/10 shrink-0">
                       {selectedPerson.name.charAt(0)}
                     </div>
                     <div>
@@ -839,13 +836,13 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                           {selectedPerson.role}
                         </span>
                       </div>
-                      <h2 className="text-2xl sm:text-3xl font-display font-black text-white mt-1.5 dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-tight">
+                      <h2 className="text-2xl sm:text-3xl font-display font-black text-white mt-1.5 leading-tight">
                         {selectedPerson.name}
                       </h2>
                       
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-slate-300">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-pink-100/90">
                         <span className="flex items-center gap-1 font-semibold">
-                          <MapPin className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
+                          <MapPin className="w-3.5 h-3.5 text-pink-300" />
                           {selectedPerson.locationName}
                         </span>
                       </div>
@@ -870,9 +867,9 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 {/* Sub-header labels */}
                 {selectedPerson.classNames.length > 0 && (
                   <div className="mt-5 pt-4 border-t border-white/10 flex flex-wrap gap-1.5 items-center">
-                    <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-400">Class Enrolment:</span>
+                    <span className="text-[10px] uppercase tracking-widest font-extrabold text-pink-200/70">Class Enrolment:</span>
                     {selectedPerson.classNames.map(cn => (
-                      <span key={cn} className="px-2.5 py-1 rounded bg-[#00E5FF]/10 text-[#00E5FF] border border-[#00E5FF]/20 text-[10px] font-bold">
+                      <span key={cn} className="px-2.5 py-1 rounded bg-white/10 text-pink-200 border border-white/20 text-[10px] font-bold">
                         {cn}
                       </span>
                     ))}
@@ -883,13 +880,13 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                 <div className="mt-5 pt-4 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="flex flex-col gap-1.5 max-w-xl">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-400">CURRENT HONOR STATUS:</span>
+                      <span className="text-[10px] uppercase tracking-widest font-extrabold text-pink-200/70">CURRENT HONOR STATUS:</span>
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[10px] sm:text-xs font-black uppercase tracking-wider border ${personMetrics.rankBadge}`}>
                         {personMetrics.rankTitle}
                       </span>
                     </div>
                     {selectedPerson.type === "student" && (
-                      <p className="text-xs text-purple-200/90 font-medium italic">
+                      <p className="text-xs text-pink-100/80 font-medium italic">
                         "{personMetrics.rankDesc}"
                       </p>
                     )}
@@ -897,7 +894,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   
                   <button
                     onClick={triggerCelebration}
-                    className="w-full md:w-auto px-4.5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-black rounded-xl shadow-lg hover:shadow-indigo-500/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer shrink-0"
+                    className="w-full md:w-auto px-4.5 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-black rounded-xl shadow-lg hover:shadow-pink-500/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer shrink-0"
                   >
                     <BadgeCheck className="w-4 h-4" />
                     <span>Issue Commendation</span>

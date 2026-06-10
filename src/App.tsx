@@ -474,18 +474,15 @@ export default function App() {
             <div className="space-y-6 animate-fade-in">
               
               {/* Profile banner info greeting with Quick-Action Attendance button */}
-              <div className="bg-slate-900 dark:bg-gradient-to-r dark:from-[#191433]/90 dark:to-[#22103d]/90 text-white p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6 border border-slate-800 dark:border-purple-500/30">
-                <div className="absolute right-0 top-0 opacity-10 translate-y-[-10px] translate-x-[30px] pointer-events-none">
-                  <Sparkles className="w-64 h-64 text-purple-400" />
-                </div>
+              <div className="bg-gradient-to-r from-pink-600 to-pink-800 dark:from-pink-700/90 dark:to-purple-800/90 text-white p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6 border border-pink-400/30 dark:border-pink-500/30">
                 <div className="relative z-10 max-w-2xl">
-                  <span className="text-indigo-500 dark:text-indigo-400 font-bold text-xs uppercase tracking-widest block mb-2">
+                  <span className="text-pink-200 dark:text-pink-300 font-bold text-xs uppercase tracking-widest block mb-2">
                     Welcome Back {currentUser.role === 'admin' ? 'Admin' : currentUser.role === 'visitor' ? 'Visitor' : 'Teacher'}
                   </span>
-                  <h2 className="text-3xl font-display font-black text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] animate-fade-in">
+                  <h2 className="text-3xl font-display font-black text-white animate-fade-in">
                     {currentUser.name}
                   </h2>
-                  <p className="text-slate-600 dark:text-purple-200/70 text-base mt-2 font-semibold">
+                  <p className="text-pink-100/90 dark:text-pink-200/80 text-base mt-2 font-semibold">
                     Welcome Back to Children's Ministry (SUNDAY SCHOOL) - DaAttendance
                   </p>
                 </div>
@@ -494,18 +491,18 @@ export default function App() {
                     <button
                       id="btn-take-attendance-now"
                       onClick={() => setActiveTab("attendance")}
-                      className="w-full sm:w-auto px-6 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] dark:shadow-[0_0_25px_rgba(236,72,153,0.4)] active:scale-[0.98]"
+                      className="w-full sm:w-auto px-6 py-4 bg-white text-pink-700 font-black text-base rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-md active:scale-[0.98]"
                     >
-                      <UserCheck className="w-6 h-6 animate-pulse" />
+                      <UserCheck className="w-6 h-6" />
                       <span>Take Today's Attendance</span>
                     </button>
                   ) : (
                     <button
                       id="btn-view-star-reports-now"
                       onClick={() => setActiveTab("reports")}
-                      className="w-full sm:w-auto px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-base font-bold rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] dark:shadow-[0_0_25px_rgba(236,72,153,0.4)] active:scale-[0.98]"
+                      className="w-full sm:w-auto px-6 py-4 bg-white text-pink-700 font-black text-base rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-md active:scale-[0.98]"
                     >
-                      <Award className="w-6 h-6 animate-pulse" />
+                      <Award className="w-6 h-6" />
                       <span>Browse Star Reports</span>
                     </button>
                   )}
