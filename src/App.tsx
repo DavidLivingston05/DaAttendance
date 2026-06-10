@@ -411,7 +411,7 @@ export default function App() {
               <button
                 id="btn-theme-toggle"
                 onClick={toggleTheme}
-                className="flex items-center justify-center p-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-indigo-500 hover:bg-indigo-50/20 rounded-xl transition-all dark:bg-[#191433] dark:text-zinc-300"
+                className="flex items-center justify-center p-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-indigo-500 bg-slate-50 hover:bg-indigo-50/20 rounded-xl transition-all dark:bg-[#191433] dark:text-zinc-300"
                 title={theme === "light" ? "Switch to Night Mode" : "Switch to Light Mode"}
               >
                 {theme === "light" ? (
@@ -424,7 +424,7 @@ export default function App() {
               <button
                 id="btn-logout-trigger"
                 onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-red-600 hover:bg-red-50/20 dark:bg-[#191433] dark:text-zinc-300 dark:hover:text-red-400 rounded-xl text-xs font-semibold transition"
+                className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 dark:border-purple-500/20 text-slate-600 hover:text-red-600 bg-slate-50 hover:bg-red-50/20 dark:bg-[#191433] dark:text-zinc-300 dark:hover:text-red-400 rounded-xl text-xs font-semibold transition"
                 title="Log out of staff panel"
               >
                 <LogOut className="w-4 h-4" />

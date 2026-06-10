@@ -470,7 +470,7 @@ export default function AdminRegistry() {
           onClick={() => { setActiveSubTab("location"); clearForm(); }}
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "location"
-              ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/20"
+              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
               : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
           }`}
         >
@@ -480,7 +480,7 @@ export default function AdminRegistry() {
           onClick={() => { setActiveSubTab("class"); clearForm(); }}
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "class"
-              ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/20"
+              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
               : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
           }`}
         >
@@ -490,7 +490,7 @@ export default function AdminRegistry() {
           onClick={() => { setActiveSubTab("volunteer"); clearForm(); }}
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "volunteer"
-              ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/20"
+              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
               : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
           }`}
         >
@@ -500,7 +500,7 @@ export default function AdminRegistry() {
           onClick={() => { setActiveSubTab("teacher"); clearForm(); }}
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "teacher"
-              ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/20"
+              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
               : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
           }`}
         >
@@ -510,7 +510,7 @@ export default function AdminRegistry() {
           onClick={() => { setActiveSubTab("student"); clearForm(); }}
           className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
             activeSubTab === "student"
-              ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/20"
+              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
               : "text-slate-500 dark:text-purple-200/60 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
           }`}
         >
@@ -525,8 +525,8 @@ export default function AdminRegistry() {
         </div>
       )}
       {success && (
-        <div className="bg-[#130F26] text-teal-400 px-4 py-3 border border-teal-500/20 rounded-xl text-xs font-semibold flex items-center gap-2 animate-bounce">
-          <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse"></span>
+        <div className="bg-emerald-50 text-emerald-700 px-4 py-3 border border-emerald-200 rounded-xl text-xs font-semibold flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
           <span>{success}</span>
         </div>
       )}
@@ -571,7 +571,7 @@ export default function AdminRegistry() {
               <button
                 id="simple-loc-submit"
                 type="submit"
-                className="w-full py-2 bg-[#FF3366] hover:bg-[#FF1A53] text-white text-xs font-bold rounded-lg shadow-md hover:shadow-[#FF3366]/30 transition-all duration-350 transform active:scale-[0.98]"
+                className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-md hover:shadow-indigo-500/30 transition-all duration-350 transform active:scale-[0.98]"
               >
                 {editId ? "Update Location Properties" : "Add the Location"}
               </button>
@@ -625,7 +625,7 @@ export default function AdminRegistry() {
 
               <button
                 type="submit"
-                className="w-full py-2 bg-[#FF3366] hover:bg-[#FF1A53] text-white text-xs font-bold rounded-lg shadow-md hover:shadow-[#FF3366]/30 transition-all duration-350 transform active:scale-[0.98]"
+                className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-md hover:shadow-indigo-500/30 transition-all duration-350 transform active:scale-[0.98]"
               >
                 {editId ? "Update Class Details" : "Add the Class"}
               </button>
@@ -696,7 +696,7 @@ export default function AdminRegistry() {
                     onClick={() => setVolRoleInput("Director")}
                     className={`py-2 text-xs font-bold rounded-xl border transition-all duration-200 ${
                       volRoleInput === "Director"
-                        ? "bg-pink-500/10 text-pink-600 dark:text-[#FF007A] border-pink-500/40 shadow-[0_0_12px_rgba(255,0,122,0.15)] font-black"
+                        ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.15)] font-black"
                         : "bg-slate-50 dark:bg-[#130F26] border-slate-200 dark:border-purple-500/10 text-slate-500 hover:bg-slate-100"
                     }`}
                   >
@@ -707,7 +707,7 @@ export default function AdminRegistry() {
 
               <button
                 type="submit"
-                className="w-full py-2 bg-[#FF3366] hover:bg-[#FF1A53] text-white text-xs font-bold rounded-lg shadow-md hover:shadow-[#FF3366]/30 transition-all duration-350 transform active:scale-[0.98]"
+                className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-md hover:shadow-indigo-500/30 transition-all duration-350 transform active:scale-[0.98]"
               >
                 {editId ? "Update Personnel Profile" : "Register Personnel"}
               </button>
@@ -781,7 +781,7 @@ export default function AdminRegistry() {
 
               <button
                 type="submit"
-                className="w-full py-2 bg-[#FF3366] hover:bg-[#FF1A53] text-white text-xs font-bold rounded-lg shadow-md hover:shadow-[#FF3366]/30 transition-all duration-350 transform active:scale-[0.98]"
+                className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-md hover:shadow-indigo-500/30 transition-all duration-350 transform active:scale-[0.98]"
               >
                 {editId ? "Update Teacher Details" : "Add Teacher"}
               </button>
@@ -873,7 +873,7 @@ export default function AdminRegistry() {
 
               <button
                 type="submit"
-                className="w-full py-2 bg-[#FF3366] hover:bg-[#FF1A53] text-white text-xs font-bold rounded-lg shadow-md hover:shadow-[#FF3366]/30 transition-all duration-350 transform active:scale-[0.98]"
+                className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-md hover:shadow-indigo-500/30 transition-all duration-350 transform active:scale-[0.98]"
               >
                 {editId ? "Update Student Profile" : "Add Student(s)"}
               </button>
@@ -1008,11 +1008,11 @@ export default function AdminRegistry() {
                           <tr key={v.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === v.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
                             <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white">
                               <div className="flex items-center gap-2">
-                                <UserCheck className={`w-3.5 h-3.5 shrink-0 ${roleChosen === "Director" ? "text-pink-500" : "text-cyan-500"}`} />
+                                <UserCheck className={`w-3.5 h-3.5 shrink-0 ${roleChosen === "Director" ? "text-indigo-500" : "text-cyan-500"}`} />
                                 <span className="font-bold">{v.name}</span>
                                 <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${
                                   roleChosen === "Director"
-                                    ? "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20"
+                                    ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20"
                                     : "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20"
                                 }`}>
                                   {roleChosen}
