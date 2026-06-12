@@ -347,11 +347,11 @@ export default function App() {
       {/* Top Header Bar (Non-Sticky / Moves with Scroll) */}
       <header className="bg-white dark:bg-[#191433]/80 border-b border-slate-200/80 dark:border-purple-500/20 shadow-xs backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
+          <div className="flex justify-between h-16 lg:h-24 items-center">
             
             {/* Logo / Title */}
             <div className="flex items-center gap-4">
-              <Logo className="h-16 w-auto" />
+              <Logo className="h-16 lg:h-24 w-auto" />
                 
                 {/* PWA Offline Synchronization Status Pill */}
                 <div className="flex items-center">
