@@ -58,11 +58,8 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
       <div className="w-full max-w-2xl bg-white dark:bg-[#191433]/90 border-2 border-slate-350 dark:border-purple-500/25 rounded-3.5xl p-8 sm:p-12 shadow-2xl shadow-slate-200/80 dark:shadow-none animate-fade-in relative z-10">
         
         {/* Logo & Headline in High-Contrast Brand Theme */}
-        <div className="text-center mb-8">
-          <Logo className="w-16 h-16 mx-auto" />
-          <h2 className="mt-4 text-4xl font-display font-black tracking-tight bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent leading-none">
-            DaAttendance
-          </h2>
+        <div className="text-center mb-6">
+          <Logo className="h-40 w-auto mx-auto" />
           <p className="text-xs font-black text-slate-500 dark:text-purple-200/60 uppercase tracking-widest mt-2.5">
             Sunday School Attendance Hub
           </p>

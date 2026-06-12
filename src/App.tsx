@@ -351,11 +351,7 @@ export default function App() {
             
             {/* Logo / Title */}
             <div className="flex items-center gap-2.5">
-              <Logo className="w-9 h-9" />
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                <h1 className="text-xl font-display font-black tracking-tight text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-none">
-                  DaAttendance
-                </h1>
+              <Logo className="h-12 w-auto" />
                 
                 {/* PWA Offline Synchronization Status Pill */}
                 <div className="flex items-center">
@@ -391,7 +387,6 @@ export default function App() {
                   )}
                 </div>
               </div>
-            </div>
 
             {/* Profile widget and logout */}
             <div className="flex items-center gap-4">
