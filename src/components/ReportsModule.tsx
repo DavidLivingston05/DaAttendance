@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { 
   Search, Award, Calendar, TrendingUp, CheckCircle, XCircle, X, Check, Users,
-  Printer, Sparkles, ChevronRight, Eye, BookOpen, MapPin, 
+  Printer, Sparkles, ChevronRight, Eye, MapPin, 
   Activity, FileText, ArrowLeft, Loader2, Trophy, Flame, ShieldAlert, BadgeCheck
 } from "lucide-react";
 import { User } from "../types";
@@ -558,74 +558,6 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       ) : !selectedPerson ? (
         <div className="space-y-6">
           
-          {/* Smart Dashboard Metrics */}
-          {dashboardMetrics && (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {/* Card 1: Today's Attendance Rate */}
-              <div className="metric-card metric-accent">
-                <div className="flex justify-between items-center">
-                  <span className="metric-title">Today's Attendance</span>
-                  <TrendingUp className="w-4 h-4" style={{color: 'var(--accent-primary)'}} />
-                </div>
-                <div className="metric-value">
-                  <span className={`${dashboardMetrics.todayRate >= 90 ? "text-emerald-600 dark:text-emerald-400" : dashboardMetrics.todayRate >= 50 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400"}`}>
-                    {dashboardMetrics.todayRate}%
-                  </span>
-                </div>
-                <div className="mt-2">
-                  <span className="metric-subtext">
-                    <span className={`font-semibold ${dashboardMetrics.rateChange >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
-                      {dashboardMetrics.rateChange >= 0 ? "+" : ""}{dashboardMetrics.rateChange}%
-                    </span>
-                    from last session
-                  </span>
-                </div>
-              </div>
-
-              {/* Card 2: Total Present */}
-              <div className="metric-card metric-accent-green">
-                <div className="flex justify-between items-center">
-                  <span className="metric-title">Total Present</span>
-                  <CheckCircle className="w-4 h-4 text-emerald-500" />
-                </div>
-                <div className="metric-value text-emerald-700 dark:text-emerald-300">
-                  {dashboardMetrics.totalPresent}
-                </div>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 mt-2 w-fit">
-                  Checked in
-                </span>
-              </div>
-
-              {/* Card 3: Total Absent */}
-              <div className="metric-card metric-accent-rose">
-                <div className="flex justify-between items-center">
-                  <span className="metric-title">Total Absent</span>
-                  <XCircle className="w-4 h-4 text-rose-500" />
-                </div>
-                <div className="metric-value text-rose-700 dark:text-rose-300">
-                  {dashboardMetrics.totalAbsent}
-                </div>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 mt-2 w-fit">
-                  Missed sessions
-                </span>
-              </div>
-
-              {/* Card 4: Active Classes */}
-              <div className="metric-card metric-accent-purple">
-                <div className="flex justify-between items-center">
-                  <span className="metric-title">Active Classes</span>
-                  <BookOpen className="w-4 h-4 text-purple-500" />
-                </div>
-                <div className="metric-value text-purple-700 dark:text-purple-300">
-                  {dashboardMetrics.activeClasses}
-                </div>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 mt-2 w-fit">
-                  Ministry groups
-                </span>
-              </div>
-            </div>
-          )}
-
           {/* Filters Bar */}
           <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-5 border border-slate-200/60 dark:border-purple-500/20 rounded-2xl shadow-xs space-y-4 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

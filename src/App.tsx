@@ -10,6 +10,7 @@ import AuthScreen from "./components/AuthScreen";
 import AdminRegistry from "./components/AdminRegistry";
 import AttendanceModule from "./components/AttendanceModule";
 import ReportsModule from "./components/ReportsModule";
+import DashboardMetrics from "./components/DashboardMetrics";
 import Logo from "./components/Logo";
 
 const CosmicStarfield = React.memo(function CosmicStarfield({ theme }: { theme: "light" | "dark" }) {
@@ -558,6 +559,8 @@ export default function App() {
 
               </div>
 
+              {/* Operational metric cards */}
+              <DashboardMetrics />
 
             </div>
           )}
