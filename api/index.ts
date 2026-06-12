@@ -107,6 +107,14 @@ async function seedDatabase(db: Db) {
 // In-memory mock DB fallback state initialized from dbData for local dev / connection failures
 let localDbState: any = JSON.parse(JSON.stringify(dbData));
 
+const saveLocalDb = () => {
+  try {
+    fs.writeFileSync(path.join(process.cwd(), "db.json"), JSON.stringify(localDbState, null, 2), "utf8");
+  } catch (e) {
+    // Filesystem may be read-only in serverless; persist silently fails
+  }
+};
+
 const getCollectionData = (colName: string) => {
   if (!localDbState[colName]) {
     localDbState[colName] = [];
@@ -153,11 +161,13 @@ const createMockCollection = (colName: string) => {
     insertOne: async (doc: any) => {
       const data = getCollectionData(colName);
       data.push(doc);
+      saveLocalDb();
       return { insertedId: doc._id || doc.id };
     },
     insertMany: async (docs: any[]) => {
       const data = getCollectionData(colName);
       data.push(...docs);
+      saveLocalDb();
       return { insertedCount: docs.length };
     },
     updateOne: async (query: any, update: any) => {
@@ -170,6 +180,7 @@ const createMockCollection = (colName: string) => {
           data[index] = { ...data[index], ...update.$set };
         }
       }
+      saveLocalDb();
       return { matchedCount: index !== -1 ? 1 : 0, modifiedCount: index !== -1 ? 1 : 0 };
     },
     updateMany: async (query: any, update: any) => {
@@ -196,6 +207,7 @@ const createMockCollection = (colName: string) => {
           modifiedCount++;
         }
       });
+      saveLocalDb();
       return { modifiedCount };
     },
     deleteOne: async (query: any) => {
@@ -204,6 +216,7 @@ const createMockCollection = (colName: string) => {
       localDbState[colName] = data.filter((item: any) => {
         return !Object.keys(query).every(key => item[key] === query[key]);
       });
+      saveLocalDb();
       return { deletedCount: initialLength - localDbState[colName].length };
     },
     deleteMany: async (query: any) => {
@@ -212,6 +225,7 @@ const createMockCollection = (colName: string) => {
       localDbState[colName] = data.filter((item: any) => {
         return !Object.keys(query).every(key => item[key] === query[key]);
       });
+      saveLocalDb();
       return { deletedCount: initialLength - localDbState[colName].length };
     },
     countDocuments: async (query: any = {}) => {
