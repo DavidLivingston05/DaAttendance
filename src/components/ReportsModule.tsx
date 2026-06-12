@@ -113,7 +113,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/bootstrap");
+      const res = await fetch(`/api/bootstrap?_t=${Date.now()}`);
       if (!res.ok) {
         throw new Error("Could not download galaxy directories. Please refresh the page.");
       }
@@ -564,13 +564,13 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
               
               {/* Search bar input */}
               <div className="relative md:col-span-2">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400 dark:text-purple-200/40" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-purple-200/40" />
                 <input
                   type="text"
                   placeholder="Query student, teacher, director by name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 hover:border-slate-350 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl text-xs font-semibold text-slate-800 dark:text-white transition"
+                  className="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 hover:border-slate-350 dark:bg-[#0B0813] dark:border-purple-500/15 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl text-xs font-semibold text-slate-800 dark:text-white transition"
                 />
               </div>
 

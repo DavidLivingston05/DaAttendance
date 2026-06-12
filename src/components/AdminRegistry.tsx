@@ -81,7 +81,7 @@ export default function AdminRegistry() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/bootstrap");
+      const res = await fetch(`/api/bootstrap?_t=${Date.now()}`);
       if (!res.ok) {
         throw new Error("Failed to load registries. Please refresh.");
       }

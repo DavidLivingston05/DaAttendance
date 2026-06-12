@@ -313,7 +313,7 @@ export default function AdminClasses() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Search */}
             <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
                 <Search className="w-4 h-4" />
               </span>
               <input
@@ -322,7 +322,7 @@ export default function AdminClasses() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search class or day..."
-                className="w-full pl-8 pr-3 py-1.5 border border-slate-200 dark:border-purple-500/20 dark:bg-[#130F26] dark:text-white rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                className="w-full pl-10 pr-3 py-1.5 border border-slate-200 dark:border-purple-500/20 dark:bg-[#130F26] dark:text-white rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
               />
             </div>
 

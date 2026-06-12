@@ -29,7 +29,7 @@ export default function DashboardMetrics() {
     let cancelled = false;
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/bootstrap");
+        const res = await fetch(`/api/bootstrap?_t=${Date.now()}`);
         if (!res.ok) throw new Error("Failed to load metrics");
         const data = await res.json();
         if (!cancelled) {
