@@ -903,21 +903,23 @@ export default function AdminRegistry() {
             ) : (
               <>
                  {activeSubTab === "location" && (
-                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300 admin-table">
                     <thead className="bg-slate-50 dark:bg-slate-950 text-slate-400 text-[9px] uppercase font-bold">
                       <tr>
                         <th className="px-3 py-2.5">Campus Name</th>
                         <th className="px-3 py-2.5 text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody>
                       {locations.map((loc) => (
                         <tr key={loc.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === loc.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
-                          <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
-                            <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                            <span>{loc.name}</span>
+                          <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white">
+                            <div className="flex items-center gap-1.5">
+                              <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                              <span>{loc.name}</span>
+                            </div>
                           </td>
-                          <td className="px-3 py-2.5 text-right flex items-center justify-end gap-1.5">
+                          <td className="px-3 py-2.5 text-right"><div className="flex items-center justify-end gap-1.5">
                             <button
                               onClick={() => handleEditItem("location", loc)}
                               className="p-1 text-slate-400 hover:text-amber-500 rounded transition"
@@ -930,9 +932,9 @@ export default function AdminRegistry() {
                               className="p-1 text-slate-400 hover:text-red-600 rounded transition"
                               title="Delete Location"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </td>
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div></td>
                         </tr>
                       ))}
                       {locations.length === 0 && (
@@ -945,7 +947,7 @@ export default function AdminRegistry() {
                 )}
 
                 {activeSubTab === "class" && (
-                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300 admin-table">
                     <thead className="bg-slate-50 dark:bg-slate-950 text-slate-400 text-[9px] uppercase font-bold">
                       <tr>
                         <th className="px-3 py-2.5">Class / Group Title</th>
@@ -953,17 +955,19 @@ export default function AdminRegistry() {
                         <th className="px-3 py-2.5 text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody>
                       {classes.map((c) => {
                         const loc = locations.find(l => l.id === c.locationId);
                         return (
                           <tr key={c.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === c.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
-                            <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
-                              <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                              <span>{c.name}</span>
+                            <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white">
+                              <div className="flex items-center gap-1.5">
+                                <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                <span>{c.name}</span>
+                              </div>
                             </td>
                             <td className="px-3 py-2.5 font-medium text-slate-500">{loc ? loc.name : "Unlinked"}</td>
-                            <td className="px-3 py-2.5 text-right flex items-center justify-end gap-1.5">
+                            <td className="px-3 py-2.5 text-right"><div className="flex items-center justify-end gap-1.5">
                               <button
                                 onClick={() => handleEditItem("class", c)}
                                 className="p-1 text-slate-400 hover:text-amber-500 rounded transition"
@@ -978,7 +982,7 @@ export default function AdminRegistry() {
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>
-                            </td>
+                            </div></td>
                           </tr>
                         );
                       })}
@@ -992,7 +996,7 @@ export default function AdminRegistry() {
                 )}
 
                 {activeSubTab === "volunteer" && (
-                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300 admin-table">
                     <thead className="bg-slate-50 dark:bg-slate-950 text-slate-400 text-[9px] uppercase font-bold">
                       <tr>
                         <th className="px-3 py-2.5">Volunteer / Director Name</th>
@@ -1000,7 +1004,7 @@ export default function AdminRegistry() {
                         <th className="px-3 py-2.5 text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody>
                       {volunteers.map((v) => {
                         const loc = locations.find(l => l.id === v.locationId);
                         const roleChosen = v.role || (/director|charge|coordinator|leader|pastor/i.test(v.name) ? "Director" : "Volunteer");
@@ -1020,7 +1024,7 @@ export default function AdminRegistry() {
                               </div>
                             </td>
                             <td className="px-3 py-2.5 font-medium text-slate-500">{loc ? loc.name : "Unlinked"}</td>
-                            <td className="px-3 py-2.5 text-right flex items-center justify-end gap-1.5">
+                            <td className="px-3 py-2.5 text-right"><div className="flex items-center justify-end gap-1.5">
                               <button
                                 onClick={() => handleEditItem("volunteer", v)}
                                 className="p-1 text-slate-400 hover:text-amber-500 rounded transition"
@@ -1035,7 +1039,7 @@ export default function AdminRegistry() {
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>
-                            </td>
+                            </div></td>
                           </tr>
                         );
                       })}
@@ -1049,7 +1053,7 @@ export default function AdminRegistry() {
                 )}
 
                 {activeSubTab === "teacher" && (
-                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300 admin-table">
                     <thead className="bg-slate-50 dark:bg-slate-950 text-slate-400 text-[9px] uppercase font-bold">
                       <tr>
                         <th className="px-3 py-2.5">Teacher Name</th>
@@ -1058,20 +1062,22 @@ export default function AdminRegistry() {
                         <th className="px-3 py-2.5 text-right animate-pulse">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody>
                       {teachers.map((t) => {
                         const assignedClasses = classes.filter(c => c.assignedTeacherId && c.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id));
                         const classNames = assignedClasses.map(c => c.name).join(", ") || "No active class";
                         const loc = locations.find(l => l.id === t.locationId);
                         return (
                           <tr key={t.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === t.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
-                            <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
-                              <Award className="w-3.5 h-3.5 text-sky-600 shrink-0" />
-                              <span>{t.name}</span>
+                            <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white">
+                              <div className="flex items-center gap-1.5">
+                                <Award className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                                <span>{t.name}</span>
+                              </div>
                             </td>
                             <td className="px-3 py-2.5 text-slate-700 dark:text-slate-300 font-medium">{classNames}</td>
                             <td className="px-3 py-2.5 text-slate-500 font-semibold">{loc ? loc.name : "Global Campus"}</td>
-                            <td className="px-3 py-2.5 text-right flex items-center justify-end gap-1.5">
+                            <td className="px-3 py-2.5 text-right"><div className="flex items-center justify-end gap-1.5">
                               <button
                                 onClick={() => handleEditItem("teacher", t)}
                                 className="p-1 text-slate-400 hover:text-amber-500 rounded transition"
@@ -1086,7 +1092,7 @@ export default function AdminRegistry() {
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>
-                            </td>
+                            </div></td>
                           </tr>
                         );
                       })}
@@ -1100,7 +1106,7 @@ export default function AdminRegistry() {
                 )}
 
                 {activeSubTab === "student" && (
-                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300 admin-table">
                     <thead className="bg-slate-50 dark:bg-slate-950 text-slate-400 text-[9px] uppercase font-bold">
                       <tr>
                         <th className="px-3 py-2.5">Student Name</th>
@@ -1108,17 +1114,19 @@ export default function AdminRegistry() {
                         <th className="px-3 py-2.5 text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody>
                       {students.map((s) => {
                         const classObj = classes.find(c => s.classIds && s.classIds.includes(c.id));
                         return (
                           <tr key={s.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === s.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
-                            <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
-                              <Smile className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                              <span>{s.name}</span>
+                            <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white">
+                              <div className="flex items-center gap-1.5">
+                                <Smile className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                                <span>{s.name}</span>
+                              </div>
                             </td>
                             <td className="px-3 py-2.5 font-medium text-slate-500">{classObj ? classObj.name : "Independent / Unlinked"}</td>
-                            <td className="px-3 py-2.5 text-right flex items-center justify-end gap-1.5">
+                            <td className="px-3 py-2.5 text-right"><div className="flex items-center justify-end gap-1.5">
                               <button
                                 onClick={() => handleEditItem("student", s)}
                                 className="p-1 text-slate-400 hover:text-amber-500 rounded transition"
@@ -1133,7 +1141,7 @@ export default function AdminRegistry() {
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>
-                            </td>
+                            </div></td>
                           </tr>
                         );
                       })}

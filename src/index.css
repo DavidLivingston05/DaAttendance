@@ -594,6 +594,20 @@ html:not(.dark) button.bg-red-50:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
+/* ─── Admin Registry Tables ─── */
+.admin-table {
+  border-collapse: collapse;
+}
+.admin-table tr {
+  border-bottom: 1px solid #e2e8f0;
+}
+.dark .admin-table tr {
+  border-bottom-color: rgba(71, 85, 105, 0.4);
+}
+.admin-table tbody tr:last-child {
+  border-bottom: none;
+}
+
 /* ─── Premium Attendance Card ─── */
 .attendance-card {
   background-color: var(--bg-card);
