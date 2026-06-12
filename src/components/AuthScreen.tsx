@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Shield, Eye, Lock, ArrowLeft, Loader2, Sparkles } from "lucide-react";
+import Logo from "./Logo";
 
 interface AuthScreenProps {
   onLoginSuccess: (user: any, token: string) => void;
@@ -58,7 +59,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         
         {/* Logo & Headline in High-Contrast Brand Theme */}
         <div className="text-center mb-8">
-          <img src="/logo.svg" alt="DaAttendance" className="w-16 h-16 rounded-2xl mx-auto shadow-md shadow-indigo-500/15" />
+          <Logo className="w-16 h-16 mx-auto" />
           <h2 className="mt-4 text-4xl font-display font-black tracking-tight bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent leading-none">
             DaAttendance
           </h2>

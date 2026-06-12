@@ -10,6 +10,7 @@ import AuthScreen from "./components/AuthScreen";
 import AdminRegistry from "./components/AdminRegistry";
 import AttendanceModule from "./components/AttendanceModule";
 import ReportsModule from "./components/ReportsModule";
+import Logo from "./components/Logo";
 
 const CosmicStarfield = React.memo(function CosmicStarfield({ theme }: { theme: "light" | "dark" }) {
   const [stars, setStars] = useState<{ id: number; top: number; left: number; size: number; delay: string; duration: string }[]>([]);
@@ -350,7 +351,7 @@ export default function App() {
             
             {/* Logo / Title */}
             <div className="flex items-center gap-2.5">
-              <img src="/logo.svg" alt="DaAttendance" className="w-9 h-9 rounded-xl shadow-xs" />
+              <Logo className="w-9 h-9" />
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
                 <h1 className="text-xl font-display font-black tracking-tight text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] leading-none">
                   DaAttendance
