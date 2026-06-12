@@ -1,10 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="100%" height="100%">
   <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4f46e5"/>
-      <stop offset="100%" stop-color="#7c3aed"/>
+    <linearGradient id="favGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9D16BD" />
+      <stop offset="60%" stop-color="#D946EF" />
+      <stop offset="100%" stop-color="#FF66D8" />
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="8" fill="url(#g)"/>
-  <path d="M18 8h6l-7 16h-5l-7-16h6l4 10z" fill="#fff"/>
+  <g transform="translate(0, 0)">
+    <path d="M 90 25 L 115 75 L 170 75 L 125 110 L 142 162 L 90 130 L 38 162 L 55 110 L 10 75 L 65 75 Z" 
+          fill="none" 
+          stroke="url(#favGradient)" 
+          stroke-width="18" 
+          stroke-linejoin="round" 
+          stroke-linecap="round" />
+    <polygon points="90,52 106,85 142,85 113,106 124,140 90,120 56,140 67,106 38,85 74,85" 
+             fill="none" 
+             stroke="url(#favGradient)" 
+             stroke-width="6" 
+             stroke-linejoin="round" 
+             opacity="0.5" />
+  </g>
 </svg>
