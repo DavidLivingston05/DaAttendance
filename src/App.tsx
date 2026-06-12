@@ -350,8 +350,8 @@ export default function App() {
           <div className="flex justify-between h-16 items-center">
             
             {/* Logo / Title */}
-            <div className="flex items-center gap-2.5">
-              <Logo className="h-12 w-auto" />
+            <div className="flex items-center gap-4">
+              <Logo className="h-16 w-auto" />
                 
                 {/* PWA Offline Synchronization Status Pill */}
                 <div className="flex items-center">
