@@ -59,7 +59,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
         
         {/* Logo & Headline in High-Contrast Brand Theme */}
         <div className="text-center mb-6">
-          <Logo className="h-40 lg:h-56 w-auto mx-auto" />
+          <Logo className="w-full max-w-[280px] sm:max-w-sm mx-auto h-auto" />
           <p className="text-xs font-black text-slate-500 dark:text-purple-200/60 uppercase tracking-widest mt-2.5">
             Sunday School Attendance Hub
           </p>

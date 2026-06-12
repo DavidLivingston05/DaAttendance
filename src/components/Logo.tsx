@@ -2,7 +2,7 @@ const Logo = ({ className = "h-12 w-auto" }) => {
   return (
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
-      viewBox="0 0 450 70"
+      viewBox="0 0 370 70"
       width="100%"
       height="100%"
       className={className}
@@ -21,7 +21,7 @@ const Logo = ({ className = "h-12 w-auto" }) => {
         </linearGradient>
       </defs>
 
-      <g transform="translate(5, 5) scale(0.35)">
+      <g transform="translate(5, 5) scale(0.30)">
         <path d="M 90 25 L 115 75 L 170 75 L 125 110 L 142 162 L 90 130 L 38 162 L 55 110 L 10 75 L 65 75 Z" 
               fill="none" 
               stroke="url(#galaxyStarGradient)" 
@@ -37,17 +37,17 @@ const Logo = ({ className = "h-12 w-auto" }) => {
                 opacity="0.5" />
       </g>
 
-      <text x="85" y="26" 
+      <text x="70" y="24" 
             fontFamily="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" 
-            fontSize="11" 
+            fontSize="10" 
             fontWeight="700" 
-            letterSpacing="4" 
+            letterSpacing="3" 
             fill="#C084FC" 
             opacity="0.8">CHILDREN'S MINISTRY</text>
 
-      <text x="85" y="56" 
+      <text x="70" y="52" 
             fontFamily="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" 
-            fontSize="34" 
+            fontSize="30" 
             fontWeight="900" 
             letterSpacing="-0.5" 
             fill="url(#pureGalaxyText)">DaAttendance</text>
