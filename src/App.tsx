@@ -68,9 +68,11 @@ const CosmicStarfield = React.memo(function CosmicStarfield({ theme }: { theme: 
 
 export default function App() {
   const [token, setToken] = useState<string | null>(localStorage.getItem("roll_token"));
-  const [currentUser, setCurrentUser] = useState<User | null>(
-    localStorage.getItem("roll_user") ? JSON.parse(localStorage.getItem("roll_user")!) : null
-  );
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
+    const raw = localStorage.getItem("roll_user");
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  });
 
   // Default tab based on role: Teacher bypasses dashboard to go straight to active Student Roll Call
   const [activeTab, setActiveTab] = useState<string>(() => {
