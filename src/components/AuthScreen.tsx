@@ -43,6 +43,9 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
       if (!res.ok) {
         throw new Error(data.error || "Incorrect password entered");
       }
+      if (!data.user) {
+        throw new Error("Server returned empty user data. Try again.");
+      }
       onLoginSuccess(data.user, data.token);
     } catch (err: any) {
       setError(err.message);
