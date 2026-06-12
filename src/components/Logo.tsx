@@ -14,18 +14,32 @@ const Logo = ({ className = "h-12 w-auto" }) => {
           <stop offset="100%" stopColor="#FF66D8" />
         </linearGradient>
         
-        <linearGradient id="pureGalaxyText" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient id="textNightGradient" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#FF7BE5" />
           <stop offset="40%" stopColor="#D946EF" />
           <stop offset="100%" stopColor="#A855F7" />
         </linearGradient>
+
+        <linearGradient id="textLightGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#7A22E0" />
+          <stop offset="50%" stopColor="#9D16BD" />
+          <stop offset="100%" stopColor="#E01177" />
+        </linearGradient>
+
+        <style dangerouslySetInnerHTML={{__html: `
+          .brand-title { fill: url(#textLightGradient); }
+          .brand-subtitle { fill: #4B5563; opacity: 0.9; }
+
+          html.dark .brand-title { fill: url(#textNightGradient); }
+          html.dark .brand-subtitle { fill: #C084FC; opacity: 0.8; }
+        `}} />
       </defs>
 
-      <g transform="translate(5, 5) scale(0.35)">
+      <g transform="translate(10, 14) scale(0.28)">
         <path d="M 90 25 L 115 75 L 170 75 L 125 110 L 142 162 L 90 130 L 38 162 L 55 110 L 10 75 L 65 75 Z" 
               fill="none" 
               stroke="url(#galaxyStarGradient)" 
-              strokeWidth="16" 
+              strokeWidth="18" 
               strokeLinejoin="round" 
               strokeLinecap="round" />
               
@@ -37,20 +51,19 @@ const Logo = ({ className = "h-12 w-auto" }) => {
                 opacity="0.5" />
       </g>
 
-      <text x="85" y="26" 
+      <text x="75" y="26" 
+            className="brand-subtitle"
             fontFamily="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" 
             fontSize="11" 
             fontWeight="700" 
-            letterSpacing="4" 
-            fill="#C084FC" 
-            opacity="0.8">CHILDREN'S MINISTRY</text>
+            letterSpacing="4">CHILDREN'S MINISTRY</text>
 
-      <text x="85" y="56" 
+      <text x="75" y="56" 
+            className="brand-title"
             fontFamily="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" 
             fontSize="34" 
             fontWeight="900" 
-            letterSpacing="-0.5" 
-            fill="url(#pureGalaxyText)">DaAttendance</text>
+            letterSpacing="-0.5">DaAttendance</text>
     </svg>
   );
 };
