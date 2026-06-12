@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { 
   Building, BookOpen, Users, BarChart3, Clock, Calendar, 
   MapPin, UserCheck, LogOut, Lock, Sun, Moon, Sparkles, Award, Layers, Settings,
-  Cloud, CloudOff, RefreshCw, CheckCircle2, Download
+  CheckCircle2, Download
 } from "lucide-react";
 import { getOfflineQueue, syncOfflineQueue } from "./offlineSync";
 import { User, DashboardStats } from "./types";
@@ -353,40 +353,6 @@ export default function App() {
             {/* Logo / Title */}
             <div className="flex items-center gap-2 sm:gap-4">
               <Logo className="h-9 sm:h-12 lg:h-16 xl:h-24 w-auto" />
-                
-                {/* PWA Offline Synchronization Status Pill */}
-                <div className="flex items-center">
-                  {isSyncing ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-purple-500/15 to-pink-500/15 text-purple-600 dark:from-purple-500/25 dark:to-pink-500/25 dark:text-[#D946EF] border border-purple-500/30 dark:border-[#D946EF]/20 shadow-[0_0_10px_rgba(168,85,247,0.15)] select-none">
-                      <RefreshCw className="w-3 h-3 animate-spin text-purple-500 dark:text-[#D946EF]" />
-                      <span>Syncing...</span>
-                    </span>
-                  ) : !isOnline ? (
-                    <span 
-                      onClick={triggerOnlineSync}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-amber-500/15 to-orange-500/15 text-amber-700 dark:from-amber-500/20 dark:to-orange-500/20 dark:text-amber-400 border border-amber-500/30 dark:border-amber-500/20 cursor-pointer shadow-[0_0_10px_rgba(251,191,36,0.1)] hover:brightness-110 transition-all select-none animate-pulse"
-                      title={pendingCount > 0 ? `${pendingCount} offline rolls waiting to sync` : "Device is offline"}
-                    >
-                      <CloudOff className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                      <span>Offline {pendingCount > 0 && `(${pendingCount})`}</span>
-                    </span>
-                  ) : pendingCount > 0 ? (
-                    <span 
-                      onClick={triggerOnlineSync}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-[#FF7BE5]/15 to-[#D946EF]/15 text-[#9D16BD] dark:from-[#FF7BE5]/20 dark:to-[#D946EF]/20 dark:text-[#FF7BE5] border border-[#D946EF]/30 dark:border-[#FF7BE5]/20 cursor-pointer shadow-[0_0_10px_rgba(217,70,239,0.15)] hover:brightness-110 transition-all select-none"
-                      title="Online but has enqueued edits. Click to synchronize."
-                    >
-                      <RefreshCw className="w-3 h-3 text-[#D946EF] dark:text-[#FF7BE5] animate-spin" />
-                      <span>Sync Pending ({pendingCount})</span>
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-[#9D16BD]/20 to-[#D946EF]/20 text-[#D946EF] dark:from-[#9D16BD]/30 dark:to-[#D946EF]/30 dark:text-[#FF7BE5] border border-[#D946EF]/30 dark:border-[#FF7BE5]/20 shadow-[0_0_10px_rgba(217,70,239,0.15)] select-none">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D946EF] dark:bg-[#FF7BE5] animate-ping absolute" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D946EF] dark:bg-[#FF7BE5] relative" />
-                      <span>Online</span>
-                    </span>
-                  )}
-                </div>
               </div>
 
             {/* Profile widget and logout */}
