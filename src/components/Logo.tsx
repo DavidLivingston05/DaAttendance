@@ -1,64 +1,73 @@
-const Logo = ({ className = "h-12 w-auto" }) => {
+const Logo = ({ className = "h-16 w-auto" }) => {
   return (
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
-      viewBox="0 0 550 160" 
+      viewBox="0 0 580 170" 
       className={className}
     >
       <defs>
-        <linearGradient id="logoGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#4A2E80" />
-          <stop offset="40%" stopColor="#633175" />
-          <stop offset="100%" stopColor="#A43A6D" />
+        <linearGradient id="logoGradientLarge" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#4A154B" />
+          <stop offset="60%" stopColor="#6B21A8" />
+          <stop offset="100%" stopColor="#9333EA" />
         </linearGradient>
       </defs>
 
       {/* --- ICON GROUP --- */}
-      <g fill="url(#logoGradient)">
-        {/* The Open Book Base */}
-        <path d="M 60 115 C 75 110, 95 90, 110 90 C 115 90, 118 105, 118 115 C 118 122, 100 135, 80 142 C 68 146, 62 144, 60 142 C 58 144, 52 146, 40 142 C 20 135, 2 122, 2 115 C 2 105, 5 90, 10 90 C 25 90, 45 110, 60 115 Z" />
-        <path d="M 60 110 C 72 105, 90 82, 102 82 C 105 82, 112 100, 112 108 C 95 102, 75 116, 60 126 C 45 116, 25 102, 8 108 C 8 100, 15 82, 18 82 C 30 82, 48 105, 60 110 Z" opacity="0.85" />
-        <path d="M 60 102 C 68 96, 85 75, 94 75 C 97 75, 104 94, 104 98 C 90 92, 72 108, 60 116 C 48 108, 30 92, 16 98 C 16 94, 23 75, 26 75 C 35 75, 52 96, 60 102 Z" opacity="0.7" />
+      <g fill="url(#logoGradientLarge)">
+        {/* 1. Geometric Outer Star */}
+        <polygon points="85,12 107,58 156,58 116,86 131,133 85,104 39,133 54,86 14,58 63,58" />
         
-        {/* The Interlocking Star */}
-        <polygon points="60,10 76,43 111,43 83,64 93,98 60,77 27,98 37,64 9,43 44,43" />
-        <polygon points="60,28 70,51 95,51 75,66 82,90 60,74 38,90 45,66 25,51 50,51" fill="#FFFFFF" />
-        <polygon points="48,68 60,60 72,68 60,76" fill="url(#logoGradient)" />
+        {/* 2. Inner Star Cutout */}
+        <polygon points="85,35 99,65 132,65 106,84 116,115 85,95 54,115 64,84 38,65 71,65" fill="#FFFFFF" />
+        
+        {/* 3. Symmetric Open Book Base Layers */}
+        {/* Bottom Layer */}
+        <path d="M 85,122 C 102,116 130,99 153,99 C 161,99 164,113 164,122 C 164,130 141,145 113,153 C 96,158 88,155 85,153 C 82,155 74,158 57,153 C 29,145 6,130 6,122 C 6,113 9,99 17,99 C 40,99 68,116 85,122 Z" />
+        
+        {/* Middle Page Layer */}
+        <path d="M 85,129 C 100,123 125,108 145,108 C 150,108 156,124 156,131 C 136,124 111,138 85,147 C 59,138 34,124 14,131 C 14,124 20,108 25,108 C 45,108 70,123 85,129 Z" opacity="0.85" />
+        
+        {/* Top Page Layer */}
+        <path d="M 85,136 C 96,130 116,119 134,119 C 137,119 143,133 143,138 C 127,132 106,145 85,153 C 64,145 43,132 27,138 C 27,133 33,119 36,119 C 54,119 74,130 85,136 Z" opacity="0.7" />
+        
+        {/* Sharp baseline connection anchor */}
+        <polygon points="71,90 85,80 99,90 85,100" fill="url(#logoGradientLarge)" />
       </g>
 
       {/* --- TYPOGRAPHY GROUP --- */}
       <text 
-        x="135" 
-        y="62" 
-        fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
-        fontSize="38" 
+        x="185" 
+        y="60" 
+        fontFamily="system-ui, -apple-system, sans-serif" 
+        fontSize="42" 
         fontWeight="800" 
-        letterSpacing="0.5" 
-        fill="#333333"
+        letterSpacing="0.75" 
+        fill="#1F2937"
       >
         CHILDREN'S
       </text>
+      
       <text 
-        x="135" 
-        y="98" 
-        fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
-        fontSize="38" 
+        x="185" 
+        y="100" 
+        fontFamily="system-ui, -apple-system, sans-serif" 
+        fontSize="42" 
         fontWeight="800" 
-        letterSpacing="0.5" 
-        fill="#333333"
+        letterSpacing="0.75" 
+        fill="#1F2937"
       >
         MINISTRY
       </text>
 
-      {/* "DaAttendance" - Sleek, Medium Weight Brand Identifier */}
       <text 
-        x="135" 
-        y="132" 
-        fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
-        fontSize="28" 
-        fontWeight="500" 
-        letterSpacing="0" 
-        fill="#222222"
+        x="185" 
+        y="138" 
+        fontFamily="system-ui, -apple-system, sans-serif" 
+        fontSize="30" 
+        fontWeight="600" 
+        letterSpacing="0.2" 
+        fill="#4B5563"
       >
         DaAttendance
       </text>
