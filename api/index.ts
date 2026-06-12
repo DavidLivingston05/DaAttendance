@@ -59,18 +59,16 @@ async function seedDatabase(db: Db) {
     const seedPromises = [];
 
     // 1. Users / Access Credentials
+    const adminSeed = dbData.users?.find((u: any) => u.role === "admin");
     if (counts[0] === 0 && dbData.users && dbData.users.length > 0) {
       seedPromises.push(db.collection("users").insertMany(dbData.users));
-    } else if (counts[0] > 0) {
-      // Always ensure admin password is set to admin123
-      const adminUser = dbData.users?.find((u: any) => u.role === "admin");
-      if (adminUser) {
-        seedPromises.push(
-          db.collection("users").updateOne(
-            { email: new RegExp("^" + adminUser.email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "$", "i") },
-            { $set: { password: adminUser.password } }
-          )
-        );
+    } else if (adminSeed) {
+      // Ensure admin exists with password admin123
+      const adminExists = await db.collection("users").findOne({ email: new RegExp("^" + adminSeed.email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "$", "i") });
+      if (adminExists) {
+        seedPromises.push(db.collection("users").updateOne({ email: adminExists.email }, { $set: { password: adminSeed.password } }));
+      } else {
+        seedPromises.push(db.collection("users").insertOne(adminSeed));
       }
     }
 
