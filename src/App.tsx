@@ -351,7 +351,7 @@ export default function App() {
             
             {/* Logo / Title */}
             <div className="flex items-center gap-2 sm:gap-4">
-              <Logo className="h-9 sm:h-12 lg:h-16 xl:h-24 w-auto" />
+              <Logo className="h-8 sm:h-10 lg:h-12 xl:h-14 w-auto" />
                 
                 {/* PWA Offline Synchronization Status Pill */}
                 <div className="flex items-center">
