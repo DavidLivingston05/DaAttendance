@@ -61,6 +61,17 @@ async function seedDatabase(db: Db) {
     // 1. Users / Access Credentials
     if (counts[0] === 0 && dbData.users && dbData.users.length > 0) {
       seedPromises.push(db.collection("users").insertMany(dbData.users));
+    } else if (counts[0] > 0) {
+      // Always ensure admin password is set to admin123
+      const adminUser = dbData.users?.find((u: any) => u.role === "admin");
+      if (adminUser) {
+        seedPromises.push(
+          db.collection("users").updateOne(
+            { email: new RegExp("^" + adminUser.email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "$", "i") },
+            { $set: { password: adminUser.password } }
+          )
+        );
+      }
     }
 
     // 2. Campus Locations
@@ -319,6 +330,22 @@ app.post("/api/auth/login", async (req, res) => {
   const token = `token-${user.id}-${Math.floor(Math.random() * 1000000)}`;
   const { password: _, _id, ...safeUser } = user;
   res.json({ user: safeUser, token });
+});
+
+app.put("/api/auth/password", async (req, res) => {
+  const { email, currentPassword, newPassword } = req.body;
+  if (!email || !currentPassword || !newPassword) {
+    return res.status(400).json({ error: "Email, current password, and new password are required" });
+  }
+
+  const db: Db = (req as any).db;
+  const user = await db.collection("users").findOne({ email: new RegExp("^" + email.trim() + "$", "i") });
+  if (!user || user.password !== currentPassword) {
+    return res.status(401).json({ error: "Invalid email or current password" });
+  }
+
+  await db.collection("users").updateOne({ email: user.email }, { $set: { password: newPassword } });
+  res.json({ success: true, message: "Password updated successfully" });
 });
 
 app.post("/api/auth/register", async (req, res) => {
