@@ -73,7 +73,9 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
               <h3 className="text-xl font-black text-slate-800 dark:text-white tracking-tight">
                 Choose Access Profile Group To Proceed
               </h3>
-
+              <p className="text-sm font-bold text-slate-600 mt-2 dark:text-purple-250/70 max-w-md mx-auto">
+                Please select your credentials group below to access the Sunday School roll call desk.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
