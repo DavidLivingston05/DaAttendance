@@ -356,32 +356,32 @@ export default function App() {
                 {/* PWA Offline Synchronization Status Pill */}
                 <div className="flex items-center">
                   {isSyncing ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-800/30 animate-pulse select-none">
-                      <RefreshCw className="w-2.5 h-2.5 animate-spin" />
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-purple-500/15 to-pink-500/15 text-purple-600 dark:from-purple-500/25 dark:to-pink-500/25 dark:text-[#D946EF] border border-purple-500/30 dark:border-[#D946EF]/20 shadow-[0_0_10px_rgba(168,85,247,0.15)] select-none">
+                      <RefreshCw className="w-3 h-3 animate-spin text-purple-500 dark:text-[#D946EF]" />
                       <span>Syncing...</span>
                     </span>
                   ) : !isOnline ? (
                     <span 
                       onClick={triggerOnlineSync}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/30 cursor-pointer shadow-xs hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition-all select-none animate-pulse"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-amber-500/15 to-orange-500/15 text-amber-700 dark:from-amber-500/20 dark:to-orange-500/20 dark:text-amber-400 border border-amber-500/30 dark:border-amber-500/20 cursor-pointer shadow-[0_0_10px_rgba(251,191,36,0.1)] hover:brightness-110 transition-all select-none animate-pulse"
                       title={pendingCount > 0 ? `${pendingCount} offline rolls waiting to sync` : "Device is offline"}
                     >
-                      <CloudOff className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400" />
+                      <CloudOff className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                       <span>Offline {pendingCount > 0 && `(${pendingCount})`}</span>
                     </span>
                   ) : pendingCount > 0 ? (
                     <span 
                       onClick={triggerOnlineSync}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pink-50 text-pink-700 dark:bg-pink-950/40 dark:text-pink-300 border border-pink-200/50 dark:border-pink-850/30 cursor-pointer hover:bg-pink-100/50 transition-all shadow-xs"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-[#FF7BE5]/15 to-[#D946EF]/15 text-[#9D16BD] dark:from-[#FF7BE5]/20 dark:to-[#D946EF]/20 dark:text-[#FF7BE5] border border-[#D946EF]/30 dark:border-[#FF7BE5]/20 cursor-pointer shadow-[0_0_10px_rgba(217,70,239,0.15)] hover:brightness-110 transition-all select-none"
                       title="Online but has enqueued edits. Click to synchronize."
                     >
-                      <RefreshCw className="w-2.5 h-2.5 text-pink-600 dark:text-pink-400 animate-spin" />
+                      <RefreshCw className="w-3 h-3 text-[#D946EF] dark:text-[#FF7BE5] animate-spin" />
                       <span>Sync Pending ({pendingCount})</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/40 dark:border-emerald-900/20 select-none">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping absolute" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 relative" />
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-[#9D16BD]/20 to-[#D946EF]/20 text-[#D946EF] dark:from-[#9D16BD]/30 dark:to-[#D946EF]/30 dark:text-[#FF7BE5] border border-[#D946EF]/30 dark:border-[#FF7BE5]/20 shadow-[0_0_10px_rgba(217,70,239,0.15)] select-none">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D946EF] dark:bg-[#FF7BE5] animate-ping absolute" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D946EF] dark:bg-[#FF7BE5] relative" />
                       <span>Online</span>
                     </span>
                   )}
