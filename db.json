@@ -1732,6 +1732,135 @@
       ],
       "notes": "Official Personnel Roll Call",
       "recordedAt": "2026-04-19T11:30:00.000Z"
+    },
+    {
+      "id": "vatt_loc_1779818167264_2026-01-04",
+      "locationId": "loc_1779818167264",
+      "date": "2026-01-04",
+      "checkedInPersonnelIds": [
+        "usr_jayesh",
+        "usr_hannah",
+        "usr_sheeba",
+        "usr_magdalyn",
+        "usr_surendar",
+        "usr_anita",
+        "usr_stella",
+        "usr_jennifer",
+        "usr_susanna",
+        "usr_gracy",
+        "vol_gideon",
+        "vol_sharon"
+      ],
+      "notes": "Official Personnel Roll Call",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "vatt_loc_1779818167264_2026-01-11",
+      "locationId": "loc_1779818167264",
+      "date": "2026-01-11",
+      "checkedInPersonnelIds": [
+        "usr_jayesh",
+        "usr_sheeba",
+        "usr_anita",
+        "usr_stella",
+        "usr_jennifer",
+        "usr_susanna",
+        "usr_gracy",
+        "vol_sharon"
+      ],
+      "notes": "Official Personnel Roll Call",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "vatt_loc_1779818167264_2026-01-18",
+      "locationId": "loc_1779818167264",
+      "date": "2026-01-18",
+      "checkedInPersonnelIds": [
+        "usr_jayesh",
+        "usr_hannah",
+        "usr_sheeba",
+        "usr_magdalyn",
+        "usr_anita",
+        "usr_stella",
+        "usr_jennifer",
+        "usr_susanna",
+        "usr_gracy",
+        "vol_gideon",
+        "vol_sharon"
+      ],
+      "notes": "Official Personnel Roll Call",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "vatt_loc_1779818167264_2026-01-25",
+      "locationId": "loc_1779818167264",
+      "date": "2026-01-25",
+      "checkedInPersonnelIds": [
+        "usr_jayesh",
+        "usr_sheeba",
+        "usr_magdalyn",
+        "usr_anita",
+        "usr_stella",
+        "usr_jennifer",
+        "usr_susanna",
+        "usr_gracy",
+        "vol_sharon"
+      ],
+      "notes": "Official Personnel Roll Call",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "vatt_loc_1779818167264_2026-02-08",
+      "locationId": "loc_1779818167264",
+      "date": "2026-02-08",
+      "checkedInPersonnelIds": [
+        "usr_jayesh",
+        "usr_sheeba",
+        "usr_magdalyn",
+        "usr_anita",
+        "usr_stella",
+        "usr_jennifer",
+        "usr_susanna",
+        "usr_gracy",
+        "vol_gideon"
+      ],
+      "notes": "Official Personnel Roll Call",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "vatt_loc_1779818167264_2026-02-15",
+      "locationId": "loc_1779818167264",
+      "date": "2026-02-15",
+      "checkedInPersonnelIds": [
+        "usr_jayesh",
+        "usr_hannah",
+        "usr_magdalyn",
+        "usr_anita",
+        "usr_susanna",
+        "usr_gracy",
+        "vol_gideon",
+        "vol_sharon"
+      ],
+      "notes": "Official Personnel Roll Call",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "vatt_loc_1779818167264_2026-02-22",
+      "locationId": "loc_1779818167264",
+      "date": "2026-02-22",
+      "checkedInPersonnelIds": [
+        "usr_jayesh",
+        "usr_magdalyn",
+        "usr_anita",
+        "usr_stella",
+        "usr_jennifer",
+        "usr_susanna",
+        "usr_gracy",
+        "vol_gideon",
+        "vol_sharon"
+      ],
+      "notes": "Official Personnel Roll Call",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
     }
   ]
 }
