@@ -1618,6 +1618,748 @@
       "notes": "Official Sunday Attendance Roll",
       "recordedBy": "Bro. Gideon Prakash",
       "recordedAt": "2026-04-19T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818274341_2026-01-04",
+      "classId": "cls_1779818274341",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_lamb_01",
+        "mem_lamb_02",
+        "mem_lamb_03",
+        "mem_lamb_04",
+        "mem_lamb_05",
+        "mem_lamb_06",
+        "mem_lamb_07",
+        "mem_lamb_08"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818283184_2026-01-04",
+      "classId": "cls_1779818283184",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_star_01"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818292160_2026-01-04",
+      "classId": "cls_1779818292160",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_twinkle_01",
+        "mem_twinkle_02",
+        "mem_twinkle_03",
+        "mem_twinkle_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818299951_2026-01-04",
+      "classId": "cls_1779818299951",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_bright_01",
+        "mem_bright_02",
+        "mem_bright_03",
+        "mem_bright_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818307785_2026-01-04",
+      "classId": "cls_1779818307785",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_rising_01",
+        "mem_rising_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818314840_2026-01-04",
+      "classId": "cls_1779818314840",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_shining_01",
+        "mem_shining_02",
+        "mem_shining_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818323299_2026-01-04",
+      "classId": "cls_1779818323299",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_shooting_01",
+        "mem_shooting_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818332924_2026-01-04",
+      "classId": "cls_1779818332924",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_morning_01",
+        "mem_morning_02",
+        "mem_morning_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-04T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818274341_2026-01-11",
+      "classId": "cls_1779818274341",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_lamb_01",
+        "mem_lamb_02",
+        "mem_lamb_04",
+        "mem_lamb_05",
+        "mem_lamb_07",
+        "mem_lamb_08",
+        "mem_lamb_09"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818283184_2026-01-11",
+      "classId": "cls_1779818283184",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_star_01"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818292160_2026-01-11",
+      "classId": "cls_1779818292160",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_twinkle_01",
+        "mem_twinkle_02",
+        "mem_twinkle_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818299951_2026-01-11",
+      "classId": "cls_1779818299951",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_bright_01",
+        "mem_bright_02",
+        "mem_bright_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818307785_2026-01-11",
+      "classId": "cls_1779818307785",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_rising_01",
+        "mem_rising_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818314840_2026-01-11",
+      "classId": "cls_1779818314840",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_shining_01",
+        "mem_shining_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818323299_2026-01-11",
+      "classId": "cls_1779818323299",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_shooting_01",
+        "mem_shooting_02",
+        "mem_shooting_03",
+        "mem_shooting_04",
+        "mem_shooting_05"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818332924_2026-01-11",
+      "classId": "cls_1779818332924",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_morning_01",
+        "mem_morning_02",
+        "mem_morning_03",
+        "mem_morning_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-11T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818274341_2026-01-18",
+      "classId": "cls_1779818274341",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_lamb_01",
+        "mem_lamb_02",
+        "mem_lamb_03",
+        "mem_lamb_04",
+        "mem_lamb_05",
+        "mem_lamb_06",
+        "mem_lamb_08",
+        "mem_lamb_09"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818283184_2026-01-18",
+      "classId": "cls_1779818283184",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_star_01"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818292160_2026-01-18",
+      "classId": "cls_1779818292160",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_twinkle_01",
+        "mem_twinkle_02",
+        "mem_twinkle_03",
+        "mem_twinkle_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818299951_2026-01-18",
+      "classId": "cls_1779818299951",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_bright_01",
+        "mem_bright_02",
+        "mem_bright_03",
+        "mem_bright_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818307785_2026-01-18",
+      "classId": "cls_1779818307785",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_rising_01",
+        "mem_rising_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818314840_2026-01-18",
+      "classId": "cls_1779818314840",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_shining_01",
+        "mem_shining_02",
+        "mem_shining_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818323299_2026-01-18",
+      "classId": "cls_1779818323299",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_shooting_01",
+        "mem_shooting_02",
+        "mem_shooting_03",
+        "mem_shooting_04",
+        "mem_shooting_05",
+        "mem_shooting_06"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818332924_2026-01-18",
+      "classId": "cls_1779818332924",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_morning_02",
+        "mem_morning_03",
+        "mem_morning_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-18T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818274341_2026-01-25",
+      "classId": "cls_1779818274341",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_lamb_01",
+        "mem_lamb_02",
+        "mem_lamb_04",
+        "mem_lamb_05",
+        "mem_lamb_06",
+        "mem_lamb_08",
+        "mem_lamb_09"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818283184_2026-01-25",
+      "classId": "cls_1779818283184",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_star_01"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818292160_2026-01-25",
+      "classId": "cls_1779818292160",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_twinkle_01",
+        "mem_twinkle_02",
+        "mem_twinkle_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818299951_2026-01-25",
+      "classId": "cls_1779818299951",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_bright_01",
+        "mem_bright_02",
+        "mem_bright_03",
+        "mem_bright_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818307785_2026-01-25",
+      "classId": "cls_1779818307785",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_rising_01",
+        "mem_rising_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818314840_2026-01-25",
+      "classId": "cls_1779818314840",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_shining_01",
+        "mem_shining_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818323299_2026-01-25",
+      "classId": "cls_1779818323299",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_shooting_01",
+        "mem_shooting_02",
+        "mem_shooting_03",
+        "mem_shooting_05",
+        "mem_shooting_06"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818332924_2026-01-25",
+      "classId": "cls_1779818332924",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_morning_01",
+        "mem_morning_02",
+        "mem_morning_03",
+        "mem_morning_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-01-25T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818274341_2026-02-08",
+      "classId": "cls_1779818274341",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_lamb_01",
+        "mem_lamb_02",
+        "mem_lamb_06",
+        "mem_lamb_08",
+        "mem_lamb_09"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818283184_2026-02-08",
+      "classId": "cls_1779818283184",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_star_01",
+        "mem_star_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818292160_2026-02-08",
+      "classId": "cls_1779818292160",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_twinkle_02",
+        "mem_twinkle_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818299951_2026-02-08",
+      "classId": "cls_1779818299951",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_bright_01",
+        "mem_bright_02",
+        "mem_bright_03",
+        "mem_bright_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818307785_2026-02-08",
+      "classId": "cls_1779818307785",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_rising_01",
+        "mem_rising_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818314840_2026-02-08",
+      "classId": "cls_1779818314840",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_shining_01"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818323299_2026-02-08",
+      "classId": "cls_1779818323299",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_shooting_01",
+        "mem_shooting_02",
+        "mem_shooting_05"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818332924_2026-02-08",
+      "classId": "cls_1779818332924",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_morning_01",
+        "mem_morning_03",
+        "mem_morning_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-08T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818274341_2026-02-15",
+      "classId": "cls_1779818274341",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_lamb_01",
+        "mem_lamb_02",
+        "mem_lamb_03",
+        "mem_lamb_04",
+        "mem_lamb_06",
+        "mem_lamb_09"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818283184_2026-02-15",
+      "classId": "cls_1779818283184",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818292160_2026-02-15",
+      "classId": "cls_1779818292160",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_twinkle_01",
+        "mem_twinkle_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818299951_2026-02-15",
+      "classId": "cls_1779818299951",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_bright_02",
+        "mem_bright_03",
+        "mem_bright_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818307785_2026-02-15",
+      "classId": "cls_1779818307785",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_rising_01",
+        "mem_rising_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818314840_2026-02-15",
+      "classId": "cls_1779818314840",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_shining_01"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818323299_2026-02-15",
+      "classId": "cls_1779818323299",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_shooting_01",
+        "mem_shooting_02",
+        "mem_shooting_05"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818332924_2026-02-15",
+      "classId": "cls_1779818332924",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_morning_03",
+        "mem_morning_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-15T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818274341_2026-02-22",
+      "classId": "cls_1779818274341",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_lamb_01",
+        "mem_lamb_02",
+        "mem_lamb_03",
+        "mem_lamb_04",
+        "mem_lamb_06",
+        "mem_lamb_08",
+        "mem_lamb_09"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818283184_2026-02-22",
+      "classId": "cls_1779818283184",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_star_01",
+        "mem_star_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818292160_2026-02-22",
+      "classId": "cls_1779818292160",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_twinkle_01",
+        "mem_twinkle_02",
+        "mem_twinkle_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818299951_2026-02-22",
+      "classId": "cls_1779818299951",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_bright_01",
+        "mem_bright_02",
+        "mem_bright_03",
+        "mem_bright_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818307785_2026-02-22",
+      "classId": "cls_1779818307785",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_rising_01",
+        "mem_rising_02"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818314840_2026-02-22",
+      "classId": "cls_1779818314840",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_shining_01",
+        "mem_shining_02",
+        "mem_shining_03"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818323299_2026-02-22",
+      "classId": "cls_1779818323299",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_shooting_01",
+        "mem_shooting_02",
+        "mem_shooting_03",
+        "mem_shooting_05"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
+    },
+    {
+      "id": "att_cls_1779818332924_2026-02-22",
+      "classId": "cls_1779818332924",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_morning_01",
+        "mem_morning_02",
+        "mem_morning_03",
+        "mem_morning_04"
+      ],
+      "notes": "Official Sunday Attendance Roll",
+      "recordedBy": "Bro. Gideon Prakash",
+      "recordedAt": "2026-02-22T11:30:00.000Z"
     }
   ],
   "volunteers": [
