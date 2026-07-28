@@ -25,12 +25,14 @@ if (isLocalhost) {
   let db: any;
   try {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (saved) {
+    const dbSeedVer = localStorage.getItem('da_attendance_seed_ver');
+    if (saved && dbSeedVer === '2026_roll_v11') {
       db = JSON.parse(saved);
     } else {
       // Clone seed data to avoid mutation reference issues
       db = JSON.parse(JSON.stringify(dbData));
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(db));
+      localStorage.setItem('da_attendance_seed_ver', '2026_roll_v11');
     }
   } catch (e) {
     db = JSON.parse(JSON.stringify(dbData));
@@ -40,7 +42,7 @@ if (isLocalhost) {
   if (!db.users) db.users = [];
   if (!db.locations) db.locations = [];
   if (!db.classes) db.classes = [];
-  if (!db.members) db.members = [];
+  db.members = JSON.parse(JSON.stringify(dbData.members || []));
   if (!db.attendance) db.attendance = [];
   if (!db.volunteers) db.volunteers = [];
   if (!db.volunteerAttendance) db.volunteerAttendance = [];
