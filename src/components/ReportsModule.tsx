@@ -140,8 +140,13 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
       locationId: string;
     }> = [];
 
+    const seenIds = new Set<string>();
+
     // Add students
     students.forEach(s => {
+      if (seenIds.has(`student-${s.id}`)) return;
+      seenIds.add(`student-${s.id}`);
+
       // Find class details
       const studentClasses = classes.filter(c => s.classIds && s.classIds.includes(c.id));
       const classNames = studentClasses.map(c => c.name);
@@ -173,6 +178,9 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
 
     // Add teachers
     teachers.forEach(t => {
+      if (seenIds.has(`personnel-${t.id}`)) return;
+      seenIds.add(`personnel-${t.id}`);
+
       const assignedClassNames = classes
         .filter(c => c.assignedTeacherId && c.assignedTeacherId.split(",").includes(t.id))
         .map(c => c.name);
@@ -195,6 +203,9 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
 
     // Add volunteers/directors
     volunteers.forEach(v => {
+      if (seenIds.has(`personnel-${v.id}`)) return;
+      seenIds.add(`personnel-${v.id}`);
+
       const isDir = v.role === "Director" || (v.role === undefined && /director|charge|coordinator|leader|pastor/i.test(v.name));
       const roleStr = isDir ? ("Director" as const) : ("Volunteer" as const);
       
@@ -622,7 +633,7 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
                   presentCount = recs.filter(r => r.checkedInPersonnelIds && r.checkedInPersonnelIds.includes(person.id)).length;
                 }
                 
-                const rate = totalCount > 0 ? Math.round((presentCount / totalCount) * 100) : 100;
+                const rate = totalCount > 0 ? Math.round((presentCount / totalCount) * 100) : 0;
                 
                 let badgeClass = "badge-student";
                 if (person.role === "Teacher") {
@@ -635,7 +646,7 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
 
                 return (
                   <div
-                    key={person.id}
+                    key={`${person.type}-${person.id}`}
                     className="attendance-card flex flex-col justify-between"
                   >
                     <div>
