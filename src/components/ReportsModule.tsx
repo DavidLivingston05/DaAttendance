@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { 
   Search, Award, Calendar, TrendingUp, CheckCircle, XCircle, X, Check, Users,
-  Printer, Sparkles, ChevronRight, Eye, MapPin, 
-  Activity, FileText, ArrowLeft, Loader2, Trophy, Flame, ShieldAlert, BadgeCheck
+  ChevronRight, Eye, MapPin, Activity, FileText, ArrowLeft, Loader2, ShieldAlert
 } from "lucide-react";
 import { User } from "../types";
 
@@ -23,10 +22,10 @@ interface Student {
   id: string;
   name: string;
   email: string;
-  phone: string;
+  phone?: string;
+  status: "active" | "inactive";
+  joinedDate?: string;
   classIds: string[];
-  status: string;
-  joinedDate: string;
 }
 
 interface Teacher {
@@ -42,7 +41,7 @@ interface Volunteer {
   id: string;
   name: string;
   locationId: string;
-  role?: "Volunteer" | "Director";
+  role?: string;
 }
 
 interface StudentAttendanceRecord {
@@ -51,41 +50,37 @@ interface StudentAttendanceRecord {
   date: string;
   checkedInMemberIds: string[];
   notes?: string;
-  recordedBy?: string;
-  recordedAt?: string;
 }
 
-interface PersonnelAttendanceRecord {
+interface VolunteerAttendanceRecord {
   id: string;
   locationId: string;
   date: string;
   checkedInPersonnelIds: string[];
   notes?: string;
-  recordedAt?: string;
 }
 
-interface ReportsModuleProps {
-  currentUser: User;
-}
+export default function ReportsModule({ currentUser }: { currentUser?: User | null }) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default function ReportsModule({ currentUser }: ReportsModuleProps) {
-  // DB States
+  // Raw Database Tables
   const [locations, setLocations] = useState<Location[]>([]);
   const [classes, setClasses] = useState<ClassSession[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [teachers, setTeachers] = useState<any[]>([]);
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [studentRecords, setStudentRecords] = useState<StudentAttendanceRecord[]>([]);
-  const [volunteerRecords, setPersonnelRecords] = useState<PersonnelAttendanceRecord[]>([]);
+  const [volunteerRecords, setPersonnelRecords] = useState<VolunteerAttendanceRecord[]>([]);
 
-  // Local state controls
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Search and Filter controls
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<"all" | "student" | "teacher" | "volunteer">("all");
   const [locationFilter, setLocationFilter] = useState("all");
   const [classFilter, setClassFilter] = useState("all");
   const [atRiskFilter, setAtRiskFilter] = useState(false);
+
+  // Detailed Individual View Selection
   const [selectedPerson, setSelectedPerson] = useState<{
     id: string;
     name: string;
@@ -99,9 +94,6 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     locationId: string;
   } | null>(null);
   
-  const [showCertificate, setShowCertificate] = useState(false);
-  const [celebrations, setCelebrations] = useState<{ id: number; left: number; emoji: string; delay: number }[]>([]);
-  const certificateRef = useRef<HTMLDivElement>(null);
   const filterGroupRef = useRef<HTMLDivElement>(null);
 
   // Load all necessary databases for computing stats
@@ -284,7 +276,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     }
 
     const daysAbsent = totalConducted - daysPresent;
-    const attendanceRate = totalConducted > 0 ? Math.round((daysPresent / totalConducted) * 100) : 100;
+    const attendanceRate = totalConducted > 0 ? Math.round((daysPresent / totalConducted) * 100) : 0;
 
     // Calculate Consecutive Streak in weeks
     let currentStreak = 0;
@@ -310,31 +302,6 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       }
     }
 
-    // Determine honor status
-    let rankTitle = "STATUS: ATTENDANCE REVIEW PENDING";
-    let rankBadge = "text-amber-600 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30";
-    let rankDesc = `Official records indicate no recent attendance markings. We deeply value ${selectedPerson.name}'s presence in our Sunday classes and look forward to welcoming them back next week.`;
-    
-    if (totalConducted > 0) {
-      if (attendanceRate === 100) {
-        rankTitle = "HONOR: PERFECT ATTENDANCE";
-        rankBadge = "text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30";
-        rankDesc = `${selectedPerson.name} has achieved perfect attendance, demonstrating remarkable dedication and commitment to our Sunday fellowship. We are truly blessed by their faithful presence.`;
-      } else if (attendanceRate >= 90) {
-        rankTitle = "HONOR: FAITHFUL ATTENDANCE";
-        rankBadge = "text-sky-600 bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/30";
-        rankDesc = `${selectedPerson.name} has shown faithful attendance with only a few missed sessions. Their consistent presence is a blessing to our community.`;
-      } else if (attendanceRate >= 75) {
-        rankTitle = "HONOR: REGULAR ATTENDANCE";
-        rankBadge = "text-indigo-600 bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/30";
-        rankDesc = `${selectedPerson.name} attends most sessions and is an important part of our Sunday fellowship. We look forward to seeing them grow in attendance.`;
-      } else {
-        rankTitle = "STATUS: ENCOURAGED ATTENDANCE";
-        rankBadge = "text-amber-600 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30";
-        rankDesc = `We deeply value ${selectedPerson.name}'s presence in our Sunday classes and look forward to welcoming them back next week.`;
-      }
-    }
-
     return {
       totalConducted,
       daysPresent,
@@ -342,9 +309,6 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
       attendanceRate,
       currentStreak,
       activeStreak,
-      rankTitle,
-      rankBadge,
-      rankDesc,
       history
     };
   }, [selectedPerson, studentRecords, volunteerRecords, students, classes]);
@@ -498,24 +462,6 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
     observer.observe(trigger);
     return () => observer.disconnect();
   }, []);
-
-  const handlePrintCertificate = () => {
-    window.print();
-  };
-
-  const triggerCelebration = () => {
-    const emojis = ["🚀", "✨", "⭐", "🎉", "😇", "🦖", "🛸", "🦄", "🌈", "🍕", "🎈", "👾"];
-    const newCelebrations = Array.from({ length: 35 }).map((_, i) => ({
-      id: Date.now() + i,
-      left: 5 + Math.random() * 90,
-      emoji: emojis[Math.floor(Math.random() * emojis.length)],
-      delay: Math.random() * 1.2
-    }));
-    setCelebrations(newCelebrations);
-    setTimeout(() => {
-      setCelebrations([]);
-    }, 4500);
-  };
 
   return (
     <div className="space-y-6 font-sans relative">
@@ -754,27 +700,27 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
           {selectedPerson && personMetrics && (
             <>
               {/* Profile Card Header */}
-              <div className="bg-gradient-to-r from-pink-600 to-pink-800 dark:from-pink-700/90 dark:to-purple-800/90 text-white p-6 sm:p-8 rounded-3xl relative overflow-hidden border border-pink-400/30 dark:border-pink-500/30 shadow-lg">
+              <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 dark:from-[#191433]/90 dark:to-[#130F26]/90 text-white p-6 sm:p-7 rounded-3xl relative overflow-hidden border border-slate-200/20 dark:border-purple-500/20 shadow-lg">
                 
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   {/* Left segment info */}
                   <div className="flex items-center gap-4.5">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-2xl font-black shadow-lg ring-4 ring-white/10 shrink-0">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xl font-black shadow-md ring-4 ring-white/10 shrink-0">
                       {selectedPerson.name.charAt(0)}
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[11px] font-black uppercase tracking-widest px-2.5 py-0.5 bg-white/10 rounded-full border border-white/20">
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30">
                           {selectedPerson.role}
                         </span>
                       </div>
-                      <h2 className="text-2xl sm:text-3xl font-display font-black text-white mt-1.5 leading-tight">
+                      <h2 className="text-2xl sm:text-3xl font-display font-black text-white mt-1 leading-tight">
                         {selectedPerson.name}
                       </h2>
                       
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-pink-100/90">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-xs text-slate-300">
                         <span className="flex items-center gap-1 font-semibold">
-                          <MapPin className="w-3.5 h-3.5 text-pink-300" />
+                          <MapPin className="w-3.5 h-3.5 text-indigo-400" />
                           {selectedPerson.locationName}
                         </span>
                       </div>
@@ -782,56 +728,28 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   </div>
 
                   {/* Actions segment right */}
-                  <div className="flex flex-wrap sm:flex-nowrap gap-2.5 shrink-0">
-                    {/* Certificate generator trigger */}
-                    {personMetrics.attendanceRate >= 90 && (
-                      <button
-                        onClick={() => setShowCertificate(true)}
-                        className="px-4.5 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-900 text-xs font-black rounded-xl shadow-md flex items-center justify-center gap-2 transition duration-200"
-                      >
-                        <Trophy className="w-4.5 h-4.5" />
-                        <span>Print Honor Certificate</span>
-                      </button>
-                    )}
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => setSelectedPerson(null)}
+                      className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl border border-white/15 transition flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      <span>Back to Directory</span>
+                    </button>
                   </div>
                 </div>
 
                 {/* Sub-header labels */}
                 {selectedPerson.classNames.length > 0 && (
-                  <div className="mt-5 pt-4 border-t border-white/10 flex flex-wrap gap-1.5 items-center">
-                    <span className="text-[10px] uppercase tracking-widest font-extrabold text-pink-200/70">Class Enrolment:</span>
+                  <div className="mt-4 pt-3.5 border-t border-white/10 flex flex-wrap gap-1.5 items-center">
+                    <span className="text-[10px] uppercase tracking-widest font-extrabold text-slate-400">Class Enrolment:</span>
                     {selectedPerson.classNames.map(cn => (
-                      <span key={cn} className="px-2.5 py-1 rounded bg-white/10 text-pink-200 border border-white/20 text-[10px] font-bold">
+                      <span key={cn} className="px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 text-[10px] font-bold">
                         {cn}
                       </span>
                     ))}
                   </div>
                 )}
-
-                {/* Honor Status Panel */}
-                <div className="mt-5 pt-4 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex flex-col gap-1.5 max-w-xl">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] uppercase tracking-widest font-extrabold text-pink-200/70">CURRENT HONOR STATUS:</span>
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[10px] sm:text-xs font-black uppercase tracking-wider border ${personMetrics.rankBadge}`}>
-                        {personMetrics.rankTitle}
-                      </span>
-                    </div>
-                    {selectedPerson.type === "student" && (
-                      <p className="text-xs text-pink-100/80 font-medium italic">
-                        "{personMetrics.rankDesc}"
-                      </p>
-                    )}
-                  </div>
-                  
-                  <button
-                    onClick={triggerCelebration}
-                    className="w-full md:w-auto px-4.5 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-black rounded-xl shadow-lg hover:shadow-pink-500/25 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer shrink-0"
-                  >
-                    <BadgeCheck className="w-4 h-4" />
-                    <span>Issue Commendation</span>
-                  </button>
-                </div>
               </div>
 
               {/* Bento Row: Attendance Metrics */}
@@ -872,15 +790,15 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     </span>
                   </div>
                   <span className="text-[11px] text-slate-500 dark:text-purple-200/50 font-medium">
-                    {personMetrics.daysPresent === 1 ? '1 Service Attended' : `${personMetrics.daysPresent} Services Attended`}
+                    {personMetrics.daysPresent} / {personMetrics.totalConducted} Sessions Attended
                   </span>
                 </div>
 
                 {/* Card 3: Consecutive Weeks Attended */}
                 <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-550/20 rounded-2xl flex flex-col justify-between shadow-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">CONSECUTIVE WEEKS ATTENDED</span>
-                    <BadgeCheck className="w-4 h-4 text-indigo-500" />
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">CONSECUTIVE WEEKS</span>
+                    <Calendar className="w-4 h-4 text-indigo-500" />
                   </div>
                   <div className="py-2">
                     <span className="text-4xl font-display font-black text-slate-800 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] font-mono">
@@ -888,7 +806,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                     </span>
                   </div>
                   <span className="text-[11px] text-slate-500 dark:text-purple-200/50 font-medium">
-                    {personMetrics.activeStreak === 1 ? '1 Week' : `${personMetrics.activeStreak} Weeks`}
+                    {personMetrics.activeStreak === 1 ? '1 Week Streak' : `${personMetrics.activeStreak} Weeks Streak`}
                   </span>
                 </div>
 
@@ -910,7 +828,7 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
                   <div className="p-10 border border-dashed border-slate-150 dark:border-purple-500/10 rounded-2xl text-center text-slate-400 dark:text-purple-200/35">
                     <Calendar className="w-8 h-8 mx-auto text-slate-250 mb-2" />
                     <p className="text-xs font-bold uppercase tracking-wider">No historic markings compiled yet</p>
-                    <p className="text-[10px] mt-1 text-slate-400">Attendance records must be marked under the "Attendance Desk" first.</p>
+                    <p className="text-[10px] mt-1 text-slate-400">Attendance records will appear here after marking attendance under "Attendance Desk".</p>
                   </div>
                 ) : (
                   <div className="space-y-3.5 max-h-[450px] overflow-y-auto pr-2 select-text">
@@ -965,135 +883,6 @@ export default function ReportsModule({ currentUser }: ReportsModuleProps) {
           )}
         </div>
       )}
-
-      {/* Galaxy Honor Certificate Modal Overlay (Print Friendly) */}
-      {showCertificate && selectedPerson && personMetrics && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto animate-fade-in print:hidden">
-          <div className="bg-white dark:bg-[#130F26] border-2 border-amber-500/30 dark:border-amber-500/50 p-6 sm:p-10 rounded-2xl max-w-4xl w-full shadow-2xl relative select-none">
-            
-            {/* Close trigger button */}
-            <button
-              onClick={() => setShowCertificate(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:text-purple-200 dark:hover:text-white p-1 rounded-full hover:bg-slate-100 dark:hover:bg-purple-900/30 transition"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            {/* PRINT-FRIENDLY BOUNDARY WRAPPER */}
-            <div id="print-certificate-container" ref={certificateRef} className="border-8 border-double border-amber-500/60 rounded-xl p-8 sm:p-12 text-center bg-radial-gradient from-amber-50/20 to-white dark:from-[#1E1139] dark:to-[#0B0813] text-slate-800 dark:text-white relative overflow-hidden">
-              {/* Star trails pattern */}
-              <div className="absolute inset-0 pointer-events-none opacity-[0.06] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-300 via-pink-300 to-indigo-800" />
-              
-              <div className="relative z-10 space-y-6">
-                <div className="flex justify-center mx-auto mb-2">
-                  <div className="w-20 h-20 bg-gradient-to-tr from-amber-400 to-yellow-500 rounded-full flex items-center justify-center text-slate-900 shadow-lg border-2 border-white dark:border-amber-400">
-                    <Trophy className="w-10 h-10 animate-bounce" />
-                  </div>
-                </div>
-
-                <div className="uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 font-black text-xs sm:text-sm">
-                  🏆 Stellar Sunday Superstar Award 🌟
-                </div>
-                
-                <h1 className="text-3xl sm:text-5xl font-display font-black text-slate-800 dark:text-white tracking-tight italic">
-                  DaAttendance Cosmic Academy 🚀
-                </h1>
-                
-                <div className="w-40 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto my-3" />
-                
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-purple-200/70 max-w-xl mx-auto italic font-medium leading-relaxed">
-                  {selectedPerson.type === "student"
-                    ? "This ultra-shiny galactic decoration is officially conferred upon this absolute Sunday School Legend who brought massive smiles, asked awesome questions, and completed stellar launches to Church every single week! 🪐"
-                    : "This supreme stellar decoration is officially conferred upon this outstanding leader who has demonstrated celestial commitment, persistence, and continuous perfect faith gathering guidance. ✨"
-                  }
-                </p>
-
-                <div className="py-2">
-                  <span className="text-slate-400 dark:text-purple-300 font-bold uppercase text-[11px] tracking-wider block">Presented Outstandingly to:</span>
-                  <div className="text-2xl sm:text-4xl font-black font-display text-slate-900 dark:text-[#00E5FF] tracking-tight mt-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
-                    {selectedPerson.name}
-                  </div>
-                  <div className="inline-flex items-center gap-1 sm:text-xs text-[10px] uppercase font-bold text-slate-400 dark:text-purple-200/40 bg-slate-50 dark:bg-purple-950/20 px-3 py-1 rounded-full border border-slate-200 dark:border-purple-500/10 mt-3">
-                    Honor Status: <strong className="text-slate-800 dark:text-purple-100">{personMetrics.rankTitle}</strong>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 max-w-md mx-auto py-3 bg-white/45 dark:bg-purple-950/20 border border-slate-200/45 dark:border-purple-500/10 rounded-xl">
-                  <div>
-                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">ROCKET FUEL</span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-[#00E5FF] leading-none">{personMetrics.attendanceRate}%</span>
-                  </div>
-                  <div className="border-x border-slate-200/55 dark:border-purple-500/10">
-                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">SPACE MISSIONS</span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-emerald-500 leading-none">{personMetrics.daysPresent}</span>
-                  </div>
-                  <div>
-                    <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-widest leading-none mb-1">SUPERNOVA STREAK</span>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-indigo-600 dark:text-indigo-400 leading-none">✦ {personMetrics.currentStreak} wks</span>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center max-w-sm mx-auto pt-6 border-t border-dashed border-slate-200/60 dark:border-purple-550/15">
-                  <div className="text-left">
-                    <div className="w-24 h-1 px-1 bg-slate-200 dark:bg-purple-900/60" />
-                    <span className="text-[9px] uppercase text-slate-450 font-bold block mt-1">Chief Space Coordinator</span>
-                  </div>
-                  <div className="relative">
-                    {/* Retro Stamp Emblem */}
-                    <div className="w-14 h-14 rounded-full border-4 border-[#00E5FF]/45 flex items-center justify-center text-[#00E5FF]/50 rotate-[-12deg] font-black font-display text-[8px] leading-tight select-none pointer-events-none uppercase tracking-wider">
-                      Perfect Faith 🌠
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="w-24 h-1 px-1 bg-slate-200 dark:bg-purple-900/60 align-right" />
-                    <span className="text-[9px] uppercase text-slate-450 font-bold block mt-1">Arch-Angel of Roll Call</span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Print action trigger button row */}
-            <div className="flex justify-between items-center mt-6">
-              <span className="text-[10px] font-bold text-slate-450 dark:text-purple-200/40">💡 Tip: Use your browser's Print option to save as PDF or Print!</span>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setShowCertificate(false)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-purple-950/40 dark:hover:bg-purple-950/70 text-slate-700 dark:text-purple-200 border border-slate-200 dark:border-purple-500/10 text-xs font-bold rounded-xl transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handlePrintCertificate}
-                  className="px-5 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-black rounded-xl hover:opacity-90 transition flex items-center gap-1.5 shadow-md shadow-indigo-500/15"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>Print Certificate Now</span>
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* Floating Space Emojis Celebration Layer */}
-      {celebrations.map((c) => (
-        <span
-          key={c.id}
-          className="fixed bottom-0 pointer-events-none text-5xl select-none z-50 animate-float-up"
-          style={{
-            left: `${c.left}vw`,
-            animationDelay: `${c.delay}s`,
-            animationDuration: '3.5s',
-          }}
-        >
-          {c.emoji}
-        </span>
-      ))}
-
     </div>
   );
 }
