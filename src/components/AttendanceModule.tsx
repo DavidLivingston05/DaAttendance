@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Check, Calendar, Notebook, RefreshCw, UserCheck, Shield, Users, Smile, HelpCircle, ThumbsUp, Trash2, ChevronLeft, ChevronRight, ChevronDown, User as UserIcon } from "lucide-react";
+import { Check, Calendar, Notebook, RefreshCw, UserCheck, Shield, Users, Smile, HelpCircle, ThumbsUp, Trash2, ChevronLeft, ChevronRight, ChevronDown, MessageCircle, Copy, User as UserIcon } from "lucide-react";
 import { User } from "../types";
 
 interface Location {
@@ -23,12 +23,14 @@ interface Teacher {
 interface Student {
   id: string;
   name: string;
+  phone?: string;
   classIds: string[];
 }
 
 interface Volunteer {
   id: string;
   name: string;
+  phone?: string;
   locationId: string;
   role?: "Volunteer" | "Director";
 }
@@ -131,6 +133,22 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showNotifyModal, setShowNotifyModal] = useState(false);
+  const [customPhoneMap, setCustomPhoneMap] = useState<Record<string, string>>({});
+  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+
+  const getWhatsAppUrl = (phone: string | undefined, name: string, dateStr: string, cohortName?: string) => {
+    const cleanPhone = (phone || "").replace(/[^0-9]/g, "");
+    const formattedDate = new Date(dateStr + "T00:00:00").toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric' });
+    const text = `Grace & Peace! We missed ${name} at Sunday School today (${formattedDate}${cohortName ? ` - ${cohortName}` : ''}). Hope everything is well! Please let us know if you need anything. Blessings! 🙏`;
+    const encoded = encodeURIComponent(text);
+    return cleanPhone ? `https://wa.me/${cleanPhone}?text=${encoded}` : `https://wa.me/?text=${encoded}`;
+  };
+
+  const getWhatsAppMessage = (name: string, dateStr: string, cohortName?: string) => {
+    const formattedDate = new Date(dateStr + "T00:00:00").toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric' });
+    return `Grace & Peace! We missed ${name} at Sunday School today (${formattedDate}${cohortName ? ` - ${cohortName}` : ''}). Hope everything is well! Please let us know if you need anything. Blessings! 🙏`;
+  };
 
   useEffect(() => {
     loadAllData();
@@ -377,6 +395,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
   // Calculations & Filters
   const filteredClasses = classes.filter(c => c.locationId === selectedLocationId);
   const selectedClassObj = classes.find(c => c.id === selectedClassId);
+  const selectedLocationObj = locations.find(l => l.id === selectedLocationId);
   
   // Find Teachers Assigned
   const assignedTeachers = selectedClassObj && selectedClassObj.assignedTeacherId
@@ -458,6 +477,9 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
 
   const studentRecordExists = studentRecords.some(r => r.classId === selectedClassId && r.date === selectedDate);
   const personnelRecordExists = volunteerRecords.some(r => r.locationId === selectedLocationId && r.date === selectedDate);
+
+  const absentStudents = classRoster.filter(s => !checkedStudentIds.includes(s.id));
+  const absentPersonnel = activePersonnel.filter(p => !checkedVolunteerIds.includes(p.id));
 
   return (
     <div className="space-y-6 font-sans relative">
@@ -904,6 +926,16 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                     )}
                   </div>
                   <div className="flex items-center gap-2">
+                    {absentStudents.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowNotifyModal(true)}
+                        className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-950/20 flex items-center gap-1.5 transition-all"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        <span>Notify Absentees ({absentStudents.length})</span>
+                      </button>
+                    )}
                     {studentRecordExists && (
                       <button
                         type="button"
@@ -1082,6 +1114,16 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                     )}
                   </div>
                   <div className="flex items-center gap-2">
+                    {absentPersonnel.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowNotifyModal(true)}
+                        className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-950/20 flex items-center gap-1.5 transition-all"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        <span>Notify Absentees ({absentPersonnel.length})</span>
+                      </button>
+                    )}
                     {personnelRecordExists && (
                       <button
                         type="button"
@@ -1120,6 +1162,103 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
         </div>
       )}
 
+      {/* Notify Absentees Modal */}
+      {showNotifyModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#191433] border border-slate-200 dark:border-purple-500/30 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-200">
+            <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-purple-500/10">
+              <div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5 text-emerald-500" />
+                  <span>Notify Absentees via WhatsApp</span>
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-purple-200/60 mt-0.5">
+                  {activeFlow === "student" ? selectedClassObj?.name : selectedLocationObj?.name} • {new Date(selectedDate + "T00:00:00").toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowNotifyModal(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-sm font-bold px-2 py-1 rounded-lg"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+              {(activeFlow === "student" ? absentStudents : absentPersonnel).length === 0 ? (
+                <p className="text-center py-8 text-xs text-slate-500 font-semibold italic">
+                  🎉 Everyone is present for this session! No absentees to notify.
+                </p>
+              ) : (
+                (activeFlow === "student" ? absentStudents : absentPersonnel).map((person) => {
+                  const phone = customPhoneMap[person.id] !== undefined ? customPhoneMap[person.id] : (person.phone || "");
+                  const waUrl = getWhatsAppUrl(phone, person.name, selectedDate, activeFlow === "student" ? selectedClassObj?.name : selectedLocationObj?.name);
+                  const msgText = getWhatsAppMessage(person.name, selectedDate, activeFlow === "student" ? selectedClassObj?.name : selectedLocationObj?.name);
+                  const isCopied = copiedMessageId === person.id;
+
+                  return (
+                    <div key={person.id} className="p-3.5 bg-slate-50 dark:bg-[#130F26] border border-slate-200/80 dark:border-purple-500/20 rounded-xl space-y-2.5">
+                      <div className="flex justify-between items-center">
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{person.name}</p>
+                          <span className="text-[9px] font-bold text-rose-500 bg-rose-500/10 px-1.5 py-0.5 rounded border border-rose-500/20">
+                            ❌ Absent
+                          </span>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(msgText);
+                              setCopiedMessageId(person.id);
+                              setTimeout(() => setCopiedMessageId(null), 2500);
+                            }}
+                            className="px-2.5 py-1.5 bg-slate-200 dark:bg-purple-950/60 hover:bg-slate-300 dark:hover:bg-purple-900 text-slate-700 dark:text-purple-200 text-[10px] font-bold rounded-lg transition-colors flex items-center gap-1"
+                          >
+                            <Copy className="w-3 h-3" />
+                            <span>{isCopied ? "Copied!" : "Copy Msg"}</span>
+                          </button>
+                          <a
+                            href={waUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold rounded-lg shadow-sm flex items-center gap-1.5 transition-colors"
+                          >
+                            <MessageCircle className="w-3.5 h-3.5" />
+                            <span>Send WhatsApp</span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-1 border-t border-slate-200/60 dark:border-purple-500/10">
+                        <span className="text-[10px] text-slate-500 dark:text-purple-200/50">Parent Phone:</span>
+                        <input
+                          type="text"
+                          placeholder="Enter phone (e.g. 919876543210)..."
+                          value={phone}
+                          onChange={(e) => setCustomPhoneMap(prev => ({ ...prev, [person.id]: e.target.value }))}
+                          className="flex-1 text-[11px] px-2.5 py-1 bg-white dark:bg-[#191433] border border-slate-200 dark:border-purple-500/30 rounded-lg text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-200/30 focus:outline-none focus:border-emerald-500 font-mono"
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            <div className="pt-3 border-t border-slate-100 dark:border-purple-500/10 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowNotifyModal(false)}
+                className="px-4 py-2 bg-slate-200 dark:bg-[#241B46] hover:bg-slate-300 dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 text-xs font-bold rounded-xl transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
