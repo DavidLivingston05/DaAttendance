@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   Plus, Trash2, Edit2, X, Building, BookOpen, Users, 
-  UserCheck, RefreshCw, MapPin, Smile, Award, RotateCcw,
-  Search, Download
+  UserCheck, RefreshCw, MapPin, Smile, Award, RotateCcw 
 } from "lucide-react";
 
 interface Location {
@@ -73,48 +72,6 @@ export default function AdminRegistry() {
   const [selectedLocIdStud, setSelectedLocIdStud] = useState("");
   const [selectedClassIdStud, setSelectedClassIdStud] = useState("");
   const [studentNameInput, setStudentNameInput] = useState("");
-
-  // Search and CSV export state
-  const [registrySearch, setRegistrySearch] = useState("");
-
-  const handleExportCSV = () => {
-    let csvLines: string[] = [];
-    if (activeSubTab === "student") {
-      csvLines.push("ID,Name,Email,Phone,Status,Joined Date");
-      students.forEach(s => {
-        csvLines.push(`"${s.id}","${s.name.replace(/"/g, '""')}","${s.email}","${s.phone}","${s.status}","${s.joinedDate}"`);
-      });
-    } else if (activeSubTab === "volunteer") {
-      csvLines.push("ID,Name,Role,Location ID");
-      volunteers.forEach(v => {
-        csvLines.push(`"${v.id}","${v.name.replace(/"/g, '""')}","${v.role}","${v.locationId}"`);
-      });
-    } else if (activeSubTab === "teacher") {
-      csvLines.push("ID,Name,Email,Role");
-      teachers.forEach(t => {
-        csvLines.push(`"${t.id}","${t.name.replace(/"/g, '""')}","${t.email}","${t.role}"`);
-      });
-    } else if (activeSubTab === "class") {
-      csvLines.push("ID,Name,Location ID,Assigned Teacher ID");
-      classes.forEach(c => {
-        csvLines.push(`"${c.id}","${c.name.replace(/"/g, '""')}","${c.locationId}","${c.assignedTeacherId || ''}"`);
-      });
-    } else {
-      csvLines.push("ID,Name,Address");
-      locations.forEach(l => {
-        csvLines.push(`"${l.id}","${l.name.replace(/"/g, '""')}","${l.address || ''}"`);
-      });
-    }
-
-    const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `DaAttendance_${activeSubTab}_Roster_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   useEffect(() => {
     loadAllData();
@@ -555,13 +512,6 @@ export default function AdminRegistry() {
     }
   };
 
-  const searchLower = registrySearch.toLowerCase().trim();
-  const displayLocations = locations.filter(l => !searchLower || l.name.toLowerCase().includes(searchLower));
-  const displayClasses = classes.filter(c => !searchLower || c.name.toLowerCase().includes(searchLower));
-  const displayVolunteers = volunteers.filter(v => !searchLower || v.name.toLowerCase().includes(searchLower) || v.role.toLowerCase().includes(searchLower));
-  const displayTeachers = teachers.filter(t => !searchLower || t.name.toLowerCase().includes(searchLower) || t.email.toLowerCase().includes(searchLower));
-  const displayStudents = students.filter(s => !searchLower || s.name.toLowerCase().includes(searchLower));
-
   return (
     <div className="space-y-6 font-sans">
       
@@ -620,41 +570,14 @@ export default function AdminRegistry() {
           </button>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="relative min-w-[200px]">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-purple-300/50" />
-            <input
-              type="text"
-              value={registrySearch}
-              onChange={(e) => setRegistrySearch(e.target.value)}
-              placeholder={`Search ${activeSubTab}s...`}
-              className="w-full pl-8 pr-3 py-1.5 bg-white dark:bg-[#191433]/80 border border-slate-200/60 dark:border-purple-500/20 rounded-xl text-xs text-slate-800 dark:text-purple-100 focus:outline-none focus:border-indigo-500"
-            />
-            {registrySearch && (
-              <button onClick={() => setRegistrySearch("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-                <X className="w-3 h-3" />
-              </button>
-            )}
-          </div>
-
-          <button
-            onClick={handleExportCSV}
-            className="px-3.5 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 border border-emerald-300 dark:border-emerald-700/50 rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-sm"
-            title={`Export ${activeSubTab} roster to CSV`}
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Export Roster CSV</span>
-          </button>
-
-          <button
-            onClick={handleResetDatabase}
-            className="px-3.5 py-1.5 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-sm"
-            title="Reset entire database from scratch"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset DB</span>
-          </button>
-        </div>
+        <button
+          onClick={handleResetDatabase}
+          className="px-3.5 py-2 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 rounded-2xl transition flex items-center gap-1.5 cursor-pointer shadow-sm"
+          title="Reset entire database from scratch"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>Reset Database</span>
+        </button>
       </div>
 
       {/* Global alert feedback */}
@@ -1070,7 +993,7 @@ export default function AdminRegistry() {
                       </tr>
                     </thead>
                     <tbody>
-                      {displayLocations.map((loc) => (
+                      {locations.map((loc) => (
                         <tr key={loc.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === loc.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
                           <td className="px-3 py-2.5 font-semibold text-slate-800 dark:text-white">
                             <div className="flex items-center gap-1.5">
@@ -1096,9 +1019,9 @@ export default function AdminRegistry() {
                             </div></td>
                         </tr>
                       ))}
-                      {displayLocations.length === 0 && (
+                      {locations.length === 0 && (
                         <tr>
-                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No matching locations found.</td>
+                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No locations configured yet. Use the form to build your first campus!</td>
                         </tr>
                       )}
                     </tbody>
@@ -1115,7 +1038,7 @@ export default function AdminRegistry() {
                       </tr>
                     </thead>
                     <tbody>
-                      {displayClasses.map((c) => {
+                      {classes.map((c) => {
                         const loc = locations.find(l => l.id === c.locationId);
                         return (
                           <tr key={c.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === c.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
@@ -1145,9 +1068,9 @@ export default function AdminRegistry() {
                           </tr>
                         );
                       })}
-                      {displayClasses.length === 0 && (
+                      {classes.length === 0 && (
                         <tr>
-                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No matching classes found.</td>
+                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No classes configured yet. Fill out the form as desired.</td>
                         </tr>
                       )}
                     </tbody>
@@ -1164,7 +1087,7 @@ export default function AdminRegistry() {
                       </tr>
                     </thead>
                     <tbody>
-                      {displayVolunteers.map((v) => {
+                      {volunteers.map((v) => {
                         const loc = locations.find(l => l.id === v.locationId);
                         const roleChosen = v.role || (/director|charge|coordinator|leader|pastor/i.test(v.name) ? "Director" : "Volunteer");
                         return (
@@ -1202,9 +1125,9 @@ export default function AdminRegistry() {
                           </tr>
                         );
                       })}
-                      {displayVolunteers.length === 0 && (
+                      {volunteers.length === 0 && (
                         <tr>
-                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No matching volunteers found.</td>
+                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No volunteers registered yet. Add volunteers to track director presence.</td>
                         </tr>
                       )}
                     </tbody>
@@ -1222,7 +1145,7 @@ export default function AdminRegistry() {
                       </tr>
                     </thead>
                     <tbody>
-                      {displayTeachers.map((t) => {
+                      {teachers.map((t) => {
                         const assignedClasses = classes.filter(c => c.assignedTeacherId && c.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id));
                         const classNames = assignedClasses.map(c => c.name).join(", ") || "No active class";
                         const loc = locations.find(l => l.id === t.locationId);
@@ -1255,9 +1178,9 @@ export default function AdminRegistry() {
                           </tr>
                         );
                       })}
-                      {displayTeachers.length === 0 && (
+                      {teachers.length === 0 && (
                         <tr>
-                          <td colSpan={4} className="text-center py-8 text-xs text-slate-400 italic">No matching teachers found.</td>
+                          <td colSpan={4} className="text-center py-8 text-xs text-slate-400 italic">No teachers setup in DB yet. Add class teachers to log session lists!</td>
                         </tr>
                       )}
                     </tbody>
@@ -1274,7 +1197,7 @@ export default function AdminRegistry() {
                       </tr>
                     </thead>
                     <tbody>
-                      {displayStudents.map((s) => {
+                      {students.map((s) => {
                         const classObj = classes.find(c => s.classIds && s.classIds.includes(c.id));
                         return (
                           <tr key={s.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === s.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>
@@ -1304,9 +1227,9 @@ export default function AdminRegistry() {
                           </tr>
                         );
                       })}
-                      {displayStudents.length === 0 && (
+                      {students.length === 0 && (
                         <tr>
-                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No matching students found.</td>
+                          <td colSpan={3} className="text-center py-8 text-xs text-slate-400 italic">No students registered yet. Populate your student lists dynamically using the form!</td>
                         </tr>
                       )}
                     </tbody>
