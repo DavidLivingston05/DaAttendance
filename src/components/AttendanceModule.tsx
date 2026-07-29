@@ -242,6 +242,14 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
     setCheckedVolunteerIds(ids);
   };
 
+  const handleStudentInvert = (allIds: string[]) => {
+    setCheckedStudentIds(prev => allIds.filter(id => !prev.includes(id)));
+  };
+
+  const handleVolunteerInvert = (allIds: string[]) => {
+    setCheckedVolunteerIds(prev => allIds.filter(id => !prev.includes(id)));
+  };
+
   // Submissions
   const handleSubmitStudents = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -772,24 +780,39 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
               <form onSubmit={handleSubmitStudents} className="space-y-4">
                          {/* Students check list card */}
                 <div className="bg-white dark:bg-[#191433]/85 border border-slate-200/60 dark:border-purple-500/20 rounded-2xl p-5 shadow-lg">
-                  <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-purple-500/10 mb-4">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3 border-b border-slate-100 dark:border-purple-500/10 mb-4 gap-2">
                     <div>
-                      <h3 className="text-sm font-bold text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">Sunday School Student Roll</h3>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-bold text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">Sunday School Student Roll</h3>
+                        {classRoster.length > 0 && (
+                          <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-[#00E5FF] text-[10px] font-bold rounded-lg border border-emerald-500/20">
+                            {checkedStudentIds.length} / {classRoster.length} Present ({classRoster.length > 0 ? Math.round((checkedStudentIds.length / classRoster.length) * 100) : 0}%)
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs text-slate-500 dark:text-purple-200/50 italic">Select present students for {selectedClassObj ? selectedClassObj.name : "..."}</p>
                     </div>
                     {classRoster.length > 0 && (
-                      <div className="flex gap-2">
+                      <div className="flex gap-1.5 flex-wrap">
                         <button
                           type="button"
                           onClick={() => handleStudentSelectAll(classRoster.map(s => s.id))}
-                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors"
+                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
                         >
                           Select All
                         </button>
                         <button
                           type="button"
+                          onClick={() => handleStudentInvert(classRoster.map(s => s.id))}
+                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
+                          title="Invert checked and unchecked selection"
+                        >
+                          Invert
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => setCheckedStudentIds([])}
-                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors"
+                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
                         >
                           Clear
                         </button>
@@ -900,24 +923,39 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                 
                 {/* Volunteer/Directors check list card */}
                 <div className="bg-white dark:bg-[#191433]/85 border border-slate-200/60 dark:border-purple-500/20 rounded-2xl p-5 shadow-lg">
-                  <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-purple-500/10 mb-4">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3 border-b border-slate-100 dark:border-purple-500/10 mb-4 gap-2">
                     <div>
-                      <h3 className="text-sm font-bold text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">Teachers, Volunteers & Directors Attendance</h3>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-bold text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">Teachers, Volunteers & Directors Attendance</h3>
+                        {activePersonnel.length > 0 && (
+                          <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-[#00E5FF] text-[10px] font-bold rounded-lg border border-emerald-500/20">
+                            {checkedVolunteerIds.length} / {activePersonnel.length} Present ({activePersonnel.length > 0 ? Math.round((checkedVolunteerIds.length / activePersonnel.length) * 100) : 0}%)
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs text-slate-500 dark:text-purple-200/50 italic">Select present leaders, staff, and active personnel on the selected date</p>
                     </div>
                     {activePersonnel.length > 0 && (
-                      <div className="flex gap-2">
+                      <div className="flex gap-1.5 flex-wrap">
                         <button
                           type="button"
                           onClick={() => handleVolunteerSelectAll(activePersonnel.map(p => p.id))}
-                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors"
+                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
                         >
                           Select All
                         </button>
                         <button
                           type="button"
+                          onClick={() => handleVolunteerInvert(activePersonnel.map(p => p.id))}
+                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
+                          title="Invert checked and unchecked selection"
+                        >
+                          Invert
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => setCheckedVolunteerIds([])}
-                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors"
+                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 dark:bg-[#241B46] dark:hover:bg-[#31255F] text-slate-700 dark:text-purple-200 border border-slate-200/60 dark:border-purple-500/30 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
                         >
                           Clear
                         </button>
