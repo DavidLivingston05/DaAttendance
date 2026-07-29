@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { 
   Search, Award, Calendar, TrendingUp, CheckCircle, XCircle, X, Check, Users,
-  ChevronRight, Eye, MapPin, Activity, FileText, ArrowLeft, Loader2, ShieldAlert
+  ChevronRight, Eye, MapPin, Activity, FileText, ArrowLeft, Loader2, ShieldAlert,
+  ChevronDown, ChevronUp
 } from "lucide-react";
 import { User } from "../types";
 
@@ -79,6 +80,9 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
   const [locationFilter, setLocationFilter] = useState("all");
   const [classFilter, setClassFilter] = useState("all");
   const [atRiskFilter, setAtRiskFilter] = useState(false);
+
+  // Collapsible logs toggle
+  const [showLogs, setShowLogs] = useState(false);
 
   // Detailed Individual View Selection
   const [selectedPerson, setSelectedPerson] = useState<{
@@ -690,7 +694,7 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
                       </div>
                       
                       <button
-                        onClick={() => setSelectedPerson(person)}
+                        onClick={() => { setSelectedPerson(person); setShowLogs(false); }}
                         className="px-3 py-1.5 bg-slate-100 dark:bg-[#0B0813] hover:bg-indigo-100 dark:hover:bg-indigo-950/30 hover:text-indigo-600 dark:hover:text-indigo-400 text-slate-600 dark:text-slate-300 rounded-lg text-[10px] font-semibold transition flex items-center gap-1"
                       >
                         <Eye className="w-3.5 h-3.5" />
@@ -741,7 +745,7 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
                   {/* Actions segment right */}
                   <div className="flex items-center gap-2 shrink-0">
                     <button
-                      onClick={() => setSelectedPerson(null)}
+                      onClick={() => { setSelectedPerson(null); setShowLogs(false); }}
                       className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl border border-white/15 transition flex items-center gap-1.5 cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4" />
@@ -823,70 +827,90 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
 
               </div>
 
-              {/* Attendance Timeline Records */}
-              <div className="bg-white dark:bg-[#191433]/80 p-6 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs space-y-4">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-base font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-indigo-500" />
-                    <span>Attendance Performance Logs</span>
-                  </h3>
-                  <span className="text-[11px] font-mono text-slate-450 dark:text-purple-200/50">
-                    Evaluated over {personMetrics.totalConducted} recorded {personMetrics.totalConducted === 1 ? 'Sunday' : 'Sundays'}
-                  </span>
-                </div>
-
-                {personMetrics.history.length === 0 ? (
-                  <div className="p-10 border border-dashed border-slate-150 dark:border-purple-500/10 rounded-2xl text-center text-slate-400 dark:text-purple-200/35">
-                    <Calendar className="w-8 h-8 mx-auto text-slate-250 mb-2" />
-                    <p className="text-xs font-bold uppercase tracking-wider">No historic markings compiled yet</p>
-                    <p className="text-[10px] mt-1 text-slate-400">Attendance records will appear here after marking attendance under "Attendance Desk".</p>
+              {/* Collapsible Attendance Timeline Records */}
+              <div className="bg-white dark:bg-[#191433]/80 p-5 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                <button
+                  onClick={() => setShowLogs(!showLogs)}
+                  className="w-full flex items-center justify-between gap-4 text-left cursor-pointer group select-none"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-105 transition-transform">
+                      <Activity className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <span>Attendance History Logs</span>
+                      </h3>
+                      <p className="text-xs text-slate-500 dark:text-purple-200/50 mt-0.5">
+                        {personMetrics.totalConducted} recorded {personMetrics.totalConducted === 1 ? 'Sunday session' : 'Sunday sessions'}
+                      </p>
+                    </div>
                   </div>
-                ) : (
-                  <div className="space-y-3.5 max-h-[450px] overflow-y-auto pr-2 select-text">
-                    {personMetrics.history.map((h, i) => {
-                      const dateObj = new Date(h.date);
-                      const formattedDate = isNaN(dateObj.getTime()) 
-                        ? h.date 
-                        : dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
 
-                      return (
-                        <div
-                          key={`${h.date}-${i}`}
-                          className={`p-4 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-4 transition duration-150 ${
-                            h.present
-                              ? "bg-emerald-500/4 border-emerald-500/15 dark:bg-[#0E2F2E]/30 dark:border-[#00E5FF]/20 shadow-[0_0_8px_rgba(0,229,255,0.02)]"
-                              : "bg-pink-500/4 border-pink-500/15 dark:bg-[#340F22]/20 dark:border-indigo-500/20"
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                              h.present 
-                                ? "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950 dark:text-[#00E5FF]" 
-                                : "bg-pink-500/10 text-pink-600 dark:bg-pink-950 dark:text-[#FF3366]"
-                            }`}>
-                              {h.present ? <CheckCircle className="w-4.5 h-4.5" /> : <XCircle className="w-4.5 h-4.5" />}
-                            </span>
-                            <div>
-                              <div className="font-bold text-xs text-slate-700 dark:text-purple-100 flex items-center gap-2">
-                                <span>{formattedDate}</span>
-                                <span className="text-[10px] font-medium text-slate-400 dark:text-purple-200/40">✦ {h.category}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-3.5 py-1.5 rounded-xl border border-indigo-200/50 dark:border-indigo-500/20 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-950/40 transition flex items-center gap-1.5">
+                      <span>{showLogs ? "Hide Logs" : "View Logs"}</span>
+                      {showLogs ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </span>
+                  </div>
+                </button>
+
+                {showLogs && (
+                  <div className="mt-4 pt-4 border-t border-slate-100 dark:border-purple-500/10 space-y-3.5">
+                    {personMetrics.history.length === 0 ? (
+                      <div className="p-8 border border-dashed border-slate-150 dark:border-purple-500/10 rounded-2xl text-center text-slate-400 dark:text-purple-200/35">
+                        <Calendar className="w-8 h-8 mx-auto text-slate-250 mb-2" />
+                        <p className="text-xs font-bold uppercase tracking-wider">No historic markings compiled yet</p>
+                        <p className="text-[10px] mt-1 text-slate-400">Attendance records will appear here after marking attendance under "Attendance Desk".</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 select-text">
+                        {personMetrics.history.map((h, i) => {
+                          const dateObj = new Date(h.date);
+                          const formattedDate = isNaN(dateObj.getTime()) 
+                            ? h.date 
+                            : dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+
+                          return (
+                            <div
+                              key={`${h.date}-${i}`}
+                              className={`p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3 transition duration-150 ${
+                                h.present
+                                  ? "bg-emerald-500/4 border-emerald-500/15 dark:bg-[#0E2F2E]/30 dark:border-[#00E5FF]/20"
+                                  : "bg-pink-500/4 border-pink-500/15 dark:bg-[#340F22]/20 dark:border-indigo-500/20"
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                                  h.present 
+                                    ? "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950 dark:text-[#00E5FF]" 
+                                    : "bg-pink-500/10 text-pink-600 dark:bg-pink-950 dark:text-[#FF3366]"
+                                }`}>
+                                  {h.present ? <CheckCircle className="w-4.5 h-4.5" /> : <XCircle className="w-4.5 h-4.5" />}
+                                </span>
+                                <div>
+                                  <div className="font-bold text-xs text-slate-700 dark:text-purple-100 flex items-center gap-2">
+                                    <span>{formattedDate}</span>
+                                    <span className="text-[10px] font-medium text-slate-400 dark:text-purple-200/40">✦ {h.category}</span>
+                                  </div>
+                                  <p className="text-[10px] mt-0.5 text-slate-500 dark:text-purple-200/60 leading-relaxed font-mono">
+                                    Remarks: <span className="font-sans italic font-medium">"{h.notes}"</span>
+                                  </p>
+                                </div>
                               </div>
-                              <p className="text-[10px] mt-0.5 text-slate-500 dark:text-purple-200/60 leading-relaxed font-mono">
-                                Remarks: <span className="font-sans italic font-medium">"{h.notes}"</span>
-                              </p>
-                            </div>
-                          </div>
 
-                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full border shrink-0 md:self-center self-start ${
-                            h.present
-                              ? "bg-emerald-50/50 text-emerald-700 dark:bg-teal-950/20 dark:text-[#00E5FF] dark:border-[#00E5FF]/30"
-                              : "bg-pink-50/50 text-pink-700 dark:bg-pink-950/20 dark:text-indigo-400 dark:border-indigo-500/30"
-                          }`}>
-                            {h.present ? "Present ✔" : "Absent ✕"}
-                          </span>
-                        </div>
-                      );
-                    })}
+                              <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full border shrink-0 md:self-center self-start ${
+                                h.present
+                                  ? "bg-emerald-50/50 text-emerald-700 dark:bg-teal-950/20 dark:text-[#00E5FF] dark:border-[#00E5FF]/30"
+                                  : "bg-pink-50/50 text-pink-700 dark:bg-pink-950/20 dark:text-indigo-400 dark:border-indigo-500/30"
+                              }`}>
+                                {h.present ? "Present ✔" : "Absent ✕"}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
