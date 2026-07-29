@@ -820,7 +820,11 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
 
                               <div className="flex items-center justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-purple-500/10">
                                 <span className="text-[9px] text-slate-500 dark:text-purple-200/40 uppercase tracking-widest">Attendance Status</span>
-                                {absentDates.length > 0 ? (
+                                {totalConducted === 0 ? (
+                                  <span className="text-[10px] font-medium text-slate-400 dark:text-purple-200/50">
+                                    No Logs
+                                  </span>
+                                ) : absentDates.length > 0 ? (
                                   <button
                                     type="button"
                                     onClick={(e) => {
@@ -1020,7 +1024,11 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
 
                               <div className="flex items-center justify-between mt-1 pt-1.5 border-t border-slate-100 dark:border-purple-500/10">
                                 <span className="text-[9px] text-slate-500 dark:text-purple-200/40 uppercase tracking-widest">Attendance Status</span>
-                                {absentDates.length > 0 ? (
+                                {totalConducted === 0 ? (
+                                  <span className="text-[10px] font-medium text-slate-400 dark:text-purple-200/50">
+                                    No Logs
+                                  </span>
+                                ) : absentDates.length > 0 ? (
                                   <button
                                     type="button"
                                     onClick={(e) => {
