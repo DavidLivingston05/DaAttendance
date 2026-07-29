@@ -193,7 +193,6 @@ export function exportAttendanceMatrixToExcel({
         });
 
         row["Total Present"] = `${presentCount}/${conductedCount}`;
-        row["Attendance %"] = conductedCount > 0 ? `${Math.round((presentCount / conductedCount) * 100)}%` : "0%";
 
         teacherRows.push(row);
       });
@@ -206,7 +205,6 @@ export function exportAttendanceMatrixToExcel({
           "Class In-charge / Role": "-",
           "Campus Location": loc.name,
           "Total Present": "0/0",
-          "Attendance %": "0%",
         };
         teacherRows.push(emptyRow);
       }
@@ -216,7 +214,7 @@ export function exportAttendanceMatrixToExcel({
       // Set column widths
       const tCols = [{ wch: 24 }, { wch: 28 }, { wch: 20 }];
       personnelDates.forEach(() => tCols.push({ wch: 14 }));
-      tCols.push({ wch: 14 }, { wch: 14 });
+      tCols.push({ wch: 14 });
       teacherWs["!cols"] = tCols;
 
       const sheetName = getUniqueSheetName("Teachers", loc.name, usedSheetNames);
@@ -283,7 +281,6 @@ export function exportAttendanceMatrixToExcel({
         });
 
         row["Total Present"] = `${presentCount}/${conductedCount}`;
-        row["Attendance %"] = conductedCount > 0 ? `${Math.round((presentCount / conductedCount) * 100)}%` : "0%";
 
         studentRows.push(row);
       });
@@ -294,7 +291,6 @@ export function exportAttendanceMatrixToExcel({
           "Class Cohort": "-",
           "Campus Location": loc.name,
           "Total Present": "0/0",
-          "Attendance %": "0%",
         };
         studentRows.push(emptyRow);
       }
@@ -303,7 +299,7 @@ export function exportAttendanceMatrixToExcel({
 
       const sCols = [{ wch: 24 }, { wch: 28 }, { wch: 20 }];
       studentDates.forEach(() => sCols.push({ wch: 14 }));
-      sCols.push({ wch: 14 }, { wch: 14 });
+      sCols.push({ wch: 14 });
       studentWs["!cols"] = sCols;
 
       const sheetName = getUniqueSheetName("Students", loc.name, usedSheetNames);
