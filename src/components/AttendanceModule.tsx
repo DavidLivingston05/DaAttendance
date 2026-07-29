@@ -876,33 +876,13 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                               </div>
                             </div>
 
-                            {/* Absent Days Dropdown Trigger */}
+                            {/* Single Line Absent Dates Display */}
                             {absentDates.length > 0 && (
-                              <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-purple-500/10" onClick={(e) => e.stopPropagation()}>
-                                <button
-                                  type="button"
-                                  onClick={(e) => toggleStudentAbsenceDates(stud.id, e)}
-                                  className="text-[10px] font-bold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 flex items-center gap-1.5 bg-rose-500/10 hover:bg-rose-500/20 px-2 py-0.5 rounded-lg border border-rose-500/20 transition-all"
-                                >
-                                  <span>Absent: {absentDates.length} {absentDates.length === 1 ? "day" : "days"}</span>
-                                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isAbsentExpanded ? "rotate-180" : ""}`} />
-                                </button>
-
-                                {isAbsentExpanded && (
-                                  <div className="mt-2 text-[10px] space-y-1.5 bg-rose-500/5 dark:bg-rose-950/30 p-2.5 rounded-lg border border-rose-500/20">
-                                    <p className="font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider text-[9px]">Dates Absent ({absentDates.length}):</p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                      {absentDates.map(d => {
-                                        const formatted = new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
-                                        return (
-                                          <span key={d} className="bg-rose-500/15 text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded border border-rose-500/30 font-mono text-[9px] font-bold">
-                                            {formatted}
-                                          </span>
-                                        );
-                                      })}
-                                    </div>
-                                  </div>
-                                )}
+                              <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-purple-500/10 text-[10px] truncate">
+                                <span className="font-bold text-rose-500 dark:text-rose-400">Absent ({absentDates.length}):</span>{" "}
+                                <span className="text-slate-600 dark:text-purple-200 font-medium">
+                                  {absentDates.map(d => new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short" })).join(", ")}
+                                </span>
                               </div>
                             )}
                           </div>
@@ -1062,33 +1042,13 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                               </div>
                             </div>
 
-                            {/* Absent Days Dropdown Trigger */}
+                            {/* Single Line Absent Dates Display */}
                             {absentDates.length > 0 && (
-                              <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-purple-500/10" onClick={(e) => e.stopPropagation()}>
-                                <button
-                                  type="button"
-                                  onClick={(e) => togglePersonnelAbsenceDates(person.id, e)}
-                                  className="text-[10px] font-bold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 flex items-center gap-1.5 bg-rose-500/10 hover:bg-rose-500/20 px-2 py-0.5 rounded-lg border border-rose-500/20 transition-all"
-                                >
-                                  <span>Absent: {absentDates.length} {absentDates.length === 1 ? "day" : "days"}</span>
-                                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isAbsentExpanded ? "rotate-180" : ""}`} />
-                                </button>
-
-                                {isAbsentExpanded && (
-                                  <div className="mt-2 text-[10px] space-y-1.5 bg-rose-500/5 dark:bg-rose-950/30 p-2.5 rounded-lg border border-rose-500/20">
-                                    <p className="font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider text-[9px]">Dates Absent ({absentDates.length}):</p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                      {absentDates.map(d => {
-                                        const formatted = new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
-                                        return (
-                                          <span key={d} className="bg-rose-500/15 text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded border border-rose-500/30 font-mono text-[9px] font-bold">
-                                            {formatted}
-                                          </span>
-                                        );
-                                      })}
-                                    </div>
-                                  </div>
-                                )}
+                              <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-purple-500/10 text-[10px] truncate">
+                                <span className="font-bold text-rose-500 dark:text-rose-400">Absent ({absentDates.length}):</span>{" "}
+                                <span className="text-slate-600 dark:text-purple-200 font-medium">
+                                  {absentDates.map(d => new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short" })).join(", ")}
+                                </span>
                               </div>
                             )}
                           </div>
