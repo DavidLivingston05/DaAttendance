@@ -829,9 +829,9 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                                 <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded transition ${
                                   isChecked
                                     ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
-                                    : "bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30"
+                                    : "bg-slate-100 dark:bg-[#241B46] text-slate-500 dark:text-purple-200/60 border border-slate-200/60 dark:border-purple-500/20"
                                 }`}>
-                                  {isChecked ? "✅ Present" : "❌ Absent"}
+                                  {isChecked ? "✅ Present" : "Not Marked"}
                                 </span>
                               </div>
                             </div>
@@ -967,9 +967,9 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                                 <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded transition ${
                                   isChecked
                                     ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
-                                    : "bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30"
+                                    : "bg-slate-100 dark:bg-[#241B46] text-slate-500 dark:text-purple-200/60 border border-slate-200/60 dark:border-purple-500/20"
                                 }`}>
-                                  {isChecked ? "✅ Present" : "❌ Absent"}
+                                  {isChecked ? "✅ Present" : "Not Marked"}
                                 </span>
                               </div>
                             </div>
