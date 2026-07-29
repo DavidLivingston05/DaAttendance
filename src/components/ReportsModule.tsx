@@ -2,9 +2,10 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { 
   Search, Award, Calendar, TrendingUp, CheckCircle, XCircle, X, Check, Users,
   ChevronRight, Eye, MapPin, Activity, FileText, ArrowLeft, Loader2, ShieldAlert,
-  ChevronDown, ChevronUp
+  ChevronDown, ChevronUp, FileSpreadsheet
 } from "lucide-react";
 import { User } from "../types";
+import { exportAttendanceMatrixToExcel } from "../utils/excelMatrixExporter";
 
 interface Location {
   id: string;
@@ -493,14 +494,34 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
             </h2>
           </div>
         </div>
-        {selectedPerson && (
-          <button 
-            onClick={() => setSelectedPerson(null)}
-            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-[#0B0813] dark:hover:bg-[#130F26] text-slate-700 dark:text-purple-200/80 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 dark:border-purple-500/20 shadow-xs"
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => exportAttendanceMatrixToExcel({
+              locations,
+              classes,
+              students,
+              teachers,
+              volunteers,
+              studentRecords,
+              volunteerRecords,
+              targetLocationId: locationFilter
+            })}
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600/90 dark:hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 active:scale-95 cursor-pointer"
+            title="Download multi-tab Excel matrix spreadsheet for selected/all campuses"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to List
+            <FileSpreadsheet className="w-4 h-4" />
+            <span>Export Matrix Excel</span>
           </button>
-        )}
+
+          {selectedPerson && (
+            <button 
+              onClick={() => { setSelectedPerson(null); setShowLogs(false); }}
+              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-[#0B0813] dark:hover:bg-[#130F26] text-slate-700 dark:text-purple-200/80 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 dark:border-purple-500/20 shadow-xs cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to List
+            </button>
+          )}
+        </div>
       </div>
 
       {loading ? (
