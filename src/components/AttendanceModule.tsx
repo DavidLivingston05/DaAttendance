@@ -369,36 +369,76 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
     ? teachers.filter(t => selectedClassObj.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id))
     : [];
 
-  // Students belonging to class
-  const classRoster = students.filter(s => s.classIds && s.classIds.includes(selectedClassId));
+  // Students belonging to class (deduplicated by normalized name)
+  const classRoster = (() => {
+    const list: Student[] = [];
+    const seenNames = new Set<string>();
+    students
+      .filter(s => s.classIds && s.classIds.includes(selectedClassId))
+      .forEach(s => {
+        const key = s.name.toLowerCase().trim();
+        if (!seenNames.has(key)) {
+          seenNames.add(key);
+          list.push(s);
+        }
+      });
+    return list;
+  })();
   
   // Teachers belonging to location
   const locationTeachers = teachers.filter(t => t.locationId === selectedLocationId);
   const locationVolunteers = volunteers.filter(v => v.locationId === selectedLocationId);
 
-  // Unified list of leaders and staff
-  const activePersonnel: Array<{
-    id: string;
-    name: string;
-    role: "Teacher" | "Director" | "Volunteer";
-    color: "emerald" | "indigo" | "sky";
-  }> = [
-    ...locationTeachers.map(t => ({
-      id: t.id,
-      name: t.name,
-      role: "Teacher" as const,
-      color: "emerald" as const
-    })),
-    ...locationVolunteers.map(v => {
-      const isDir = v.role === "Director" || (v.role === undefined && /director|charge|coordinator|leader|pastor/i.test(v.name));
-      return {
-        id: v.id,
-        name: v.name,
-        role: isDir ? ("Director" as const) : ("Volunteer" as const),
-        color: isDir ? ("indigo" as const) : ("sky" as const)
-      };
-    })
-  ].sort((a, b) => a.name.localeCompare(b.name));
+  // Set of student names to prevent student cards leaking into personnel list
+  const studentNamesSet = new Set(students.map(s => s.name.toLowerCase().trim()));
+
+  // Filter out any volunteer records that are actually students or have "student" in role
+  const filteredVolunteers = locationVolunteers.filter(v => {
+    const roleLower = (v.role || "").toLowerCase();
+    if (roleLower.includes("student")) return false;
+    if (studentNamesSet.has(v.name.toLowerCase().trim())) return false;
+    return true;
+  });
+
+  // Unified list of leaders and staff (deduplicated by normalized name)
+  const activePersonnel = (() => {
+    const list: Array<{
+      id: string;
+      name: string;
+      role: "Teacher" | "Director" | "Volunteer";
+      color: "emerald" | "indigo" | "sky";
+    }> = [];
+    const seenNames = new Set<string>();
+
+    locationTeachers.forEach(t => {
+      const key = t.name.toLowerCase().trim();
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        list.push({
+          id: t.id,
+          name: t.name,
+          role: "Teacher",
+          color: "emerald"
+        });
+      }
+    });
+
+    filteredVolunteers.forEach(v => {
+      const key = v.name.toLowerCase().trim();
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        const isDir = v.role === "Director" || (v.role === undefined && /director|charge|coordinator|leader|pastor/i.test(v.name));
+        list.push({
+          id: v.id,
+          name: v.name,
+          role: isDir ? "Director" : "Volunteer",
+          color: isDir ? "indigo" : "sky"
+        });
+      }
+    });
+
+    return list.sort((a, b) => a.name.localeCompare(b.name));
+  })();
 
   const studentRecordExists = studentRecords.some(r => r.classId === selectedClassId && r.date === selectedDate);
   const personnelRecordExists = volunteerRecords.some(r => r.locationId === selectedLocationId && r.date === selectedDate);
