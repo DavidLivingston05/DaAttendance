@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Check, Calendar, Notebook, RefreshCw, UserCheck, Shield, Users, Smile, HelpCircle, ThumbsUp, Trash2, ChevronLeft, ChevronRight, User as UserIcon } from "lucide-react";
+import { Check, Calendar, Notebook, RefreshCw, UserCheck, Shield, Users, Smile, HelpCircle, ThumbsUp, Trash2, ChevronLeft, ChevronRight, ChevronDown, User as UserIcon } from "lucide-react";
 import { User } from "../types";
 
 interface Location {
@@ -240,6 +240,16 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
 
   const handleVolunteerSelectAll = (ids: string[]) => {
     setCheckedVolunteerIds(ids);
+  };
+
+  const toggleStudentAbsenceDates = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedStudentAbsences(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const togglePersonnelAbsenceDates = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedPersonnelAbsences(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   // Submissions
@@ -821,41 +831,80 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                       {classRoster.map((stud) => {
                         const isChecked = checkedStudentIds.includes(stud.id);
 
+                        const classHistory = studentRecords.filter(r => r.classId === selectedClassId);
+                        const absentDates = classHistory
+                          .filter(r => !r.checkedInMemberIds || !r.checkedInMemberIds.includes(stud.id))
+                          .map(r => r.date)
+                          .sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+                        const isAbsentExpanded = !!expandedStudentAbsences[stud.id];
+
                         return (
                           <div
                             key={stud.id}
                             onClick={() => handleToggleStudent(stud.id)}
-                            className={`flex items-center justify-between p-4 border rounded-xl select-none cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
+                            className={`p-4 border rounded-xl select-none cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
                               isChecked
                                 ? "bg-pink-50/20 border-[#FF007A]/40 dark:bg-[#2E183E]/50 dark:border-[#FF007A] dark:shadow-[0_0_15px_rgba(255,0,122,0.25)]"
                                 : "bg-white dark:bg-[#191433]/80 border-slate-200/60 dark:border-purple-500/20 shadow-sm"
                             }`}
                           >
-                            <div className="min-w-0 pr-2">
-                              <p className={`text-xs font-bold truncate ${isChecked ? "text-pink-950 dark:text-[#00E5FF]" : "text-slate-700 dark:text-purple-200"}`}>
-                                {stud.name}
-                              </p>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[10px] text-slate-500 dark:text-purple-200/50">Class student</span>
-                                <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded transition ${
-                                  isChecked
-                                    ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
-                                    : studentRecordExists
-                                    ? "bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30"
-                                    : "bg-slate-100 dark:bg-[#241B46] text-slate-500 dark:text-purple-200/60 border border-slate-200/60 dark:border-purple-500/20"
-                                }`}>
-                                  {isChecked ? "✅ Present" : studentRecordExists ? "❌ Absent" : "Not Marked"}
-                                </span>
+                            <div className="flex items-center justify-between">
+                              <div className="min-w-0 pr-2">
+                                <p className={`text-xs font-bold truncate ${isChecked ? "text-pink-950 dark:text-[#00E5FF]" : "text-slate-700 dark:text-purple-200"}`}>
+                                  {stud.name}
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-[10px] text-slate-500 dark:text-purple-200/50">Class student</span>
+                                  <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded transition ${
+                                    isChecked
+                                      ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                                      : studentRecordExists
+                                      ? "bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30"
+                                      : "bg-slate-100 dark:bg-[#241B46] text-slate-500 dark:text-purple-200/60 border border-slate-200/60 dark:border-purple-500/20"
+                                  }`}>
+                                    {isChecked ? "✅ Present" : studentRecordExists ? "❌ Absent" : "Not Marked"}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all ${
+                                isChecked 
+                                  ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/30 scale-105" 
+                                  : "bg-slate-50 dark:bg-[#191433]/50 border border-slate-200/60 dark:border-purple-500/20 text-slate-300"
+                              }`}>
+                                {isChecked ? <Check className="w-5 h-5 stroke-[3]" /> : <span className="w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700"></span>}
                               </div>
                             </div>
 
-                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all ${
-                              isChecked 
-                                ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/30 scale-105" 
-                                : "bg-slate-50 dark:bg-[#191433]/50 border border-slate-200/60 dark:border-purple-500/20 text-slate-300"
-                            }`}>
-                              {isChecked ? <Check className="w-5 h-5 stroke-[3]" /> : <span className="w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700"></span>}
-                            </div>
+                            {/* Absent Days Dropdown Trigger */}
+                            {absentDates.length > 0 && (
+                              <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-purple-500/10" onClick={(e) => e.stopPropagation()}>
+                                <button
+                                  type="button"
+                                  onClick={(e) => toggleStudentAbsenceDates(stud.id, e)}
+                                  className="text-[10px] font-bold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 flex items-center gap-1.5 bg-rose-500/10 hover:bg-rose-500/20 px-2 py-0.5 rounded-lg border border-rose-500/20 transition-all"
+                                >
+                                  <span>Absent: {absentDates.length} {absentDates.length === 1 ? "day" : "days"}</span>
+                                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isAbsentExpanded ? "rotate-180" : ""}`} />
+                                </button>
+
+                                {isAbsentExpanded && (
+                                  <div className="mt-2 text-[10px] space-y-1.5 bg-rose-500/5 dark:bg-rose-950/30 p-2.5 rounded-lg border border-rose-500/20">
+                                    <p className="font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider text-[9px]">Dates Absent ({absentDates.length}):</p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {absentDates.map(d => {
+                                        const formatted = new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
+                                        return (
+                                          <span key={d} className="bg-rose-500/15 text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded border border-rose-500/30 font-mono text-[9px] font-bold">
+                                            {formatted}
+                                          </span>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
@@ -956,53 +1005,92 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                       {activePersonnel.map((person) => {
                         const isChecked = checkedVolunteerIds.includes(person.id);
 
+                        const locationHistory = volunteerRecords.filter(r => r.locationId === selectedLocationId);
+                        const absentDates = locationHistory
+                          .filter(r => !r.checkedInPersonnelIds || !r.checkedInPersonnelIds.includes(person.id))
+                          .map(r => r.date)
+                          .sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+                        const isAbsentExpanded = !!expandedPersonnelAbsences[person.id];
+
                         return (
                           <div
                             key={person.id}
                             onClick={() => handleToggleVolunteer(person.id)}
-                            className={`flex items-center justify-between p-4 border rounded-xl select-none cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
+                            className={`p-4 border rounded-xl select-none cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
                               isChecked
                                 ? "bg-pink-50/20 border-[#FF007A]/40 dark:bg-[#2E183E]/50 dark:border-[#FF007A] dark:shadow-[0_0_15px_rgba(255,0,122,0.25)]"
                                 : "bg-white dark:bg-[#191433]/80 border-slate-200/60 dark:border-purple-500/20 shadow-sm"
                             }`}
                           >
-                            <div className="min-w-0 pr-2">
-                              <p className={`text-xs font-bold truncate ${
-                                isChecked
-                                  ? "text-[#FF007A] dark:text-[#00E5FF]"
-                                  : "text-slate-700 dark:text-purple-200"
-                              }`}>
-                                {person.name}
-                              </p>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className={`inline-block text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded ${
-                                  person.role === "Teacher"
-                                    ? "bg-violet-100/70 text-violet-700 dark:bg-purple-950 dark:text-[#00E5FF]"
-                                    : person.role === "Director"
-                                    ? "bg-pink-100/70 text-pink-700 dark:bg-fuchsia-950 dark:text-[#FF007A]"
-                                    : "bg-cyan-100/70 text-cyan-700 dark:bg-cyan-950 dark:text-[#00E5FF]"
-                                }`}>
-                                  {person.role}
-                                </span>
-                                <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded transition ${
+                            <div className="flex items-center justify-between">
+                              <div className="min-w-0 pr-2">
+                                <p className={`text-xs font-bold truncate ${
                                   isChecked
-                                    ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
-                                    : personnelRecordExists
-                                    ? "bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30"
-                                    : "bg-slate-100 dark:bg-[#241B46] text-slate-500 dark:text-purple-200/60 border border-slate-200/60 dark:border-purple-500/20"
+                                    ? "text-[#FF007A] dark:text-[#00E5FF]"
+                                    : "text-slate-700 dark:text-purple-200"
                                 }`}>
-                                  {isChecked ? "✅ Present" : personnelRecordExists ? "❌ Absent" : "Not Marked"}
-                                </span>
+                                  {person.name}
+                                </p>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className={`inline-block text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded ${
+                                    person.role === "Teacher"
+                                      ? "bg-violet-100/70 text-violet-700 dark:bg-purple-950 dark:text-[#00E5FF]"
+                                      : person.role === "Director"
+                                      ? "bg-pink-100/70 text-pink-700 dark:bg-fuchsia-950 dark:text-[#FF007A]"
+                                      : "bg-cyan-100/70 text-cyan-700 dark:bg-cyan-950 dark:text-[#00E5FF]"
+                                  }`}>
+                                    {person.role}
+                                  </span>
+                                  <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded transition ${
+                                    isChecked
+                                      ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                                      : personnelRecordExists
+                                      ? "bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30"
+                                      : "bg-slate-100 dark:bg-[#241B46] text-slate-500 dark:text-purple-200/60 border border-slate-200/60 dark:border-purple-500/20"
+                                  }`}>
+                                    {isChecked ? "✅ Present" : personnelRecordExists ? "❌ Absent" : "Not Marked"}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all ${
+                                isChecked 
+                                  ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/30 scale-105"
+                                  : "bg-slate-50 dark:bg-[#191433]/50 border border-slate-200/60 dark:border-purple-500/20 text-slate-300"
+                              }`}>
+                                {isChecked ? <Check className="w-5 h-5 stroke-[3]" /> : <span className="w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700"></span>}
                               </div>
                             </div>
 
-                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all ${
-                              isChecked 
-                                ? "bg-gradient-to-r from-[#FF007A] to-[#BC00DD] text-white shadow-md shadow-[#FF007A]/30 scale-105"
-                                : "bg-slate-50 dark:bg-[#191433]/50 border border-slate-200/60 dark:border-purple-500/20 text-slate-300"
-                            }`}>
-                              {isChecked ? <Check className="w-5 h-5 stroke-[3]" /> : <span className="w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700"></span>}
-                            </div>
+                            {/* Absent Days Dropdown Trigger */}
+                            {absentDates.length > 0 && (
+                              <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-purple-500/10" onClick={(e) => e.stopPropagation()}>
+                                <button
+                                  type="button"
+                                  onClick={(e) => togglePersonnelAbsenceDates(person.id, e)}
+                                  className="text-[10px] font-bold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 flex items-center gap-1.5 bg-rose-500/10 hover:bg-rose-500/20 px-2 py-0.5 rounded-lg border border-rose-500/20 transition-all"
+                                >
+                                  <span>Absent: {absentDates.length} {absentDates.length === 1 ? "day" : "days"}</span>
+                                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isAbsentExpanded ? "rotate-180" : ""}`} />
+                                </button>
+
+                                {isAbsentExpanded && (
+                                  <div className="mt-2 text-[10px] space-y-1.5 bg-rose-500/5 dark:bg-rose-950/30 p-2.5 rounded-lg border border-rose-500/20">
+                                    <p className="font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider text-[9px]">Dates Absent ({absentDates.length}):</p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {absentDates.map(d => {
+                                        const formatted = new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
+                                        return (
+                                          <span key={d} className="bg-rose-500/15 text-rose-700 dark:text-rose-300 px-2 py-0.5 rounded border border-rose-500/30 font-mono text-[9px] font-bold">
+                                            {formatted}
+                                          </span>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
