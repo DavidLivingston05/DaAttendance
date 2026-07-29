@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { TrendingUp, Calendar, Users, BookOpen, Loader2 } from "lucide-react";
+import { TrendingUp, Calendar, UserCheck, BookOpen, Loader2 } from "lucide-react";
 
 interface StudentAttendanceRecord {
   id: string;
@@ -23,6 +23,7 @@ export default function DashboardMetrics() {
   const [error, setError] = useState<string | null>(null);
   const [students, setStudents] = useState<Student[]>([]);
   const [classes, setClasses] = useState<ClassSession[]>([]);
+  const [volunteers, setVolunteers] = useState<any[]>([]);
   const [studentRecords, setStudentRecords] = useState<StudentAttendanceRecord[]>([]);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function DashboardMetrics() {
         if (!cancelled) {
           setStudents(data.members || []);
           setClasses(data.classes || []);
+          setVolunteers(data.volunteers || []);
           setStudentRecords(data.attendance || []);
         }
       } catch (err: any) {
@@ -49,13 +51,9 @@ export default function DashboardMetrics() {
 
   const metrics = useMemo(() => {
     const activeClasses = classes.length;
+    const totalVolunteers = volunteers.length;
     const dates = [...new Set(studentRecords.map(r => r.date))].sort();
     const totalSessions = dates.length;
-    
-    const totalPresent = studentRecords.reduce(
-      (sum, rec) => sum + (rec.checkedInMemberIds?.length || 0), 0
-    );
-    const avgCheckins = totalSessions > 0 ? Math.round(totalPresent / totalSessions) : 0;
 
     const latestDate = dates[dates.length - 1];
     const previousDate = dates.length > 1 ? dates[dates.length - 2] : null;
@@ -80,8 +78,8 @@ export default function DashboardMetrics() {
     });
     const prevRate = prevPossible > 0 ? Math.round((prevPresent / prevPossible) * 100) : 0;
     const rateChange = todayRate - prevRate;
-    return { todayRate, totalSessions, avgCheckins, activeClasses, rateChange };
-  }, [studentRecords, students, classes]);
+    return { todayRate, totalSessions, totalVolunteers, activeClasses, rateChange };
+  }, [studentRecords, students, classes, volunteers]);
 
   if (loading) {
     return (
@@ -142,14 +140,14 @@ export default function DashboardMetrics() {
 
       <div className="metric-card metric-accent-cyan">
         <div className="flex justify-between items-center">
-          <span className="metric-title">Average Attendance</span>
-          <Users className="w-4 h-4 text-cyan-500" />
+          <span className="metric-title">Volunteers & Staff</span>
+          <UserCheck className="w-4 h-4 text-cyan-500" />
         </div>
         <div className="metric-value text-cyan-700 dark:text-cyan-300">
-          {metrics.avgCheckins}
+          {metrics.totalVolunteers}
         </div>
         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 mt-2 w-fit">
-          Per Session Avg
+          Active Personnel
         </span>
       </div>
 
