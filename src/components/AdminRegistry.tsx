@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   Plus, Trash2, Edit2, X, Building, BookOpen, Users, 
-  UserCheck, RefreshCw, MapPin, Smile, Award 
+  UserCheck, RefreshCw, MapPin, Smile, Award, RotateCcw 
 } from "lucide-react";
 
 interface Location {
@@ -461,60 +461,122 @@ export default function AdminRegistry() {
     }
   };
 
+  const handleRemoveAllStudents = async () => {
+    if (!window.confirm("Are you sure you want to remove ALL registered students from the database? This action cannot be undone.")) return;
+    setError(null);
+    try {
+      const res = await fetch("/api/members", { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Could not remove all students");
+      }
+      notifySuccess("Successfully removed all student names");
+      clearForm();
+      loadAllData();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const handleRemoveAllTeachers = async () => {
+    if (!window.confirm("Are you sure you want to remove ALL teachers from the database? This action cannot be undone.")) return;
+    setError(null);
+    try {
+      const res = await fetch("/api/teachers", { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Could not remove all teachers");
+      }
+      notifySuccess("Successfully removed all teachers");
+      clearForm();
+      loadAllData();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const handleResetDatabase = async () => {
+    if (!window.confirm("CRITICAL WARNING: Are you sure you want to reset the ENTIRE database? All locations, classes, students, teachers, volunteers, and attendance records will be permanently deleted. Only your Admin account will remain.")) return;
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/reset-database", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Database reset failed");
+      }
+      notifySuccess("Database completely reset to fresh start!");
+      clearForm();
+      loadAllData();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="space-y-6 font-sans">
       
-      {/* Visual Subtabs */}
-      <div className="flex flex-wrap gap-1.5 p-1.5 bg-slate-100 dark:bg-[#191433]/90 border dark:border-purple-500/20 backdrop-blur-md rounded-2xl max-w-fit shadow-inner">
+      {/* Visual Subtabs & Reset Database Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap gap-1.5 p-1.5 bg-slate-100 dark:bg-[#191433]/90 border dark:border-purple-500/20 backdrop-blur-md rounded-2xl max-w-fit shadow-inner">
+          <button
+            onClick={() => { setActiveSubTab("location"); clearForm(); }}
+            className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
+              activeSubTab === "location"
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
+                : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
+            }`}
+          >
+            1. Location Setup
+          </button>
+          <button
+            onClick={() => { setActiveSubTab("class"); clearForm(); }}
+            className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
+              activeSubTab === "class"
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
+                : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
+            }`}
+          >
+            2. Classes / Groups
+          </button>
+          <button
+            onClick={() => { setActiveSubTab("volunteer"); clearForm(); }}
+            className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
+              activeSubTab === "volunteer"
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
+                : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
+            }`}
+          >
+            3. Volunteers & Directors
+          </button>
+          <button
+            onClick={() => { setActiveSubTab("teacher"); clearForm(); }}
+            className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
+              activeSubTab === "teacher"
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
+                : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
+            }`}
+          >
+            4. Teachers
+          </button>
+          <button
+            onClick={() => { setActiveSubTab("student"); clearForm(); }}
+            className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
+              activeSubTab === "student"
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
+                : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
+            }`}
+          >
+            5. Students
+          </button>
+        </div>
+
         <button
-          onClick={() => { setActiveSubTab("location"); clearForm(); }}
-          className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
-            activeSubTab === "location"
-              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
-          }`}
+          onClick={handleResetDatabase}
+          className="px-3.5 py-2 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 rounded-2xl transition flex items-center gap-1.5 cursor-pointer shadow-sm"
+          title="Reset entire database from scratch"
         >
-          1. Location Setup
-        </button>
-        <button
-          onClick={() => { setActiveSubTab("class"); clearForm(); }}
-          className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
-            activeSubTab === "class"
-              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
-          }`}
-        >
-          2. Classes / Groups
-        </button>
-        <button
-          onClick={() => { setActiveSubTab("volunteer"); clearForm(); }}
-          className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
-            activeSubTab === "volunteer"
-              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
-          }`}
-        >
-          3. Volunteers & Directors
-        </button>
-        <button
-          onClick={() => { setActiveSubTab("teacher"); clearForm(); }}
-          className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
-            activeSubTab === "teacher"
-              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
-          }`}
-        >
-          4. Teachers
-        </button>
-        <button
-          onClick={() => { setActiveSubTab("student"); clearForm(); }}
-          className={`px-3.5 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
-            activeSubTab === "student"
-              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20"
-              : "bg-white text-slate-700 dark:text-purple-200/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
-          }`}
-        >
-          5. Students
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>Reset Database</span>
         </button>
       </div>
 
@@ -895,6 +957,26 @@ export default function AdminRegistry() {
                 {activeSubTab === "student" && `Registered Students List (${students.length})`}
               </h4>
             </div>
+            {activeSubTab === "student" && students.length > 0 && (
+              <button
+                onClick={handleRemoveAllStudents}
+                className="px-2.5 py-1 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 rounded-lg transition flex items-center gap-1.5 cursor-pointer"
+                title="Remove all registered students"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Remove All Students</span>
+              </button>
+            )}
+            {activeSubTab === "teacher" && teachers.length > 0 && (
+              <button
+                onClick={handleRemoveAllTeachers}
+                className="px-2.5 py-1 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 rounded-lg transition flex items-center gap-1.5 cursor-pointer"
+                title="Remove all assigned teachers"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Remove All Teachers</span>
+              </button>
+            )}
           </div>
 
           <div className="overflow-x-auto max-h-[420px]">

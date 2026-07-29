@@ -26,23 +26,23 @@ if (isLocalhost) {
   try {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     const dbSeedVer = localStorage.getItem('da_attendance_seed_ver');
-    if (saved && dbSeedVer === '2026_roll_v14') {
+    if (saved && dbSeedVer === '2026_roll_v17_fresh') {
       db = JSON.parse(saved);
     } else {
       // Clone seed data to avoid mutation reference issues
       db = JSON.parse(JSON.stringify(dbData));
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(db));
-      localStorage.setItem('da_attendance_seed_ver', '2026_roll_v14');
+      localStorage.setItem('da_attendance_seed_ver', '2026_roll_v17_fresh');
     }
   } catch (e) {
     db = JSON.parse(JSON.stringify(dbData));
   }
 
   // Fallback safety structures
-  if (!db.users) db.users = [];
+  if (!db.users) db.users = JSON.parse(JSON.stringify(dbData.users || []));
   if (!db.locations) db.locations = [];
   if (!db.classes) db.classes = [];
-  db.members = JSON.parse(JSON.stringify(dbData.members || []));
+  if (!db.members) db.members = [];
   if (!db.attendance) db.attendance = [];
   if (!db.volunteers) db.volunteers = [];
   if (!db.volunteerAttendance) db.volunteerAttendance = [];
@@ -240,6 +240,15 @@ if (isLocalhost) {
           saveDb();
           return makeResponse(201, newMem);
         }
+        if (method === 'DELETE') {
+          db.members = [];
+          db.attendance = db.attendance.map((a: any) => ({
+            ...a,
+            checkedInMemberIds: []
+          }));
+          saveDb();
+          return makeResponse(200, { success: true, message: 'All student names removed' });
+        }
       }
 
       if (path.startsWith('/api/members/')) {
@@ -320,6 +329,19 @@ if (isLocalhost) {
             .filter((u: any) => u.role === 'teacher')
             .map(({ password, ...safe }: any) => safe);
           return makeResponse(200, teachers);
+        }
+        if (method === 'DELETE') {
+          const teacherIds = new Set(db.users.filter((u: any) => u.role === 'teacher').map((u: any) => u.id));
+          db.users = db.users.filter((u: any) => u.role !== 'teacher');
+          db.classes = db.classes.map((c: any) => ({ ...c, assignedTeacherId: '' }));
+          if (Array.isArray(db.volunteerAttendance)) {
+            db.volunteerAttendance = db.volunteerAttendance.map((va: any) => ({
+              ...va,
+              checkedInPersonnelIds: (va.checkedInPersonnelIds || []).filter((id: string) => !teacherIds.has(id))
+            }));
+          }
+          saveDb();
+          return makeResponse(200, { success: true, message: 'All teachers removed' });
         }
       }
 
@@ -486,6 +508,18 @@ if (isLocalhost) {
           membersCount,
           attendanceRateToday: attendanceRateToday || 75
         });
+      }
+
+      if (path === '/api/admin/reset-database' && method === 'POST') {
+        db.users = db.users.filter((u: any) => u.role === 'admin' || u.id === 'usr_admin');
+        db.locations = [];
+        db.classes = [];
+        db.members = [];
+        db.attendance = [];
+        db.volunteers = [];
+        db.volunteerAttendance = [];
+        saveDb();
+        return makeResponse(200, { success: true, message: 'Database completely cleared and reset to fresh state.' });
       }
 
       return makeResponse(404, { error: `Not found: ${method} ${path}` });

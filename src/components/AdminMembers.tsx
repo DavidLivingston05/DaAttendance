@@ -141,6 +141,24 @@ export default function AdminMembers() {
     }
   };
 
+  const handleRemoveAll = async () => {
+    if (!window.confirm("Are you sure you want to remove ALL registered students from the database? This action cannot be undone.")) return;
+
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch("/api/members", { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not remove students");
+
+      setSuccess("All student profiles successfully removed!");
+      clearForm();
+      fetchData();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   // Convert classes to quickly search by class list name map
   const classMap = classes.reduce<Record<string, string>>((acc, c) => {
     acc[c.id] = c.name;
@@ -310,14 +328,26 @@ export default function AdminMembers() {
               <h3 className="text-base font-display font-semibold text-slate-800 dark:text-white">Students Directory</h3>
               <p className="text-xs text-slate-500 dark:text-purple-200/60">Track and manage student registration status and Sundays class cohorts</p>
             </div>
-            <button
-              id="mem-refresh-btn"
-              onClick={fetchData}
-              className="p-1.5 border border-slate-200 dark:border-purple-500/20 rounded-lg hover:bg-slate-50 dark:hover:bg-[#130F26] text-slate-500 dark:text-purple-200 transition"
-              title="Refresh lists"
-            >
-              <RefreshCw className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-2">
+              {members.length > 0 && (
+                <button
+                  onClick={handleRemoveAll}
+                  className="px-2.5 py-1 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 rounded-lg transition flex items-center gap-1.5 cursor-pointer"
+                  title="Remove all registered students"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Remove All Students</span>
+                </button>
+              )}
+              <button
+                id="mem-refresh-btn"
+                onClick={fetchData}
+                className="p-1.5 border border-slate-200 dark:border-purple-500/20 rounded-lg hover:bg-slate-50 dark:hover:bg-[#130F26] text-slate-500 dark:text-purple-200 transition cursor-pointer"
+                title="Refresh lists"
+              >
+                <RefreshCw className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

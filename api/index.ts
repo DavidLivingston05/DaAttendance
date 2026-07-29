@@ -539,6 +539,13 @@ app.put("/api/members/:id", async (req, res) => {
   res.json({ id, ...updatedFields });
 });
 
+app.delete("/api/members", async (req, res) => {
+  const db: Db = (req as any).db;
+  await db.collection("members").deleteMany({});
+  await db.collection("attendance").updateMany({}, { $set: { checkedInMemberIds: [] } });
+  res.json({ success: true, message: "All student names removed" });
+});
+
 app.delete("/api/members/:id", async (req, res) => {
   const { id } = req.params;
   const db: Db = (req as any).db;
@@ -622,6 +629,18 @@ app.put("/api/teachers/:id", async (req, res) => {
   const updatedUser = await db.collection("users").findOne({ id });
   const { password: _, _id: __, ...safeUser } = updatedUser!;
   res.json(safeUser);
+});
+
+app.delete("/api/teachers", async (req, res) => {
+  const db: Db = (req as any).db;
+  const teachers = await db.collection("users").find({ role: "teacher" }, { projection: { id: 1 } }).toArray();
+  const teacherIds = teachers.map((t: any) => t.id);
+  await db.collection("users").deleteMany({ role: "teacher" });
+  await db.collection("classes").updateMany({}, { $set: { assignedTeacherId: "" } });
+  if (teacherIds.length > 0) {
+    await db.collection("volunteerAttendance").updateMany({}, { $pull: { checkedInPersonnelIds: { $in: teacherIds } } as any });
+  }
+  res.json({ success: true, message: "All teachers removed" });
 });
 
 app.delete("/api/teachers/:id", async (req, res) => {
@@ -867,6 +886,24 @@ app.post("/api/migration/sync", async (req, res) => {
     });
   } catch (e: any) {
     res.status(500).json({ error: "Synchronization failed", details: e.message });
+  }
+});
+
+app.post("/api/admin/reset-database", async (req, res) => {
+  try {
+    const db: Db = (req as any).db;
+    await Promise.all([
+      db.collection("users").deleteMany({ role: { $ne: "admin" } }),
+      db.collection("locations").deleteMany({}),
+      db.collection("classes").deleteMany({}),
+      db.collection("members").deleteMany({}),
+      db.collection("attendance").deleteMany({}),
+      db.collection("volunteers").deleteMany({}),
+      db.collection("volunteerAttendance").deleteMany({})
+    ]);
+    res.json({ success: true, message: "Database completely cleared and reset to fresh state." });
+  } catch (e: any) {
+    res.status(500).json({ error: "Failed to reset database", details: e.message });
   }
 });
 
