@@ -392,7 +392,9 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
   // Set of student names to prevent student cards leaking into personnel list
   const studentNamesSet = new Set(students.map(s => s.name.toLowerCase().trim()));
 
-  // Filter out any volunteer records that are actually students or have "student" in role
+  // Filter out any teacher or volunteer records that are actually students or have "student" in role
+  const filteredTeachers = locationTeachers.filter(t => !studentNamesSet.has(t.name.toLowerCase().trim()));
+
   const filteredVolunteers = locationVolunteers.filter(v => {
     const roleLower = (v.role || "").toLowerCase();
     if (roleLower.includes("student")) return false;
@@ -410,7 +412,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
     }> = [];
     const seenNames = new Set<string>();
 
-    locationTeachers.forEach(t => {
+    filteredTeachers.forEach(t => {
       const key = t.name.toLowerCase().trim();
       if (!seenNames.has(key)) {
         seenNames.add(key);
