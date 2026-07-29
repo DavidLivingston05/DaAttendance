@@ -278,12 +278,23 @@ app.use("/api", async (req, res, next) => {
 
 // ---------------------- CLOUD API ROUTES ----------------------
 
+function uniqueByName(arr: any[]): any[] {
+  const seen = new Set<string>();
+  return arr.filter(item => {
+    if (!item || !item.name) return true;
+    const key = String(item.name).toLowerCase().trim();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 app.get("/api/bootstrap", async (req, res) => {
   try {
     const db: Db = (req as any).db;
     
     // Fetch all collections in parallel on the database server side in a single request lifecycle using native projections to exclude _id
-    const [locations, classes, users, volunteers, members, attendance, volunteerAttendance] = await Promise.all([
+    const [rawLocations, rawClasses, users, rawVolunteers, rawMembers, attendance, volunteerAttendance] = await Promise.all([
       db.collection("locations").find({}, { projection: { _id: 0 } }).toArray(),
       db.collection("classes").find({}, { projection: { _id: 0 } }).toArray(),
       db.collection("users").find({}, { projection: { _id: 0 } }).toArray(),
@@ -294,7 +305,11 @@ app.get("/api/bootstrap", async (req, res) => {
     ]);
 
     // Format secure teachers lists and other safe users (avoiding _id mapping loop)
-    const teachers = users.filter((u: any) => u.role === "teacher").map(({ password, ...safe }: any) => safe);
+    const teachers = uniqueByName(users.filter((u: any) => u.role === "teacher").map(({ password, ...safe }: any) => safe));
+    const locations = uniqueByName(rawLocations);
+    const classes = uniqueByName(rawClasses);
+    const members = uniqueByName(rawMembers);
+    const volunteers = uniqueByName(rawVolunteers);
 
     res.json({
       locations,
@@ -497,15 +512,31 @@ app.get("/api/members", async (req, res) => {
 
 app.post("/api/members", async (req, res) => {
   const { name, email, phone, status, joinedDate, classIds } = req.body;
-  if (!name || !email) {
-    return res.status(400).json({ error: "Name and email are required" });
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
   }
 
   const db: Db = (req as any).db;
+  const sanitizedName = name.trim();
+  const existing = await db.collection("members").findOne({
+    name: new RegExp("^" + sanitizedName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "$", "i")
+  });
+
+  if (existing) {
+    const updatedFields = {
+      email: email || existing.email,
+      phone: phone !== undefined ? phone : existing.phone,
+      status: status || existing.status,
+      classIds: classIds !== undefined ? classIds : existing.classIds
+    };
+    await db.collection("members").updateOne({ id: existing.id }, { $set: updatedFields });
+    return res.status(200).json({ id: existing.id, name: existing.name, ...updatedFields });
+  }
+
   const newMem = {
     id: `mem_${Date.now()}`,
-    name,
-    email,
+    name: sanitizedName,
+    email: email || `${sanitizedName.toLowerCase().replace(/\s+/g, ".")}@academy.org`,
     phone: phone || "",
     status: status || "active",
     joinedDate: joinedDate || new Date().toISOString().split("T")[0],
@@ -668,9 +699,23 @@ app.post("/api/volunteers", async (req, res) => {
   }
 
   const db: Db = (req as any).db;
+  const sanitizedName = name.trim();
+  const existing = await db.collection("volunteers").findOne({
+    name: new RegExp("^" + sanitizedName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "$", "i")
+  });
+
+  if (existing) {
+    const updatedFields = {
+      locationId: locationId || existing.locationId,
+      role: role || existing.role
+    };
+    await db.collection("volunteers").updateOne({ id: existing.id }, { $set: updatedFields });
+    return res.status(200).json({ id: existing.id, name: existing.name, ...updatedFields });
+  }
+
   const newVol = {
     id: `vol_${Date.now()}`,
-    name,
+    name: sanitizedName,
     locationId,
     role: role || "Volunteer"
   };
