@@ -538,7 +538,8 @@ function makeResponse(status: number, data: any): Response {
 }
 
 // Global client-side memory cache interceptor for /api/bootstrap and offline support
-window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+if (isLocalhost) {
+  window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
   const urlString = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
   const method = init?.method?.toUpperCase() || 'GET';
   const urlObj = new URL(urlString, window.location.origin);
@@ -814,3 +815,4 @@ window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Res
 
   return originalFetch(input, init);
 };
+}
