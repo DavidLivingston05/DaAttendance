@@ -10,9 +10,312 @@
     }
   ],
   "locations": [],
-  "classes": [],
-  "members": [],
-  "attendance": [],
+  "classes": [
+    {
+      "id": "cls_ll",
+      "name": "Little Lambs (LKG–UKG)",
+      "locationId": "",
+      "schedule": "Sunday 09:00 AM"
+    }
+  ],
+  "members": [
+    {
+      "id": "mem_ll_001",
+      "name": "Aradhana",
+      "email": "aradhana@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_002",
+      "name": "Ashmal Rithik",
+      "email": "ashmal.rithik@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_003",
+      "name": "Gabyleona",
+      "email": "gabyleona@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_004",
+      "name": "Jerome Mithran",
+      "email": "jerome.mithran@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_005",
+      "name": "Joel",
+      "email": "joel@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_006",
+      "name": "Kaitlyn Jane",
+      "email": "kaitlyn.jane@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_007",
+      "name": "Melvin Sam",
+      "email": "melvin.sam@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_008",
+      "name": "Rebekah",
+      "email": "rebekah@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_009",
+      "name": "Yessica Blessy",
+      "email": "yessica.blessy@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ll_010",
+      "name": "Dheera Jonathan",
+      "email": "dheera.jonathan@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ll"
+      ]
+    }
+  ],
+  "attendance": [
+    {
+      "id": "att_ll_001",
+      "classId": "cls_ll",
+      "date": "2026-04-19",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_005",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-04-19T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_002",
+      "classId": "cls_ll",
+      "date": "2026-03-08",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_005",
+        "mem_ll_006",
+        "mem_ll_008",
+        "mem_ll_009",
+        "mem_ll_010"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-03-08T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_003",
+      "classId": "cls_ll",
+      "date": "2026-03-15",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_004",
+        "mem_ll_005",
+        "mem_ll_006",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-03-15T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_004",
+      "classId": "cls_ll",
+      "date": "2026-03-22",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_004",
+        "mem_ll_005",
+        "mem_ll_006",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-03-22T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_005",
+      "classId": "cls_ll",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_006",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-02-08T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_006",
+      "classId": "cls_ll",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_003",
+        "mem_ll_004",
+        "mem_ll_006",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-02-15T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_007",
+      "classId": "cls_ll",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_003",
+        "mem_ll_004",
+        "mem_ll_006",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-02-22T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_008",
+      "classId": "cls_ll",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_003",
+        "mem_ll_004",
+        "mem_ll_005",
+        "mem_ll_006",
+        "mem_ll_007",
+        "mem_ll_008"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-01-04T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_009",
+      "classId": "cls_ll",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_004",
+        "mem_ll_005",
+        "mem_ll_007",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-01-11T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_010",
+      "classId": "cls_ll",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_003",
+        "mem_ll_004",
+        "mem_ll_005",
+        "mem_ll_006",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-01-18T10:30:00.000Z"
+    },
+    {
+      "id": "att_ll_011",
+      "classId": "cls_ll",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_ll_001",
+        "mem_ll_002",
+        "mem_ll_004",
+        "mem_ll_005",
+        "mem_ll_006",
+        "mem_ll_008",
+        "mem_ll_009"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_admin",
+      "recordedAt": "2026-01-25T10:30:00.000Z"
+    }
+  ],
   "volunteers": [],
   "volunteerAttendance": []
 }
