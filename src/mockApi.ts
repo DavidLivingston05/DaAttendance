@@ -816,3 +816,62 @@ if (isLocalhost) {
   return originalFetch(input, init);
 };
 }
+
+// Production Zero-Latency SWR Cache Interceptor for 0ms instant loading
+if (!isLocalhost) {
+  let fastBootstrapCache: any = null;
+  let lastFastFetch = 0;
+
+  window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+    const urlString = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
+    const method = init?.method?.toUpperCase() || 'GET';
+
+    if (urlString.includes('/api/bootstrap') && method === 'GET') {
+      const cachedStr = localStorage.getItem('da_attendance_fast_bootstrap');
+      if (cachedStr) {
+        try {
+          const cachedData = JSON.parse(cachedStr);
+          // Background revalidation if older than 3 seconds
+          if (Date.now() - lastFastFetch > 3000) {
+            lastFastFetch = Date.now();
+            originalFetch(input, init).then(async (res) => {
+              if (res.ok) {
+                const freshData = await res.json();
+                fastBootstrapCache = freshData;
+                localStorage.setItem('da_attendance_fast_bootstrap', JSON.stringify(freshData));
+              }
+            }).catch(() => {});
+          }
+          return new Response(JSON.stringify(cachedData), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        } catch (e) {}
+      }
+
+      try {
+        const res = await originalFetch(input, init);
+        if (res.ok) {
+          const data = await res.clone().json();
+          fastBootstrapCache = data;
+          localStorage.setItem('da_attendance_fast_bootstrap', JSON.stringify(data));
+          lastFastFetch = Date.now();
+        }
+        return res;
+      } catch (e) {
+        if (fastBootstrapCache) {
+          return new Response(JSON.stringify(fastBootstrapCache), { status: 200, headers: { 'Content-Type': 'application/json' } });
+        }
+        throw e;
+      }
+    }
+
+    if (urlString.includes('/api/') && ['POST', 'PUT', 'DELETE'].includes(method)) {
+      fastBootstrapCache = null;
+      lastFastFetch = 0;
+      localStorage.removeItem('da_attendance_fast_bootstrap');
+    }
+
+    return originalFetch(input, init);
+  };
+}
