@@ -220,7 +220,8 @@ if (isLocalhost) {
       // --- 4. MEMBERS (STUDENTS) ---
       if (path === '/api/members') {
         if (method === 'GET') {
-          return makeResponse(200, db.members);
+          const sortedMembers = [...(db.members || [])].sort((a: any, b: any) => (a.name || '').localeCompare(b.name || ''));
+          return makeResponse(200, sortedMembers);
         }
         if (method === 'POST') {
           const { name, email, phone, status, joinedDate, classIds } = body || {};
@@ -327,7 +328,8 @@ if (isLocalhost) {
         if (method === 'GET') {
           const teachers = db.users
             .filter((u: any) => u.role === 'teacher')
-            .map(({ password, ...safe }: any) => safe);
+            .map(({ password, ...safe }: any) => safe)
+            .sort((a: any, b: any) => (a.name || '').localeCompare(b.name || ''));
           return makeResponse(200, teachers);
         }
         if (method === 'DELETE') {
@@ -468,13 +470,15 @@ if (isLocalhost) {
       if (path === '/api/bootstrap' && method === 'GET') {
         const teachers = db.users
           .filter((u: any) => u.role === 'teacher')
-          .map(({ password, ...safe }: any) => safe);
+          .map(({ password, ...safe }: any) => safe)
+          .sort((a: any, b: any) => (a.name || '').localeCompare(b.name || ''));
+        const members = [...(db.members || [])].sort((a: any, b: any) => (a.name || '').localeCompare(b.name || ''));
         return makeResponse(200, {
           locations: db.locations,
           classes: db.classes,
           teachers,
           volunteers: db.volunteers || [],
-          members: db.members,
+          members,
           attendance: db.attendance,
           volunteerAttendance: db.volunteerAttendance || []
         });

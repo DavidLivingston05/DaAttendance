@@ -157,6 +157,8 @@ export function exportAttendanceMatrixToExcel({
       });
     });
 
+    personnelList.sort((a, b) => a.name.localeCompare(b.name));
+
     // Get all dates for volunteer attendance in this location
     const personnelLocRecords = volunteerRecords.filter((r) => r.locationId === loc.id);
     const personnelDates = [...new Set(personnelLocRecords.map((r) => r.date))].sort();
@@ -231,7 +233,7 @@ export function exportAttendanceMatrixToExcel({
     // Students enrolled in classes for this location
     const locStudents = students.filter(
       (s) => s.classIds && s.classIds.some((cid) => locClassIds.includes(cid))
-    );
+    ).sort((a, b) => a.name.localeCompare(b.name));
 
     // Dates for student attendance in classes at this location
     const locStudentRecords = studentRecords.filter((r) => locClassIds.includes(r.classId));

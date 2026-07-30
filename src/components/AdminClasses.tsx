@@ -221,7 +221,7 @@ export default function AdminClasses() {
                 {teachers.length === 0 ? (
                   <p className="text-xs text-slate-400">No teachers found</p>
                 ) : (
-                  teachers.map(t => {
+                  [...teachers].sort((a, b) => a.name.localeCompare(b.name)).map(t => {
                     const isChecked = selectedTeacherIds.includes(t.id);
                     return (
                       <label 
@@ -347,7 +347,7 @@ export default function AdminClasses() {
               className="px-2.5 py-1.5 bg-white dark:bg-[#130F26] dark:text-white border border-slate-200 dark:border-purple-500/20 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
             >
               <option className="dark:bg-[#130F26]" value="">All Teachers</option>
-              {teachers.map(t => (
+              {[...teachers].sort((a, b) => a.name.localeCompare(b.name)).map(t => (
                 <option className="dark:bg-[#130F26]" key={t.id} value={t.id}>{t.name}</option>
               ))}
             </select>

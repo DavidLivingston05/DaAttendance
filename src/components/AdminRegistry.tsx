@@ -1145,7 +1145,7 @@ export default function AdminRegistry() {
                       </tr>
                     </thead>
                     <tbody>
-                      {teachers.map((t) => {
+                      {[...teachers].sort((a, b) => a.name.localeCompare(b.name)).map((t) => {
                         const assignedClasses = classes.filter(c => c.assignedTeacherId && c.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id));
                         const classNames = assignedClasses.map(c => c.name).join(", ") || "No active class";
                         const loc = locations.find(l => l.id === t.locationId);
@@ -1197,7 +1197,7 @@ export default function AdminRegistry() {
                       </tr>
                     </thead>
                     <tbody>
-                      {students.map((s) => {
+                      {[...students].sort((a, b) => a.name.localeCompare(b.name)).map((s) => {
                         const classObj = classes.find(c => s.classIds && s.classIds.includes(c.id));
                         return (
                           <tr key={s.id} className={`hover:bg-slate-50/50 dark:hover:bg-slate-800/25 ${editId === s.id ? 'bg-amber-50/40 dark:bg-amber-950/10' : ''}`}>

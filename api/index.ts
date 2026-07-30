@@ -305,10 +305,12 @@ app.get("/api/bootstrap", async (req, res) => {
     ]);
 
     // Format secure teachers lists and other safe users (avoiding _id mapping loop)
-    const teachers = uniqueByName(users.filter((u: any) => u.role === "teacher").map(({ password, ...safe }: any) => safe));
+    const teachers = uniqueByName(users.filter((u: any) => u.role === "teacher").map(({ password, ...safe }: any) => safe))
+      .sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
     const locations = uniqueByName(rawLocations);
     const classes = uniqueByName(rawClasses);
-    const members = uniqueByName(rawMembers);
+    const members = uniqueByName(rawMembers)
+      .sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
     const volunteers = uniqueByName(rawVolunteers);
 
     res.json({
@@ -507,7 +509,8 @@ app.delete("/api/classes/:id", async (req, res) => {
 app.get("/api/members", async (req, res) => {
   const db: Db = (req as any).db;
   const members = await db.collection("members").find({}, { projection: { _id: 0 } }).toArray();
-  res.json(members);
+  const sortedMembers = members.sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
+  res.json(sortedMembers);
 });
 
 app.post("/api/members", async (req, res) => {
@@ -638,7 +641,9 @@ app.delete("/api/attendance", async (req, res) => {
 app.get("/api/teachers", async (req, res) => {
   const db: Db = (req as any).db;
   const teachers = await db.collection("users").find({ role: "teacher" }, { projection: { _id: 0 } }).toArray();
-  res.json(teachers.map(({ password, ...safe }) => safe));
+  const safeTeachers = teachers.map(({ password, ...safe }) => safe)
+    .sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
+  res.json(safeTeachers);
 });
 
 app.put("/api/teachers/:id", async (req, res) => {

@@ -173,7 +173,7 @@ export default function AdminMembers() {
     const matchesClass = filterClassId === "" || (mem.classIds && mem.classIds.includes(filterClassId));
     const matchesStatus = filterStatus === "" || mem.status === filterStatus;
     return matchesSearch && matchesClass && matchesStatus;
-  });
+  }).sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 font-sans">

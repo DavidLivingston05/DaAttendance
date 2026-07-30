@@ -399,7 +399,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
   
   // Find Teachers Assigned
   const assignedTeachers = selectedClassObj && selectedClassObj.assignedTeacherId
-    ? teachers.filter(t => selectedClassObj.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id))
+    ? teachers.filter(t => selectedClassObj.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id)).sort((a, b) => a.name.localeCompare(b.name))
     : [];
 
   // Students belonging to class (deduplicated by normalized name)
@@ -415,7 +415,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
           list.push(s);
         }
       });
-    return list;
+    return list.sort((a, b) => a.name.localeCompare(b.name));
   })();
   
   // Teachers belonging to location
@@ -426,7 +426,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
   const studentNamesSet = new Set(students.map(s => s.name.toLowerCase().trim()));
 
   // Filter out any teacher or volunteer records that are actually students or have "student" in role
-  const filteredTeachers = locationTeachers.filter(t => !studentNamesSet.has(t.name.toLowerCase().trim()));
+  const filteredTeachers = locationTeachers.filter(t => !studentNamesSet.has(t.name.toLowerCase().trim())).sort((a, b) => a.name.localeCompare(b.name));
 
   const filteredVolunteers = locationVolunteers.filter(v => {
     const roleLower = (v.role || "").toLowerCase();
