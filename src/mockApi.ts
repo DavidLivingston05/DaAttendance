@@ -8,15 +8,8 @@ let mockFetch: any = null;
 
 const originalFetch = window.fetch;
 
-// Check if the current environment is local (localhost, IP, local network, custom port, or non-production Vercel domain)
-const isLocalhost = 
-  (window.location.hostname === 'localhost' || 
-  window.location.hostname === '127.0.0.1' || 
-  window.location.hostname === '[::1]' || 
-  window.location.hostname === '::1' || 
-  window.location.port !== '' ||
-  !window.location.hostname.endsWith('vercel.app')) &&
-  localStorage.getItem('da_attendance_db_migrated') !== 'true';
+// Enforce direct MongoDB Atlas backend communication for all CRUD operations
+const isLocalhost = false;
 
 if (isLocalhost) {
   const LOCAL_STORAGE_KEY = 'da_attendance_db';
