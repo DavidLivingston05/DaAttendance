@@ -439,16 +439,18 @@ export default function App() {
             <div className="space-y-6 animate-fade-in">
               
               {/* Profile banner info greeting with Quick-Action Attendance button */}
-              <div className="bg-gradient-to-r from-pink-600 to-pink-800 dark:from-pink-700/90 dark:to-purple-800/90 text-white p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6 border border-pink-400/30 dark:border-pink-500/30">
+              <div className="bg-gradient-to-r from-indigo-600 via-pink-600 to-rose-500 text-white p-7 sm:p-9 rounded-3xl relative overflow-hidden shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-white/20 transition-all duration-300 hover:shadow-[0_15px_40px_rgba(230,0,118,0.25)]">
+                <div className="absolute -right-10 -top-10 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
                 <div className="relative z-10 max-w-2xl">
-                  <span className="text-pink-200 dark:text-pink-300 font-bold text-xs uppercase tracking-widest block mb-2">
-                    Welcome Back {currentUser.role === 'admin' ? 'Admin' : currentUser.role === 'visitor' ? 'Visitor' : 'Teacher'}
+                  <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-white font-extrabold text-[11px] uppercase tracking-widest mb-3 border border-white/20">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Children's Ministry • DaAttendance
                   </span>
-                  <h2 className="text-3xl font-display font-black text-white animate-fade-in">
-                    {currentUser.name}
+                  <h2 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight animate-fade-in drop-shadow-sm">
+                    Welcome Back, {currentUser.name}! 👋
                   </h2>
-                  <p className="text-pink-100/90 dark:text-pink-200/80 text-base mt-2 font-semibold">
-                    Welcome Back to Children's Ministry (SUNDAY SCHOOL) - DaAttendance
+                  <p className="text-white/90 text-sm sm:text-base mt-2 font-medium">
+                    Streamlined Sunday School Attendance, Real-Time Analytics & Member Registry.
                   </p>
                 </div>
                 <div className="relative z-10 shrink-0">
@@ -456,18 +458,18 @@ export default function App() {
                     <button
                       id="btn-take-attendance-now"
                       onClick={() => setActiveTab("attendance")}
-                      className="w-full sm:w-auto px-6 py-4 bg-white text-pink-700 font-black text-base rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-md active:scale-[0.98]"
+                      className="w-full sm:w-auto px-7 py-4 bg-white hover:bg-slate-50 text-pink-700 font-black text-base rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 cursor-pointer"
                     >
-                      <UserCheck className="w-6 h-6" />
+                      <UserCheck className="w-6 h-6 text-pink-600" />
                       <span>Take Today's Attendance</span>
                     </button>
                   ) : (
                     <button
                       id="btn-view-star-reports-now"
                       onClick={() => setActiveTab("reports")}
-                      className="w-full sm:w-auto px-6 py-4 bg-white text-pink-700 font-black text-base rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-md active:scale-[0.98]"
+                      className="w-full sm:w-auto px-7 py-4 bg-white hover:bg-slate-50 text-pink-700 font-black text-base rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 cursor-pointer"
                     >
-                      <Award className="w-6 h-6" />
+                      <Award className="w-6 h-6 text-pink-600" />
                       <span>Browse Star Reports</span>
                     </button>
                   )}
@@ -478,51 +480,59 @@ export default function App() {
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 relative z-10">
                 
                 {/* Branch Locations counts */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                <div className="bg-white/90 dark:bg-[#191433]/90 backdrop-blur-xl p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Campuses</span>
-                    <Building className="w-5 h-5 text-indigo-500 dark:text-purple-400" />
+                    <div className="p-2.5 bg-indigo-50 dark:bg-indigo-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                      <Building className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                    </div>
                   </div>
-                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl sm:text-4xl font-display font-black text-slate-900 dark:text-white">
                     {statsLoading ? "..." : stats?.locationsCount || 0}
                   </div>
-                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Total physical facilities</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block font-medium">Total physical facilities</span>
                 </div>
 
                 {/* Class Programs counts */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                <div className="bg-white/90 dark:bg-[#191433]/90 backdrop-blur-xl p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Ministry Groups</span>
-                    <BookOpen className="w-5 h-5 text-sky-500 dark:text-sky-400" />
+                    <div className="p-2.5 bg-sky-50 dark:bg-sky-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                      <BookOpen className="w-5 h-5 text-sky-600 dark:text-sky-400" />
+                    </div>
                   </div>
-                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl sm:text-4xl font-display font-black text-slate-900 dark:text-white">
                     {statsLoading ? "..." : stats?.classesCount || 0}
                   </div>
-                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Active class cohorts</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block font-medium">Active class cohorts</span>
                 </div>
 
                 {/* Registered Teachers counts */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                <div className="bg-white/90 dark:bg-[#191433]/90 backdrop-blur-xl p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Teachers & Leaders</span>
-                    <Users className="w-5 h-5 text-amber-500 dark:text-amber-400" />
+                    <div className="p-2.5 bg-amber-50 dark:bg-amber-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                      <Users className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                    </div>
                   </div>
-                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl sm:text-4xl font-display font-black text-slate-900 dark:text-white">
                     {statsLoading ? "..." : (stats?.teachersCount ?? 0)}
                   </div>
-                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Enregistered leaders</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block font-medium">Enregistered leaders</span>
                 </div>
 
                 {/* Active Members count */}
-                <div className="bg-white dark:bg-[#191433]/80 dark:backdrop-blur-md p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-2xl shadow-xs">
+                <div className="bg-white/90 dark:bg-[#191433]/90 backdrop-blur-xl p-6 sm:p-7 border border-slate-200/80 dark:border-purple-500/20 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-[11px] uppercase font-bold text-slate-500 dark:text-purple-200/70 tracking-wider">Enrolled Students</span>
-                    <Users className="w-5 h-5 text-purple-500 dark:text-purple-300" />
+                    <div className="p-2.5 bg-pink-50 dark:bg-pink-500/20 rounded-xl group-hover:scale-110 transition-transform">
+                      <Users className="w-5 h-5 text-pink-600 dark:text-pink-400" />
+                    </div>
                   </div>
-                  <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
+                  <div className="text-3xl sm:text-4xl font-display font-black text-slate-900 dark:text-white">
                     {statsLoading ? "..." : stats?.membersCount || 0}
                   </div>
-                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Total enrolled students</span>
+                  <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block font-medium">Total enrolled students</span>
                 </div>
 
               </div>
