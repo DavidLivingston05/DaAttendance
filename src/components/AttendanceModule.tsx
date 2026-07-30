@@ -442,6 +442,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
       name: string;
       role: "Teacher" | "Director" | "Volunteer";
       color: "emerald" | "indigo" | "sky";
+      assignedClass?: string;
     }> = [];
     const seenNames = new Set<string>();
 
@@ -449,11 +450,14 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
       const key = t.name.toLowerCase().trim();
       if (!seenNames.has(key)) {
         seenNames.add(key);
+        const assignedClassObjs = classes.filter(c => c.assignedTeacherId && c.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id));
+        const assignedClass = assignedClassObjs.map(c => c.name).join(", ");
         list.push({
           id: t.id,
           name: t.name,
           role: "Teacher",
-          color: "emerald"
+          color: "emerald",
+          assignedClass
         });
       }
     });
@@ -1035,7 +1039,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                                 }`}>
                                   {person.name}
                                 </p>
-                                <div className="flex items-center gap-2 mt-1">
+                                <div className="flex items-center gap-1.5 flex-wrap mt-1">
                                   <span className={`inline-block text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded ${
                                     person.role === "Teacher"
                                       ? "bg-violet-100/70 text-violet-700 dark:bg-purple-950 dark:text-[#00E5FF]"
@@ -1045,6 +1049,11 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                                   }`}>
                                     {person.role}
                                   </span>
+                                  {person.assignedClass && (
+                                    <span className="inline-block text-[8px] font-bold bg-sky-100/70 text-sky-700 dark:bg-sky-950 dark:text-sky-300 px-2 py-0.5 rounded">
+                                      {person.assignedClass}
+                                    </span>
+                                  )}
                                   <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded transition ${
                                     isChecked
                                       ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
