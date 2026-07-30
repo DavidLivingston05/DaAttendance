@@ -794,7 +794,7 @@ app.get("/api/stats", async (req, res) => {
     const db: Db = (req as any).db;
     const locationsCount = await db.collection("locations").countDocuments();
     const classesCount = await db.collection("classes").countDocuments();
-    const teachersCount = await db.collection("users").countDocuments({ role: "teacher" });
+    const teachersCount = (await db.collection("users").countDocuments({ role: "teacher" })) + (await db.collection("volunteers").countDocuments());
     const membersCount = await db.collection("members").countDocuments();
 
     // Query databases using specific key projections to minimize payload size and avoid throttling

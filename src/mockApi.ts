@@ -488,7 +488,7 @@ if (isLocalhost) {
       if (path === '/api/stats' && method === 'GET') {
         const locationsCount = db.locations.length;
         const classesCount = db.classes.length;
-        const teachersCount = db.users.filter((u: any) => u.role === 'teacher').length;
+        const teachersCount = db.users.filter((u: any) => u.role === 'teacher').length + (db.volunteers || []).length;
         const membersCount = db.members.length;
 
         let attendanceRateToday = 0;

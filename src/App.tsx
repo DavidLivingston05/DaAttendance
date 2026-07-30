@@ -508,7 +508,7 @@ export default function App() {
                     <Users className="w-5 h-5 text-amber-500 dark:text-amber-400" />
                   </div>
                   <div className="text-3xl font-display font-black text-slate-900 dark:text-white dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]">
-                    {statsLoading ? "..." : stats?.teachersCount || 1}
+                    {statsLoading ? "..." : (stats?.teachersCount ?? 0)}
                   </div>
                   <span className="text-[11px] text-slate-400 dark:text-purple-200/50 mt-1 block">Enregistered leaders</span>
                 </div>
