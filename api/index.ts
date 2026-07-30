@@ -30,9 +30,25 @@ async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
     return { client: cachedClient, db: cachedDb };
   }
 
-  const client = new MongoClient(MONGODB_URI as string);
+  const client = new MongoClient(MONGODB_URI as string, {
+    maxPoolSize: 20,
+    minPoolSize: 5,
+    maxIdleTimeMS: 30000,
+    connectTimeoutMS: 5000
+  });
   await client.connect();
   const db = client.db("daattendance");
+
+  // Create database indexes asynchronously in background for sub-millisecond lookups
+  Promise.all([
+    db.collection("users").createIndex({ email: 1 }),
+    db.collection("users").createIndex({ id: 1 }),
+    db.collection("members").createIndex({ id: 1 }),
+    db.collection("members").createIndex({ classIds: 1 }),
+    db.collection("classes").createIndex({ id: 1 }),
+    db.collection("attendance").createIndex({ classId: 1, date: 1 }),
+    db.collection("volunteerAttendance").createIndex({ locationId: 1, date: 1 })
+  ]).catch(err => console.warn("Background index creation warning:", err));
 
   // Perform automatic seeding if collections are empty
   await seedDatabase(db);
@@ -274,6 +290,7 @@ function uniqueByName(arr: any[]): any[] {
 
 app.get("/api/bootstrap", async (req, res) => {
   try {
+    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=2, stale-while-revalidate=30");
     const db: Db = (req as any).db;
     
     // Fetch all collections in parallel on the database server side in a single request lifecycle using native projections to exclude _id
