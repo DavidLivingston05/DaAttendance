@@ -288,9 +288,29 @@ function uniqueByName(arr: any[]): any[] {
   });
 }
 
+let bootstrapServerCache: { data: any; timestamp: number } | null = null;
+
+function clearServerCache() {
+  bootstrapServerCache = null;
+}
+
+// Automatically clear cache on any write operation
+app.use((req, res, next) => {
+  if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
+    clearServerCache();
+  }
+  next();
+});
+
 app.get("/api/bootstrap", async (req, res) => {
   try {
     res.setHeader("Cache-Control", "public, max-age=0, s-maxage=2, stale-while-revalidate=30");
+    
+    // Serve from ultra-fast server memory cache if valid (< 3 seconds)
+    if (bootstrapServerCache && Date.now() - bootstrapServerCache.timestamp < 3000) {
+      return res.json(bootstrapServerCache.data);
+    }
+
     const db: Db = (req as any).db;
     
     // Fetch all collections in parallel on the database server side in a single request lifecycle using native projections to exclude _id
@@ -313,7 +333,7 @@ app.get("/api/bootstrap", async (req, res) => {
       .sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
     const volunteers = uniqueByName(rawVolunteers);
 
-    res.json({
+    const payload = {
       locations,
       classes,
       teachers,
@@ -321,7 +341,10 @@ app.get("/api/bootstrap", async (req, res) => {
       members,
       attendance,
       volunteerAttendance
-    });
+    };
+
+    bootstrapServerCache = { data: payload, timestamp: Date.now() };
+    res.json(payload);
   } catch (e: any) {
     console.error("Bootstrap endpoint failure:", e);
     res.status(500).json({ error: "Aggregation bootstrap failed", details: e.message });
