@@ -13,80 +13,70 @@
       "email": "jayesh@church.org",
       "name": "Bro. Jayesh",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_hannah",
       "email": "hannah@church.org",
       "name": "Sis. Hannah",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_sheeba",
       "email": "sheeba@church.org",
       "name": "Sis. Sheeba",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_magdalyn",
       "email": "magdalyn@church.org",
       "name": "Sis. Magdalyn",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_surendar",
       "email": "surendar@church.org",
       "name": "Bro. Surendar Joshua",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_anita",
       "email": "anita@church.org",
       "name": "Sis. Anita",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_stella",
       "email": "stella@church.org",
       "name": "Sis. Stella",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_jennifer",
       "email": "jennifer@church.org",
       "name": "Sis. Jennifer",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_susanna",
       "email": "susanna@church.org",
       "name": "Sis. Susanna",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     },
     {
       "id": "usr_gracy",
       "email": "gracy@church.org",
       "name": "Sis. Gracy Bai",
       "role": "teacher",
-      "password": "password123",
-      "locationId": "loc_main"
+      "password": "password123"
     }
   ],
   "locations": [
@@ -100,56 +90,56 @@
   "classes": [
     {
       "id": "cls_ll",
-      "name": "Little Lambs",
+      "name": "Little Lambs (LKG–UKG)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_jayesh, usr_hannah",
       "schedule": "Sunday 09:00 AM"
     },
     {
       "id": "cls_ls",
-      "name": "Little Stars",
+      "name": "Little Stars (1st–2nd)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_sheeba",
       "schedule": "Sunday 09:00 AM"
     },
     {
       "id": "cls_ts",
-      "name": "Twinkle Stars",
+      "name": "Twinkle Stars (3rd–4th)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_magdalyn, usr_surendar",
       "schedule": "Sunday 09:00 AM"
     },
     {
       "id": "cls_bs",
-      "name": "Bright Stars",
+      "name": "Bright Stars (5th–6th)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_anita",
       "schedule": "Sunday 09:00 AM"
     },
     {
       "id": "cls_rs",
-      "name": "Rising Stars",
+      "name": "Rising Stars (7th–8th)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_stella",
       "schedule": "Sunday 09:00 AM"
     },
     {
       "id": "cls_ss",
-      "name": "Shining Stars",
+      "name": "Shining Stars (9th–10th)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_jennifer",
       "schedule": "Sunday 09:00 AM"
     },
     {
       "id": "cls_st",
-      "name": "Shooting Stars",
+      "name": "Shooting Stars (11th–12th)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_susanna",
       "schedule": "Sunday 09:00 AM"
     },
     {
       "id": "cls_ms",
-      "name": "Morning Stars",
+      "name": "Morning Stars (College)",
       "locationId": "loc_main",
       "assignedTeacherId": "usr_gracy",
       "schedule": "Sunday 09:00 AM"
@@ -160,7 +150,7 @@
       "id": "mem_001",
       "name": "Aradhana",
       "email": "aradhana@church.org",
-      "phone": "+1 555-017647",
+      "phone": "+1 555-013932",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -171,7 +161,7 @@
       "id": "mem_002",
       "name": "Ashmal Rithik",
       "email": "ashmal.rithik@church.org",
-      "phone": "+1 555-019418",
+      "phone": "+1 555-012574",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -182,7 +172,7 @@
       "id": "mem_003",
       "name": "Gabyleona",
       "email": "gabyleona@church.org",
-      "phone": "+1 555-011348",
+      "phone": "+1 555-018335",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -193,7 +183,7 @@
       "id": "mem_004",
       "name": "Jerome Mithran",
       "email": "jerome.mithran@church.org",
-      "phone": "+1 555-017442",
+      "phone": "+1 555-014422",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -204,7 +194,7 @@
       "id": "mem_005",
       "name": "Joel",
       "email": "joel@church.org",
-      "phone": "+1 555-018538",
+      "phone": "+1 555-013285",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -215,7 +205,7 @@
       "id": "mem_006",
       "name": "Kaitlyn Jane",
       "email": "kaitlyn.jane@church.org",
-      "phone": "+1 555-018564",
+      "phone": "+1 555-016713",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -226,7 +216,7 @@
       "id": "mem_007",
       "name": "Melvin Sam",
       "email": "melvin.sam@church.org",
-      "phone": "+1 555-014132",
+      "phone": "+1 555-019788",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -237,7 +227,7 @@
       "id": "mem_008",
       "name": "Rebekah",
       "email": "rebekah@church.org",
-      "phone": "+1 555-012006",
+      "phone": "+1 555-013701",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -248,7 +238,7 @@
       "id": "mem_009",
       "name": "Yessica Blessy",
       "email": "yessica.blessy@church.org",
-      "phone": "+1 555-013699",
+      "phone": "+1 555-019126",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -259,7 +249,7 @@
       "id": "mem_010",
       "name": "Dheera Jonathan",
       "email": "dheera.jonathan@church.org",
-      "phone": "+1 555-016043",
+      "phone": "+1 555-017114",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -270,7 +260,7 @@
       "id": "mem_011",
       "name": "Miriam",
       "email": "miriam@church.org",
-      "phone": "+1 555-019701",
+      "phone": "+1 555-011216",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -281,7 +271,7 @@
       "id": "mem_012",
       "name": "Savitha",
       "email": "savitha@church.org",
-      "phone": "+1 555-015791",
+      "phone": "+1 555-012657",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -292,7 +282,7 @@
       "id": "mem_013",
       "name": "Allan",
       "email": "allan@church.org",
-      "phone": "+1 555-015212",
+      "phone": "+1 555-015896",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -303,7 +293,7 @@
       "id": "mem_014",
       "name": "Dhiya",
       "email": "dhiya@church.org",
-      "phone": "+1 555-015089",
+      "phone": "+1 555-012354",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -314,7 +304,7 @@
       "id": "mem_015",
       "name": "Alwin",
       "email": "alwin@church.org",
-      "phone": "+1 555-019103",
+      "phone": "+1 555-018691",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -325,7 +315,7 @@
       "id": "mem_016",
       "name": "Blessy Pinky",
       "email": "blessy.pinky@church.org",
-      "phone": "+1 555-011480",
+      "phone": "+1 555-018986",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -336,7 +326,7 @@
       "id": "mem_017",
       "name": "Bommi",
       "email": "bommi@church.org",
-      "phone": "+1 555-019292",
+      "phone": "+1 555-014331",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -347,7 +337,7 @@
       "id": "mem_018",
       "name": "Jerrin",
       "email": "jerrin@church.org",
-      "phone": "+1 555-015692",
+      "phone": "+1 555-019241",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -358,7 +348,7 @@
       "id": "mem_019",
       "name": "Beryl",
       "email": "beryl@church.org",
-      "phone": "+1 555-013391",
+      "phone": "+1 555-015077",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -369,7 +359,7 @@
       "id": "mem_020",
       "name": "Dicson",
       "email": "dicson@church.org",
-      "phone": "+1 555-017502",
+      "phone": "+1 555-011603",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -380,7 +370,7 @@
       "id": "mem_021",
       "name": "Rafael Paul",
       "email": "rafael.paul@church.org",
-      "phone": "+1 555-014296",
+      "phone": "+1 555-017402",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -391,7 +381,7 @@
       "id": "mem_022",
       "name": "Sweetlyn",
       "email": "sweetlyn@church.org",
-      "phone": "+1 555-011057",
+      "phone": "+1 555-019659",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -402,7 +392,7 @@
       "id": "mem_023",
       "name": "Hasini",
       "email": "hasini@church.org",
-      "phone": "+1 555-015685",
+      "phone": "+1 555-012972",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -413,7 +403,7 @@
       "id": "mem_024",
       "name": "Sam",
       "email": "sam@church.org",
-      "phone": "+1 555-017408",
+      "phone": "+1 555-012268",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -424,7 +414,7 @@
       "id": "mem_025",
       "name": "Janani",
       "email": "janani@church.org",
-      "phone": "+1 555-012378",
+      "phone": "+1 555-016455",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -435,7 +425,7 @@
       "id": "mem_026",
       "name": "Nitish",
       "email": "nitish@church.org",
-      "phone": "+1 555-011734",
+      "phone": "+1 555-015639",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -446,7 +436,7 @@
       "id": "mem_027",
       "name": "Sathish",
       "email": "sathish@church.org",
-      "phone": "+1 555-016602",
+      "phone": "+1 555-018941",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -457,7 +447,7 @@
       "id": "mem_028",
       "name": "Benjamin John",
       "email": "benjamin.john@church.org",
-      "phone": "+1 555-013129",
+      "phone": "+1 555-016138",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -468,7 +458,7 @@
       "id": "mem_029",
       "name": "Dency",
       "email": "dency@church.org",
-      "phone": "+1 555-011622",
+      "phone": "+1 555-011044",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -479,7 +469,7 @@
       "id": "mem_030",
       "name": "Dharshan",
       "email": "dharshan@church.org",
-      "phone": "+1 555-019939",
+      "phone": "+1 555-012714",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -490,7 +480,7 @@
       "id": "mem_031",
       "name": "Divya Dharshini",
       "email": "divya.dharshini@church.org",
-      "phone": "+1 555-016205",
+      "phone": "+1 555-014770",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -501,7 +491,7 @@
       "id": "mem_032",
       "name": "Sripriya",
       "email": "sripriya@church.org",
-      "phone": "+1 555-013454",
+      "phone": "+1 555-018560",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -512,7 +502,7 @@
       "id": "mem_033",
       "name": "Divya",
       "email": "divya@church.org",
-      "phone": "+1 555-012724",
+      "phone": "+1 555-017378",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -523,7 +513,7 @@
       "id": "mem_034",
       "name": "Cerline",
       "email": "cerline@church.org",
-      "phone": "+1 555-018635",
+      "phone": "+1 555-013399",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -534,7 +524,7 @@
       "id": "mem_035",
       "name": "Dharshini",
       "email": "dharshini@church.org",
-      "phone": "+1 555-018356",
+      "phone": "+1 555-015424",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -545,7 +535,7 @@
       "id": "mem_036",
       "name": "Merlyn Madhumitha",
       "email": "merlyn.madhumitha@church.org",
-      "phone": "+1 555-012618",
+      "phone": "+1 555-015087",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [
@@ -556,7 +546,7 @@
       "id": "mem_037",
       "name": "Pearlyn",
       "email": "pearlyn@church.org",
-      "phone": "+1 555-017236",
+      "phone": "+1 555-013121",
       "status": "active",
       "joinedDate": "2026-01-01",
       "classIds": [

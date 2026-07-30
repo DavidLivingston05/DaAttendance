@@ -1158,7 +1158,7 @@ export default function AdminRegistry() {
                               </div>
                             </td>
                             <td className="px-3 py-2.5 text-slate-700 dark:text-slate-300 font-medium">{classNames}</td>
-                            <td className="px-3 py-2.5 text-slate-500 font-semibold">{loc ? loc.name : "Global Campus"}</td>
+                            <td className="px-3 py-2.5 text-slate-500 font-semibold">{classNames !== "No active class" ? classNames : (loc ? loc.name : "Global Campus")}</td>
                             <td className="px-3 py-2.5 text-right"><div className="flex items-center justify-end gap-1.5">
                               <button
                                 onClick={() => handleEditItem("teacher", t)}
