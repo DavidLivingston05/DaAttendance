@@ -49,64 +49,47 @@ let isSeeded = false;
 async function seedDatabase(db: Db) {
   if (isSeeded) return;
   try {
-    const collections = ["users", "locations", "classes", "members", "attendance", "volunteers", "volunteerAttendance"];
-    
-    // Count documents across all collections in parallel in a single database trip
-    const counts = await Promise.all(
-      collections.map(col => db.collection(col).countDocuments())
-    );
+    const seedPromises: Promise<any>[] = [];
 
-    const seedPromises = [];
-
-    // 1. Users / Access Credentials
-    const adminSeed = dbData.users?.find((u: any) => u.role === "admin");
-    if (counts[0] === 0 && dbData.users && dbData.users.length > 0) {
-      seedPromises.push(db.collection("users").insertMany(dbData.users));
-    } else if (adminSeed) {
-      // Ensure admin exists with password admin123
-      const adminExists = await db.collection("users").findOne({ email: new RegExp("^" + adminSeed.email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "$", "i") });
-      if (adminExists) {
-        seedPromises.push(db.collection("users").updateOne({ email: adminExists.email }, { $set: { password: adminSeed.password } }));
-      } else {
-        seedPromises.push(db.collection("users").insertOne(adminSeed));
+    if (dbData.users && dbData.users.length > 0) {
+      for (const u of dbData.users) {
+        seedPromises.push(db.collection("users").updateOne({ email: u.email.toLowerCase() }, { $set: u }, { upsert: true }));
       }
     }
-
-    // 2. Campus Locations
-    if (counts[1] === 0 && dbData.locations && dbData.locations.length > 0) {
-      seedPromises.push(db.collection("locations").insertMany(dbData.locations));
+    if (dbData.locations && dbData.locations.length > 0) {
+      for (const loc of dbData.locations) {
+        seedPromises.push(db.collection("locations").updateOne({ id: loc.id }, { $set: loc }, { upsert: true }));
+      }
     }
-
-    // 3. Sunday School Classes
-    if (counts[2] === 0 && dbData.classes && dbData.classes.length > 0) {
-      seedPromises.push(db.collection("classes").insertMany(dbData.classes));
+    if (dbData.classes && dbData.classes.length > 0) {
+      for (const cls of dbData.classes) {
+        seedPromises.push(db.collection("classes").updateOne({ id: cls.id }, { $set: cls }, { upsert: true }));
+      }
     }
-
-    // 4. Students / Members
-    if (counts[3] === 0 && dbData.members && dbData.members.length > 0) {
-      seedPromises.push(db.collection("members").insertMany(dbData.members));
+    if (dbData.members && dbData.members.length > 0) {
+      for (const m of dbData.members) {
+        seedPromises.push(db.collection("members").updateOne({ id: m.id }, { $set: m }, { upsert: true }));
+      }
     }
-
-    // 5. Historical Student Attendance
-    if (counts[4] === 0 && dbData.attendance && dbData.attendance.length > 0) {
-      seedPromises.push(db.collection("attendance").insertMany(dbData.attendance));
+    if (dbData.attendance && dbData.attendance.length > 0) {
+      for (const att of dbData.attendance) {
+        seedPromises.push(db.collection("attendance").updateOne({ id: att.id }, { $set: att }, { upsert: true }));
+      }
     }
-
-    // 6. Senior Volunteers / Staff
-    if (counts[5] === 0 && dbData.volunteers && dbData.volunteers.length > 0) {
-      seedPromises.push(db.collection("volunteers").insertMany(dbData.volunteers));
+    if (dbData.volunteers && dbData.volunteers.length > 0) {
+      for (const v of dbData.volunteers) {
+        seedPromises.push(db.collection("volunteers").updateOne({ id: v.id }, { $set: v }, { upsert: true }));
+      }
     }
-
-    // 7. Volunteer Attendance Logs
-    if (counts[6] === 0 && dbData.volunteerAttendance && dbData.volunteerAttendance.length > 0) {
-      seedPromises.push(db.collection("volunteerAttendance").insertMany(dbData.volunteerAttendance));
+    if (dbData.volunteerAttendance && dbData.volunteerAttendance.length > 0) {
+      for (const va of dbData.volunteerAttendance) {
+        seedPromises.push(db.collection("volunteerAttendance").updateOne({ id: va.id }, { $set: va }, { upsert: true }));
+      }
     }
 
     if (seedPromises.length > 0) {
       await Promise.all(seedPromises);
-      console.log(`Auto-seeded ${seedPromises.length} collection(s) successfully in parallel`);
     }
-
     isSeeded = true;
   } catch (e) {
     console.error("Auto-seeding database warning:", e);
