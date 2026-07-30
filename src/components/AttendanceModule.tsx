@@ -898,15 +898,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                               </div>
                             </div>
 
-                            {/* Single Line Absent Dates Display */}
-                            {absentDates.length > 0 && (
-                              <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-purple-500/10 text-[10px] truncate">
-                                <span className="font-bold text-rose-500 dark:text-rose-400">Absent ({absentDates.length}):</span>{" "}
-                                <span className="text-slate-600 dark:text-purple-200 font-medium">
-                                  {absentDates.map(d => new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short" })).join(", ")}
-                                </span>
-                              </div>
-                            )}
+
                           </div>
                         );
                       })}
@@ -1074,15 +1066,7 @@ export default function AttendanceModule({ currentUser }: AttendanceModuleProps)
                               </div>
                             </div>
 
-                            {/* Single Line Absent Dates Display */}
-                            {absentDates.length > 0 && (
-                              <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-purple-500/10 text-[10px] truncate">
-                                <span className="font-bold text-rose-500 dark:text-rose-400">Absent ({absentDates.length}):</span>{" "}
-                                <span className="text-slate-600 dark:text-purple-200 font-medium">
-                                  {absentDates.map(d => new Date(d + "T00:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short" })).join(", ")}
-                                </span>
-                              </div>
-                            )}
+
                           </div>
                         );
                       })}
