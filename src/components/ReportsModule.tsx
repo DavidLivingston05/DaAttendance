@@ -156,15 +156,11 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
       const studentClasses = classes.filter(c => s.classIds && s.classIds.includes(c.id));
       const classNames = studentClasses.map(c => c.name);
       
-      // Location Name is based on the first class's location
-      let locationName = "Unknown Campus";
+      // Location / Cohort Name is based on assigned class
+      let locationName = classNames.length > 0 ? classNames.join(", ") : "Unassigned Class";
       let locationId = "";
       if (studentClasses.length > 0) {
-        const loc = locations.find(l => l.id === studentClasses[0].locationId);
-        if (loc) {
-          locationName = loc.name;
-          locationId = loc.id;
-        }
+        locationId = studentClasses[0].locationId;
       }
 
       list.push({
@@ -187,11 +183,10 @@ export default function ReportsModule({ currentUser }: { currentUser?: User | nu
       seenIds.add(`personnel-${t.id}`);
 
       const assignedClassNames = classes
-        .filter(c => c.assignedTeacherId && c.assignedTeacherId.split(",").includes(t.id))
+        .filter(c => c.assignedTeacherId && c.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id))
         .map(c => c.name);
 
-      const loc = locations.find(l => l.id === t.locationId);
-      const locationName = loc ? loc.name : "Unassigned";
+      const locationName = assignedClassNames.length > 0 ? assignedClassNames.join(", ") : "Unassigned Class";
       
       list.push({
         id: t.id,
