@@ -7,6 +7,14 @@
       "role": "admin",
       "password": "admin123",
       "phone": "+1 (555) 0199"
+    },
+    {
+      "id": "usr_sheeba",
+      "email": "sheeba@church.org",
+      "name": "Sis. Sheeba",
+      "role": "teacher",
+      "password": "password123",
+      "locationId": ""
     }
   ],
   "locations": [],
@@ -15,6 +23,13 @@
       "id": "cls_ll",
       "name": "Little Lambs (LKG–UKG)",
       "locationId": "",
+      "schedule": "Sunday 09:00 AM"
+    },
+    {
+      "id": "cls_ls",
+      "name": "Little Stars (1st–2nd)",
+      "locationId": "",
+      "assignedTeacherId": "usr_sheeba",
       "schedule": "Sunday 09:00 AM"
     }
   ],
@@ -127,6 +142,50 @@
       "joinedDate": "2026-01-01",
       "classIds": [
         "cls_ll"
+      ]
+    },
+    {
+      "id": "mem_ls_001",
+      "name": "Miriam",
+      "email": "miriam@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ls"
+      ]
+    },
+    {
+      "id": "mem_ls_002",
+      "name": "Savitha",
+      "email": "savitha@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ls"
+      ]
+    },
+    {
+      "id": "mem_ls_003",
+      "name": "Allan",
+      "email": "allan@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ls"
+      ]
+    },
+    {
+      "id": "mem_ls_004",
+      "name": "Dhiya",
+      "email": "dhiya@church.org",
+      "phone": "+1 (555) 0100",
+      "status": "active",
+      "joinedDate": "2026-01-01",
+      "classIds": [
+        "cls_ls"
       ]
     }
   ],
@@ -313,6 +372,128 @@
       ],
       "notes": "Roll call logged",
       "recordedBy": "usr_admin",
+      "recordedAt": "2026-01-25T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_001",
+      "classId": "cls_ls",
+      "date": "2026-04-19",
+      "checkedInMemberIds": [
+        "mem_ls_001"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-04-19T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_002",
+      "classId": "cls_ls",
+      "date": "2026-03-08",
+      "checkedInMemberIds": [
+        "mem_ls_001",
+        "mem_ls_004"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-03-08T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_003",
+      "classId": "cls_ls",
+      "date": "2026-03-15",
+      "checkedInMemberIds": [
+        "mem_ls_001"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-03-15T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_004",
+      "classId": "cls_ls",
+      "date": "2026-03-22",
+      "checkedInMemberIds": [
+        "mem_ls_001"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-03-22T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_005",
+      "classId": "cls_ls",
+      "date": "2026-02-08",
+      "checkedInMemberIds": [
+        "mem_ls_001",
+        "mem_ls_002"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-02-08T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_006",
+      "classId": "cls_ls",
+      "date": "2026-02-15",
+      "checkedInMemberIds": [],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-02-15T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_007",
+      "classId": "cls_ls",
+      "date": "2026-02-22",
+      "checkedInMemberIds": [
+        "mem_ls_001",
+        "mem_ls_003"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-02-22T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_008",
+      "classId": "cls_ls",
+      "date": "2026-01-04",
+      "checkedInMemberIds": [
+        "mem_ls_001"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-01-04T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_009",
+      "classId": "cls_ls",
+      "date": "2026-01-11",
+      "checkedInMemberIds": [
+        "mem_ls_001"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-01-11T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_010",
+      "classId": "cls_ls",
+      "date": "2026-01-18",
+      "checkedInMemberIds": [
+        "mem_ls_001"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
+      "recordedAt": "2026-01-18T10:30:00.000Z"
+    },
+    {
+      "id": "att_ls_011",
+      "classId": "cls_ls",
+      "date": "2026-01-25",
+      "checkedInMemberIds": [
+        "mem_ls_001"
+      ],
+      "notes": "Roll call logged",
+      "recordedBy": "usr_sheeba",
       "recordedAt": "2026-01-25T10:30:00.000Z"
     }
   ],
