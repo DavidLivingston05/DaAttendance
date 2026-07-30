@@ -75,12 +75,10 @@ function formatDateLabel(rawDate: string): string {
  * Ensure Excel sheet name is valid (<= 31 chars, no invalid chars, unique)
  */
 function getUniqueSheetName(prefix: string, locationName: string, usedNames: Set<string>): string {
-  // Replace invalid characters : \ / ? * [ ]
   const sanitizedLoc = locationName.replace(/[:\\/?*\[\]]/g, "").trim();
   let candidate = `${prefix} - ${sanitizedLoc}`.trim();
 
   if (candidate.length > 31) {
-    // Truncate cleanly
     candidate = candidate.slice(0, 31).trim();
   }
 
@@ -110,20 +108,22 @@ export function exportAttendanceMatrixToExcel({
   const workbook = XLSX.utils.book_new();
   const usedSheetNames = new Set<string>();
 
-  // Determine which locations to process
+  // Map class ordering by array position
+  const classOrderMap = new Map(classes.map((c, idx) => [c.id, idx]));
+
+  // Determine active locations
   const activeLocations =
     targetLocationId && targetLocationId !== "all"
       ? locations.filter((l) => l.id === targetLocationId)
       : locations.length > 0
       ? locations
-      : [{ id: "default", name: "General Campus" }];
+      : [{ id: "default", name: "Main Sunday School Campus" }];
 
   activeLocations.forEach((loc) => {
     // ==========================================
-    // 1. TEACHERS & PERSONNEL MATRIX FOR THIS LOCATION
+    // 1. TEACHERS & LEADERS MATRIX (SORTED ASCENDING A-Z)
     // ==========================================
 
-    // Personnel belonging to this location
     const locTeachers = teachers.filter((t) => t.locationId === loc.id || !t.locationId);
     const locVolunteers = volunteers.filter((v) => v.locationId === loc.id);
 
@@ -136,14 +136,14 @@ export function exportAttendanceMatrixToExcel({
 
     locTeachers.forEach((t) => {
       const assignedClassNames = classes
-        .filter((c) => c.assignedTeacherId && c.assignedTeacherId.split(",").includes(t.id))
+        .filter((c) => c.assignedTeacherId && c.assignedTeacherId.split(",").map(id => id.trim()).includes(t.id))
         .map((c) => c.name)
         .join(", ");
 
       personnelList.push({
         id: t.id,
         name: t.name,
-        role: assignedClassNames || "Teacher (Instructor)",
+        role: assignedClassNames || "Teacher",
         type: "teacher",
       });
     });
@@ -157,9 +157,9 @@ export function exportAttendanceMatrixToExcel({
       });
     });
 
+    // Sort Teachers & Leaders in Ascending Order (A-Z)
     personnelList.sort((a, b) => a.name.localeCompare(b.name));
 
-    // Get all dates for volunteer attendance in this location
     const personnelLocRecords = volunteerRecords.filter((r) => r.locationId === loc.id);
     const personnelDates = [...new Set(personnelLocRecords.map((r) => r.date))].sort();
 
@@ -168,9 +168,9 @@ export function exportAttendanceMatrixToExcel({
 
       personnelList.forEach((person) => {
         const row: Record<string, string> = {
-          "Teacher Name": person.name,
+          "Teacher / Leader Name": person.name,
           "Class In-charge / Role": person.role,
-          "Campus Location": loc.name,
+          "Campus Location": "Main Sunday School Campus",
         };
 
         let presentCount = 0;
@@ -195,48 +195,48 @@ export function exportAttendanceMatrixToExcel({
         });
 
         row["Total Present"] = `${presentCount}/${conductedCount}`;
-
         teacherRows.push(row);
       });
 
-      // Create sheet if rows exist or headers exist
       if (teacherRows.length === 0) {
-        // Empty placeholder row
-        const emptyRow: Record<string, string> = {
-          "Teacher Name": "No Personnel Registered",
+        teacherRows.push({
+          "Teacher / Leader Name": "No Personnel Registered",
           "Class In-charge / Role": "-",
-          "Campus Location": loc.name,
+          "Campus Location": "Main Sunday School Campus",
           "Total Present": "0/0",
-        };
-        teacherRows.push(emptyRow);
+        });
       }
 
       const teacherWs = XLSX.utils.json_to_sheet(teacherRows);
-
-      // Set column widths
-      const tCols = [{ wch: 24 }, { wch: 28 }, { wch: 20 }];
+      const tCols = [{ wch: 24 }, { wch: 30 }, { wch: 26 }];
       personnelDates.forEach(() => tCols.push({ wch: 14 }));
       tCols.push({ wch: 14 });
       teacherWs["!cols"] = tCols;
 
-      const sheetName = getUniqueSheetName("Teachers", loc.name, usedSheetNames);
+      const sheetName = getUniqueSheetName("Teachers & Staff", loc.name, usedSheetNames);
       XLSX.utils.book_append_sheet(workbook, teacherWs, sheetName);
     }
 
     // ==========================================
-    // 2. STUDENTS MATRIX FOR THIS LOCATION
+    // 2. ALL STUDENTS MATRIX (ORDERED BY CLASS, THEN SORTED A-Z)
     // ==========================================
 
-    const locClasses = classes.filter((c) => c.locationId === loc.id);
+    const locClasses = classes.filter((c) => c.locationId === loc.id || loc.id === "default");
     const locClassIds = locClasses.map((c) => c.id);
 
-    // Students enrolled in classes for this location
-    const locStudents = students.filter(
-      (s) => s.classIds && s.classIds.some((cid) => locClassIds.includes(cid))
-    ).sort((a, b) => a.name.localeCompare(b.name));
+    // Filter and sort students: First by Class Order, then by Student Name in Ascending Order (A-Z)
+    const locStudents = students
+      .filter((s) => s.classIds && s.classIds.some((cid) => locClassIds.includes(cid) || locClassIds.length === 0))
+      .sort((a, b) => {
+        const aClassIdx = a.classIds && a.classIds.length > 0 ? (classOrderMap.get(a.classIds[0]) ?? 999) : 999;
+        const bClassIdx = b.classIds && b.classIds.length > 0 ? (classOrderMap.get(b.classIds[0]) ?? 999) : 999;
+        if (aClassIdx !== bClassIdx) {
+          return aClassIdx - bClassIdx;
+        }
+        return a.name.localeCompare(b.name);
+      });
 
-    // Dates for student attendance in classes at this location
-    const locStudentRecords = studentRecords.filter((r) => locClassIds.includes(r.classId));
+    const locStudentRecords = studentRecords.filter((r) => locClassIds.includes(r.classId) || locClassIds.length === 0);
     const studentDates = [...new Set(locStudentRecords.map((r) => r.date))].sort();
 
     if (locStudents.length > 0 || studentDates.length > 0) {
@@ -251,7 +251,7 @@ export function exportAttendanceMatrixToExcel({
         const row: Record<string, string> = {
           "Student Name": student.name,
           "Class Cohort": studentClassNames || "Unassigned",
-          "Campus Location": loc.name,
+          "Campus Location": "Main Sunday School Campus",
         };
 
         let presentCount = 0;
@@ -259,9 +259,7 @@ export function exportAttendanceMatrixToExcel({
 
         studentDates.forEach((rawDate) => {
           const formattedDate = formatDateLabel(rawDate);
-
-          // Find records on this date for the student's classes
-          const studentClassesForLoc = student.classIds.filter((cid) => locClassIds.includes(cid));
+          const studentClassesForLoc = student.classIds;
           const dateRecs = locStudentRecords.filter(
             (r) => r.date === rawDate && studentClassesForLoc.includes(r.classId)
           );
@@ -283,30 +281,85 @@ export function exportAttendanceMatrixToExcel({
         });
 
         row["Total Present"] = `${presentCount}/${conductedCount}`;
-
         studentRows.push(row);
       });
 
       if (studentRows.length === 0) {
-        const emptyRow: Record<string, string> = {
+        studentRows.push({
           "Student Name": "No Students Enrolled",
           "Class Cohort": "-",
-          "Campus Location": loc.name,
+          "Campus Location": "Main Sunday School Campus",
           "Total Present": "0/0",
-        };
-        studentRows.push(emptyRow);
+        });
       }
 
       const studentWs = XLSX.utils.json_to_sheet(studentRows);
-
-      const sCols = [{ wch: 24 }, { wch: 28 }, { wch: 20 }];
+      const sCols = [{ wch: 24 }, { wch: 30 }, { wch: 26 }];
       studentDates.forEach(() => sCols.push({ wch: 14 }));
       sCols.push({ wch: 14 });
       studentWs["!cols"] = sCols;
 
-      const sheetName = getUniqueSheetName("Students", loc.name, usedSheetNames);
+      const sheetName = getUniqueSheetName("All Students", loc.name, usedSheetNames);
       XLSX.utils.book_append_sheet(workbook, studentWs, sheetName);
     }
+
+    // ==========================================
+    // 3. INDIVIDUAL CLASS TABS (IN CLASS ORDER, STUDENTS SORTED A-Z)
+    // ==========================================
+
+    locClasses.forEach((cls) => {
+      const classStudents = students
+        .filter((s) => s.classIds && s.classIds.includes(cls.id))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      const classRecs = studentRecords.filter((r) => r.classId === cls.id);
+      const classDates = [...new Set(classRecs.map((r) => r.date))].sort();
+
+      const classRows: Array<Record<string, string>> = [];
+
+      classStudents.forEach((student) => {
+        const row: Record<string, string> = {
+          "Student Name": student.name,
+          "Class Cohort": cls.name,
+          "Campus Location": "Main Sunday School Campus",
+        };
+
+        let presentCount = 0;
+        let conductedCount = 0;
+
+        classDates.forEach((rawDate) => {
+          const formattedDate = formatDateLabel(rawDate);
+          const rec = classRecs.find((r) => r.date === rawDate);
+
+          if (rec) {
+            conductedCount++;
+            const isPresent = rec.checkedInMemberIds && rec.checkedInMemberIds.includes(student.id);
+            if (isPresent) {
+              row[formattedDate] = "✅";
+              presentCount++;
+            } else {
+              row[formattedDate] = "❌";
+            }
+          } else {
+            row[formattedDate] = "-";
+          }
+        });
+
+        row["Total Present"] = `${presentCount}/${conductedCount}`;
+        classRows.push(row);
+      });
+
+      if (classRows.length > 0) {
+        const classWs = XLSX.utils.json_to_sheet(classRows);
+        const cCols = [{ wch: 24 }, { wch: 30 }, { wch: 26 }];
+        classDates.forEach(() => cCols.push({ wch: 14 }));
+        cCols.push({ wch: 14 });
+        classWs["!cols"] = cCols;
+
+        const classSheetName = getUniqueSheetName(cls.name, "", usedSheetNames);
+        XLSX.utils.book_append_sheet(workbook, classWs, classSheetName);
+      }
+    });
   });
 
   // Fallback if no sheets created at all
