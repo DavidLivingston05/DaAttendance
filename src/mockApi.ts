@@ -875,9 +875,18 @@ if (!isLocalhost) {
     }
 
     if (urlString.includes('/api/') && ['POST', 'PUT', 'DELETE'].includes(method)) {
-      fastBootstrapCache = null;
-      lastFastFetch = 0;
-      localStorage.removeItem('da_attendance_fast_bootstrap');
+      try {
+        const res = await originalFetch(input, init);
+        if (res.ok) {
+          fastBootstrapCache = null;
+          lastFastFetch = 0;
+          localStorage.removeItem('da_attendance_fast_bootstrap');
+        }
+        return res;
+      } catch (e) {
+        // Network error during mutation, preserve the cache for offline reading
+        throw e;
+      }
     }
 
     return originalFetch(input, init);
