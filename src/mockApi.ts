@@ -827,6 +827,14 @@ if (!isLocalhost) {
     const method = init?.method?.toUpperCase() || 'GET';
 
     if (urlString.includes('/api/bootstrap') && method === 'GET') {
+      const CURRENT_CACHE_VER = '2026_roll_v26_all_cleared_zero';
+      const storedCacheVer = localStorage.getItem('da_attendance_cache_ver');
+      
+      if (storedCacheVer !== CURRENT_CACHE_VER) {
+        localStorage.removeItem('da_attendance_fast_bootstrap');
+        localStorage.setItem('da_attendance_cache_ver', CURRENT_CACHE_VER);
+      }
+
       const cachedStr = localStorage.getItem('da_attendance_fast_bootstrap');
       if (cachedStr) {
         try {

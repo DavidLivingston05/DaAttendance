@@ -294,8 +294,12 @@ function clearServerCache() {
   bootstrapServerCache = null;
 }
 
-// Automatically clear cache on any write operation
+// Automatically clear cache and prevent Vercel Edge CDN from returning stale data
 app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
     clearServerCache();
   }
@@ -304,8 +308,6 @@ app.use((req, res, next) => {
 
 app.get("/api/bootstrap", async (req, res) => {
   try {
-    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=2, stale-while-revalidate=30");
-    
     // Serve from ultra-fast server memory cache if valid (< 3 seconds)
     if (bootstrapServerCache && Date.now() - bootstrapServerCache.timestamp < 3000) {
       return res.json(bootstrapServerCache.data);
