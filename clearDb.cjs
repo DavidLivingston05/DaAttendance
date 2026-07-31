@@ -24,7 +24,7 @@ const cleanDbData = {
 };
 
 async function clearAll() {
-  console.log('Clearing MongoDB Atlas...');
+  console.log('Clearing MongoDB Atlas completely...');
   const client = new MongoClient(MONGODB_URI);
   await client.connect();
   const db = client.db('daattendance');
@@ -48,12 +48,12 @@ async function clearAll() {
   );
 
   await client.close();
-  console.log('MongoDB Atlas collections cleared successfully.');
+  console.log('MongoDB Atlas collections cleared to 0.');
 
   // Write clean empty db.json
   const dbJsonPath = path.join(__dirname, 'db.json');
   fs.writeFileSync(dbJsonPath, JSON.stringify(cleanDbData, null, 2), 'utf8');
-  console.log('db.json reset to empty database state.');
+  console.log('db.json reset to empty 0 state.');
 }
 
 clearAll().catch(err => {
