@@ -19,13 +19,13 @@ if (isLocalhost) {
   try {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     const dbSeedVer = localStorage.getItem('da_attendance_seed_ver');
-    if (saved && dbSeedVer === '2026_roll_v24_full_sheet_synced') {
+    if (saved && dbSeedVer === '2026_roll_v23_little_stars_added') {
       db = JSON.parse(saved);
     } else {
       // Clone seed data to avoid mutation reference issues
       db = JSON.parse(JSON.stringify(dbData));
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(db));
-      localStorage.setItem('da_attendance_seed_ver', '2026_roll_v24_full_sheet_synced');
+      localStorage.setItem('da_attendance_seed_ver', '2026_roll_v23_little_stars_added');
     }
   } catch (e) {
     db = JSON.parse(JSON.stringify(dbData));
